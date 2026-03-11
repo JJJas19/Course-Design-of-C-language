@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <windows.h>
+#include "clear_screen.h"
 
 #define MAX_DEPARTMENT_LENGTH 1000
 struct Staff
