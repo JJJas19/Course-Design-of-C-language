@@ -27,7 +27,7 @@ Node *createNode(Staff data)
 
 void init()
 {
-    Staff data = {0, NULL};
+    Staff data = {0, NULL, NULL};
     head = createNode(data);
     tail = createNode(data);
     head->next = tail;
@@ -46,16 +46,16 @@ void addStaff(const char* department, int holidayTime)
     Node *newNode = createNode(data);
     tail->next = newNode;
     tail = newNode;
+    printf("Add successfully.");
 }
 
-void removeStaff(const char* department)
+void removeStaff(const char* name)
 {
     Node *pointer = head;
-    while (pointer->next != NULL)
-    {
+    while (pointer->next != NULL) {
         Node *preNode = pointer;
         pointer = pointer->next;
-        if (strcmp(pointer->data.department, department) == 0) {
+        if (strcmp(pointer->data.name, name) == 0) {
             preNode->next = pointer->next;
             if (pointer == tail) {
                 tail = preNode;
