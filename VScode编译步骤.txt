@@ -1,0 +1,16 @@
+1.运行程序前在 VS Code 终端执行一行命令，临时把终端编码改成 UTF-8：
+
+chcp 65001
+
+解释：chcp 是修改终端代码页的命令，65001 对应 UTF-8，936 对应 GBK；
+
+2.编译所有.c文件
+
+# 通用格式：gcc 所有.c文件 -o 可执行文件名.exe
+
+gcc main.c manager_menu.c -o attendance_system.exe
+
+3.运行
+# Windows 系统
+
+./attendance_system.exe

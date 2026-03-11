@@ -1,0 +1,16 @@
+在程序开头加几行代码，让程序自动适配终端编码，不用每次改终端：
+
+#include <stdio.h>
+#include <windows.h> // 仅Windows系统需要
+
+int main() {
+    // 关键：设置控制台输出编码为UTF-8（和VS Code文件编码一致）
+    SetConsoleOutputCP(CP_UTF8);
+    
+    // 测试中文输出
+    printf("欢迎使用考勤管理系统！\n");
+    printf("请输入账号：");
+    
+    // 其他逻辑...
+    return 0;
+}
