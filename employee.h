@@ -8,11 +8,4 @@ typedef struct ClockNoting {
 	struct ClockNoting* next;
 }ClockNoting;
 
-typedef struct {
-	char employeeName[50];
-	int employeeID;
-	ClockNoting* clockNotingData;
-}Employee;
-
-void showEmployee(struct Employ* employee);
 #endif
