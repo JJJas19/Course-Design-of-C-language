@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "employee.h"
+#include "common.h"
 
 bool Clock(Employee* employee) {
 	while (true) {
