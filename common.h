@@ -6,6 +6,24 @@
 
 #define MAX_NAME_LENGTH 1000
 
+// 时间结构体
+typedef struct 
+{
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+} Time;
+
+// 打卡类型
+typedef struct ClockNoting {
+	int numberOfDays;
+	Time clockInTime;
+	Time clockOutTime;
+	struct ClockNoting* next;
+}ClockNoting;
+
 // 角色类型
 typedef enum
 {
@@ -38,16 +56,6 @@ typedef struct
     int departmentID;
     char name[MAX_NAME_LENGTH];
 } Department;
-
-// 时间结构体
-typedef struct 
-{
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
-} Time;
 
 // 假期类型
 typedef struct
