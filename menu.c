@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include"hr_specialist.h"
 
 void menu()
 {
@@ -97,5 +98,8 @@ int check(char account[], char password[])
 } // 登录验证函数
 void login(int role)
 {
-    
+    if(role==4)
+    {
+        hr_menu();
+    }
 } // 登录函数
