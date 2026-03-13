@@ -4,16 +4,16 @@
 #include <stdio.h>
 #include <windows.h>
 #include "clear_screen.h"
+#include "employee.h"
 
 #define MAX_NAME_LENGTH 1000
 
 // 员工信息
-typedef struct 
-{
-    int department_id;
-    char name[MAX_NAME_LENGTH];
-    int holidayTime;
-} Staff;
+typedef struct {
+    char employeeName[50];
+    int employeeID;
+    ClockNoting* clockNotingData;
+}Employee;
 
 // 部门信息
 typedef struct
