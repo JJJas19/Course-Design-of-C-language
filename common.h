@@ -5,7 +5,6 @@
 #include <windows.h>
 #include "clear_screen.h"
 
-#define MAX_DEPARTMENT_NAME_LENGTH 1000
 #define MAX_NAME_LENGTH 1000
 
 // 员工信息
@@ -16,10 +15,11 @@ typedef struct
     int holidayTime;
 } Staff;
 
+// 部门信息
 typedef struct
 {
     int department_id;
-    char name[MAX_DEPARTMENT_NAME_LENGTH];
+    char name[MAX_NAME_LENGTH];
 } Department;
 
 // 时间结构体
@@ -33,11 +33,10 @@ typedef struct
 } Time;
 
 // 假期类型
-typedef enum
+typedef struct
 {
-    annual = 1, // 年假
-    sick, // 病假
-    personal, // 事假
+    int holiday_id;
+    char name[MAX_NAME_LENGTH]
 } HolidayType;
 
 // 假期状态
