@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "common.h"
-#include "employee.h"
 
 
 void EmployLogic(Employee* employee) {
@@ -16,8 +15,6 @@ void EmployLogic(Employee* employee) {
 int main() {
 	Employee* employeeA;
 	employeeA = (Employee*)malloc(sizeof(Employee));
-	employeeA->clockNotingData=(ClockNoting*)malloc(sizeof(ClockNoting));
-	employeeA->clockNotingData->numberOfDays = 0;
 	printf("正在运行\n");
 	scanf("%s", employeeA->employeeName);
 	scanf("%d", &employeeA->employeeID);
