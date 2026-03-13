@@ -3,24 +3,8 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include "employee.h"
 
 #define MAX_NAME_LENGTH 1000
-
-// 员工信息
-typedef struct
-{
-    char employeeName[50];
-    int employeeID;
-    ClockNoting *clockNotingData;
-} Employee;
-
-// 部门信息
-typedef struct
-{
-    int department_id;
-    char name[MAX_NAME_LENGTH];
-} Department;
 
 // 时间结构体
 typedef struct
@@ -32,20 +16,14 @@ typedef struct
     int minute;
 } Time;
 
-// 假期类型
-typedef struct
+// 打卡类型
+typedef struct ClockNoting
 {
-    int holiday_id;
-    char name[MAX_NAME_LENGTH]
-} HolidayType;
-
-// 假期状态
-typedef enum
-{
-    pending = 1, // 待审批
-    approved,    // 通过
-    rejected     // 拒绝
-} HolidayStatus;
+    int numberOfDays;
+    Time clockInTime;
+    Time clockOutTime;
+    struct ClockNoting *next;
+} ClockNoting;
 
 // 角色类型
 typedef enum
@@ -55,5 +33,47 @@ typedef enum
     staff,
     humanresource
 } RoleType;
+
+// 用户类型
+typedef struct
+{
+    int id;
+    int password;
+    char name[MAX_NAME_LENGTH];
+    RoleType roleType;
+} User;
+
+// 员工类型
+typedef struct
+{
+    char employeeName[MAX_NAME_LENGTH];
+    int employeeID;
+    int departmentID;
+    ClockNoting *clockNotingData;
+} Employee;
+
+// 部门信息
+typedef struct
+{
+    int departmentID;
+    char name[MAX_NAME_LENGTH];
+} Department;
+
+// 假期类型
+typedef struct
+{
+    int holidayID;
+    char name[MAX_NAME_LENGTH];
+    int minimumTime;
+    int maximumTime;
+} HolidayType;
+
+// 假期状态
+typedef enum
+{
+    pending = 1, // 待审批
+    approved,    // 通过
+    rejected     // 驳回
+} HolidayStatus;
 
 #endif
