@@ -18,12 +18,7 @@ bool Clock(Employee* employee) {
 			scanf("%d", &clocking);
 		}
 
-		if (clocking == 1) {
-
-		}
-		else if (clocking == 2) {
-			return false;
-		}
+		
 
 		return false;
 	}
