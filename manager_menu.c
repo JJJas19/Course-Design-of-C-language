@@ -4,6 +4,7 @@ void manager_menu()
 {
     while (1)
     {
+        clear_screen();
         printf("欢迎！\n");
         printf("请选择操作:\n");
         printf("1)请假审批\n");
