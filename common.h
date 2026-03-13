@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include "clear_screen.h"
-#include "employee.h"
 
 #define MAX_NAME_LENGTH 1000
 
