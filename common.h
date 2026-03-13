@@ -8,17 +8,36 @@
 
 #define MAX_NAME_LENGTH 1000
 
-// 员工信息
+// 角色类型
+typedef enum
+{
+    administrator = 1,
+    manager,
+    staff,
+    humanresource
+} RoleType;
+
+// 用户类型
+typedef struct
+{
+    int id;
+    int password;
+    char name[MAX_NAME_LENGTH];
+    RoleType roleType;
+} User;
+
+// 员工类型
 typedef struct {
-    char employeeName[50];
+    char employeeName[MAX_NAME_LENGTH];
     int employeeID;
+    int departmentID;
     ClockNoting* clockNotingData;
-}Employee;
+} Employee;
 
 // 部门信息
 typedef struct
 {
-    int department_id;
+    int departmentID;
     char name[MAX_NAME_LENGTH];
 } Department;
 
@@ -35,8 +54,10 @@ typedef struct
 // 假期类型
 typedef struct
 {
-    int holiday_id;
-    char name[MAX_NAME_LENGTH]
+    int holidayID;
+    char name[MAX_NAME_LENGTH];
+    int minimumTime;
+    int maximumTime;
 } HolidayType;
 
 // 假期状态
@@ -44,17 +65,8 @@ typedef enum
 {
     pending = 1, // 待审批
     approved, // 通过
-    rejected // 拒绝
+    rejected // 驳回
 } HolidayStatus;
-
-// 角色类型
-typedef enum
-{
-    administrator = 1,
-    manager,
-    staff,
-    humanresource
-} RoleType;
 
 
 
