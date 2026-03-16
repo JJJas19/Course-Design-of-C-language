@@ -95,4 +95,9 @@ bool Clock(Employee* employee) {
     return false; // 这里也是多余的，因为在while(true)循环中不会执行到这里
 }
 
+//定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
+void GetClockNoting(Employee* employee) {
+
+}
+
 #endif

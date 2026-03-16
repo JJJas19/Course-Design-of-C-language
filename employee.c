@@ -11,7 +11,19 @@
 void EmployLogic(Employee* employee) {
 	printf("职员姓名: %s\n", employee->employeeName);
 	printf("职员ID:%d\n", employee->employeeID);
-	Clock(employee);
+	while (true) {
+		printf("请选择要执行的操作:\n");
+		int operation;
+		scanf("%d", &operation);
+		printf("0.退出\n");
+		printf("1.打卡\n");
+		if (operation == 0) {
+			return;
+		}
+		else if (operation == 1) {
+			Clock(employee);
+		}
+	}
 }
 
 int main() {
