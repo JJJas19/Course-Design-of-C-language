@@ -46,6 +46,7 @@ typedef struct
     char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     RoleType roleType;
+    User *next;
 } User;
 
 // 员工类型
@@ -54,7 +55,8 @@ typedef struct
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
-    ClockNoting *clockNotingData;
+    Employee *next;
+    ClockNoting* clockNotingData;
 } Employee;
 
 // 部门信息
@@ -62,6 +64,7 @@ typedef struct
 {
     int departmentID;
     char name[MAX_NAME_LENGTH];
+    Department *next;
 } Department;
 
 // 假期类型
@@ -71,6 +74,7 @@ typedef struct
     char name[MAX_NAME_LENGTH];
     int minimumTime;
     int maximumTime;
+    HolidayType *next;
 } HolidayType;
 
 // 假期状态
