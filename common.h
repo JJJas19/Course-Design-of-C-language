@@ -38,7 +38,7 @@ typedef enum
 typedef struct
 {
     int id;
-    int password;
+    char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     RoleType roleType;
     User *next;
