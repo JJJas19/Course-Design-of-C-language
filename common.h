@@ -9,17 +9,22 @@
 // 时间结构体
 typedef struct
 {
-    int year;
-    int month;
-    int day;
     int hour;
     int minute;
 } Time;
+
+typedef struct 
+{
+    int year;
+    int month;
+    int day;
+} Date;
 
 // 打卡类型
 typedef struct ClockNoting
 {
     int numberOfDays;
+    Date clockDate;
     Time clockInTime;
     Time clockOutTime;
     struct ClockNoting *next;
