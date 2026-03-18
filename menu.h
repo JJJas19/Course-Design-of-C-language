@@ -1,4 +1,5 @@
 #pragma once
 #include <stdio.h> 
 void menu();
-void login(char account[],char password[]);
+void login(int role);
+int check(char account[], char password[]);

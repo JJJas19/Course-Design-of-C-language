@@ -7,7 +7,7 @@
 #define MAX_NAME_LENGTH 1000
 
 // 时间结构体
-typedef struct 
+typedef struct
 {
     int year;
     int month;
@@ -17,12 +17,13 @@ typedef struct
 } Time;
 
 // 打卡类型
-typedef struct ClockNoting {
-	int numberOfDays;
-	Time clockInTime;
-	Time clockOutTime;
-	struct ClockNoting* next;
-}ClockNoting;
+typedef struct ClockNoting
+{
+    int numberOfDays;
+    Time clockInTime;
+    Time clockOutTime;
+    struct ClockNoting *next;
+} ClockNoting;
 
 // 角色类型
 typedef enum
@@ -44,7 +45,8 @@ typedef struct
 } User;
 
 // 员工类型
-typedef struct {
+typedef struct
+{
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
@@ -74,10 +76,8 @@ typedef struct
 typedef enum
 {
     pending = 1, // 待审批
-    approved, // 通过
-    rejected // 驳回
+    approved,    // 通过
+    rejected     // 驳回
 } HolidayStatus;
-
-
 
 #endif
