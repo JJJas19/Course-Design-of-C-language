@@ -5,6 +5,7 @@
 #include"menu.h"
 
 
+
 void hr_menu()
 {
     printf("**********欢迎使用HR人力资源管理系统**********\n");
@@ -28,7 +29,7 @@ void hr_menu()
         
         break;
     case 3:
-        
+        modify_password();
         break;
     case 4:
         
@@ -51,10 +52,6 @@ void query_attendance(){
 void query_leave_quota(){
 
 }//假期额度查询
-
-void modify_password(){
-
-}//个人密码维护
 
 void attendance_to_salary(){
 

@@ -114,7 +114,7 @@ void modify_password(){
     if (aandp == NULL)
     {
         printf("错误：账号密码文件不存在！\n");
-        return 0;
+        return;
     } 
     char line[MAX_NAME_LENGTH];
     fgets(line,sizeof(line),aandp);//不做任何操作，跳过第一行
@@ -130,20 +130,20 @@ void modify_password(){
         userlist[i].id=i;
         strcpy(userlist[i].name,name_account);
         strcpy(userlist[i].password,name_password);
-        userlist[i].roleType=name_account;
+        userlist[i].roleType=i;
         i++;
     }//存入数据体
-    fclose("account and password storage.csv");
+    fclose(aandp);
     printf("请输入原本的账号：\n");
     char account[MAX_NAME_LENGTH],password[MAX_NAME_LENGTH];
     scanf("%s",account);
     printf("请输入原本的密码：\n");
     scanf("%s",password);
     FILE*aandp2=fopen("account and password storage.csv","r+");
-    if (aandp == NULL)
+    if (aandp2 == NULL)
     {
         printf("错误：账号密码文件不存在！\n");
-        return 0;
+        return;
     } 
     char line2[MAX_NAME_LENGTH];
     long line_start_pos = 0; // 记录当前行的起始偏移量
@@ -166,7 +166,7 @@ void modify_password(){
             if (strlen(new_password) != strlen(password)) {
                 printf("错误：新值长度必须与原值一致！\n");
                 fclose(aandp2);
-                return 1;
+                return;
             }
             long pwd_offset = current_line_pos + strlen(name) + 1 + strlen(name_account) + 1;  // 密码字段偏移 = 当前行起始位置 + 角色长度 + 1(逗号) + 账号长度 + 1(逗号)
             fseek(aandp2, pwd_offset, SEEK_SET);
