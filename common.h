@@ -10,6 +10,7 @@
 // 具体时间
 typedef struct
 {
+    int isClocking;
     int hour;
     int minute;
 } Time;
