@@ -7,19 +7,27 @@
 #define MAX_NAME_LENGTH 1000
 
 // 时间结构体
+// 具体时间
+typedef struct
+{
+    int isClocking;
+    int hour;
+    int minute;
+} Time;
+// 日期
 typedef struct
 {
     int year;
     int month;
     int day;
-    int hour;
-    int minute;
-} Time;
+} Date;
 
 // 打卡类型
 typedef struct ClockNoting
 {
+    int isAbsent;
     int numberOfDays;
+    Date clockDate;
     Time clockInTime;
     Time clockOutTime;
     struct ClockNoting *next;
