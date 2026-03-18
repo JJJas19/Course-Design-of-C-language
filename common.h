@@ -52,42 +52,42 @@ typedef enum
 } RoleType;
 
 // 用户类型
-typedef struct
+typedef struct User
 {
     int id;
     char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     RoleType roleType;
-    User *next;
+    struct User *next;
 } User;
 
 // 员工类型
-typedef struct
+typedef struct Employee
 {
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
-    Employee *next;
+    struct Employee *next;
     ClockNoting* clockNotingData;
     EmployeeHolidayQuota* holidayQuotaData;
 } Employee;
 
 // 部门信息
-typedef struct
+typedef struct Department
 {
     int departmentID;
     char name[MAX_NAME_LENGTH];
-    Department *next;
+    struct Department *next;
 } Department;
 
 // 假期类型
-typedef struct
+typedef struct HolidayType
 {
     int holidayID;
     char name[MAX_NAME_LENGTH];
     int minimumTime;
     int maximumTime;
-    HolidayType *next;
+    struct HolidayType *next;
 } HolidayType;
 
 // 假期状态
