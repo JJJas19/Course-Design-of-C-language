@@ -97,7 +97,22 @@ bool Clock(Employee* employee) {
 
 //定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
 void GetClockNoting(Employee* employee) {
+    while (true) {
+        printf("请选择您要查询的记录:\n");
+        printf("0.退出");
+        printf("1.打卡记录;\n");
+        printf("2.请假记录;\n");
+        printf("3.其他;\n");
+        int operation;
+        scanf("%d", &operation);
+        if (operation == 0) {
+            return;
+        }
+        else if (operation == 1) {
+            printf("您已积累打卡%d天", employee->clockNotingData->numberOfDays);
 
+        }
+    }
 }
 
 #endif
