@@ -13,6 +13,7 @@ typedef struct
     int minute;
 } Time;
 
+// 日期结构体
 typedef struct 
 {
     int year;
@@ -29,6 +30,17 @@ typedef struct ClockNoting
     Time clockOutTime;
     struct ClockNoting *next;
 } ClockNoting;
+
+// 假期配额类型
+typedef struct EmployeeHolidayQuota
+{
+    int employeeID;
+    int holidayTypeID;
+    int totalQuota;
+    int usedQuota;
+    int remainingQuota;
+    struct EmployeeHolidayQuota *next;
+} EmployeeHolidayQuota;
 
 // 角色类型
 typedef enum
@@ -57,6 +69,7 @@ typedef struct
     int departmentID;
     Employee *next;
     ClockNoting* clockNotingData;
+    EmployeeHolidayQuota* holidayQuotaData;
 } Employee;
 
 // 部门信息
