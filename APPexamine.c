@@ -2,7 +2,7 @@
 #include "common.h"
 #include <string.h>
 
-int examine_and_approve()
+int APPexamine()
 {
     FILE *fp = fopen("leave_applications.csv", "r");
     FILE *fp_temp = fopen("temp.csv", "w");

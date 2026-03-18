@@ -1,14 +1,17 @@
 #include "manager.h"
 
+char ID[] = "101", name[] = "RageLog", department[] = "研发部";
+
 void manager_menu()
 {
+
     while (1)
     {
         clear_screen();
         printf("欢迎！\n");
         printf("请选择操作:\n");
         printf("1)请假审批\n");
-        printf("2)考勤统计\n");
+        printf("2)请假申请\n");
         printf("3)保存并退出\n");
 
         int operation;
@@ -17,13 +20,14 @@ void manager_menu()
         {
         case 1:
             clear_screen();
-            if (!examine_and_approve())
+            if (!APPexamine())
             {
                 printf("打开文件失败，请检查文件是否存在\n");
             }
             break;
         case 2:
             clear_screen();
+            vacation();
             break;
         case 3:
             clear_screen();

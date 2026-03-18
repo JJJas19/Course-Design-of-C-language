@@ -1,6 +1,10 @@
 #include "common.h"
 #include "clear_screen.h"
 
+extern char ID[];
+extern char name[];
+extern char department[];
+
 typedef struct
 {
     char emp_id[20];     // 员工ID
@@ -13,4 +17,8 @@ typedef struct
 } LeaveApplication;
 
 void manager_menu();
-int examine_and_approve();
+int APPexamine();
+void vacation();
+void apply_for_vacation();
+
+// gcc main.c manager_menu.c clear_screen.c APPexamine.c vacation.c apply_for_vacation.c -o test.exe
