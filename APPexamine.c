@@ -34,18 +34,18 @@ int APPexamine()
 
     while (fgets(buffer, sizeof(buffer), fp) != NULL && goback)
     {
-        sscanf(buffer, "%[^,],%[^,],%[^,],%[^,],%d,%[^,],%d",
+        sscanf(buffer, "%[^,],%[^,],%[^,],%d,%d,%[^,],%d",
                app.emp_id,
                app.emp_name,
                app.department,
-               app.leave_type,
+               &app.leave_type,
                &app.leave_days,
                app.apply_time,
                &app.status);
 
         if (app.status != 1)
         {
-            fprintf(fp_temp, "%s,%s,%s,%s,%d,%s,%d\n",
+            fprintf(fp_temp, "%s,%s,%s,%d,%d,%s,%d\n",
                     app.emp_id,
                     app.emp_name,
                     app.department,
@@ -67,7 +67,7 @@ int APPexamine()
             printf("  员工ID：%s\n", app.emp_id);
             printf("  姓名：%s\n", app.emp_name);
             printf("  部门：%s\n", app.department);
-            printf("  请假类型：%s\n", app.leave_type);
+            printf("  请假类型：%d\n", app.leave_type);
             printf("  请假天数：%d天\n", app.leave_days);
             printf("  申请时间：%s\n", app.apply_time);
             printf("========================================================\n");
@@ -118,7 +118,7 @@ int APPexamine()
             }
         }
 
-        fprintf(fp_temp, "%s,%s,%s,%s,%d,%s,%d\n",
+        fprintf(fp_temp, "%s,%s,%s,%d,%d,%s,%d\n",
                 app.emp_id,
                 app.emp_name,
                 app.department,

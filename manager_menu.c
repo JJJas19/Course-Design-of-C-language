@@ -1,6 +1,6 @@
 #include "manager.h"
 
-char ID[] = "101", name[] = "RageLog", department[] = "研发部";
+char ID[] = "101", Name[] = "RageLog", DEPARTMENT[] = "研发部";
 
 void manager_menu()
 {

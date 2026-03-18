@@ -3,6 +3,7 @@ void vacation()
 {
     while (1)
     {
+        clear_screen();
         printf("========================================================\n");
         printf("当前位置：请假申请\n");
         printf("========================================================\n");
@@ -21,6 +22,7 @@ void vacation()
             break;
         case 2:
             clear_screen();
+            check_my_application();
             break;
         case 3:
             clear_screen();

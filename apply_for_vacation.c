@@ -1,4 +1,5 @@
 #include "manager.h"
+
 void apply_for_vacation()
 {
     FILE *fp = fopen("leave_applications.csv", "a");
@@ -103,7 +104,7 @@ void apply_for_vacation()
         }
     }
 
-    fprintf(fp, "%s,%s,%s,%d,%d-%d-%d,1", ID, name, department, type, year, month, day);
+    fprintf(fp, "%s,%s,%s,%d,%d,%d-%d-%d,1\n", ID, Name, DEPARTMENT, type, length, year, month, day);
 
     printf("申请成功！请等待审批！\n");
     Sleep(1000);
