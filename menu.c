@@ -3,6 +3,7 @@
 #include <string.h>
 #include <locale.h>
 #include"hr_specialist.h"
+#include"menu.h"
 
 void menu()
 {
@@ -54,7 +55,7 @@ void menu()
                 }
             }
         }
-        login(role);
+        // login(role);
     }
     else
     {
@@ -96,10 +97,10 @@ int check(char account[], char password[])
     fclose(fp);
     return 0;
 } // 登录验证函数
-void login(int role)
-{
-    if(role==4)
-    {
-        hr_menu();
-    }
-} // 登录函数
+// void login(int role)
+// {
+//     if(role==4)
+//     {
+//         hr_menu();
+//     }
+// } // 登录函数
