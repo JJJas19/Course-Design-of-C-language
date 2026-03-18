@@ -28,7 +28,7 @@ typedef struct ClockNoting
 // 角色类型
 typedef enum
 {
-    administrator = 1,
+    administrator = 0,
     manager,
     staff,
     humanresource

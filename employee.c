@@ -17,11 +17,19 @@ void EmployLogic(Employee* employee) {
 		scanf("%d", &operation);
 		printf("0.退出\n");
 		printf("1.打卡\n");
+		printf("2.打卡记录查询\n");
 		if (operation == 0) {
 			return;
 		}
 		else if (operation == 1) {
 			Clock(employee);
+		}
+		else if (operation == 2) {
+			GetClockNoting(employee);
+		}
+		else {
+			printf("输入错误，请重新输入！\n");
+			continue;
 		}
 	}
 }
