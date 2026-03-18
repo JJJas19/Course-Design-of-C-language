@@ -9,21 +9,38 @@
 // 时间结构体
 typedef struct
 {
-    int year;
-    int month;
-    int day;
     int hour;
     int minute;
 } Time;
+
+// 日期结构体
+typedef struct 
+{
+    int year;
+    int month;
+    int day;
+} Date;
 
 // 打卡类型
 typedef struct ClockNoting
 {
     int numberOfDays;
+    Date clockDate;
     Time clockInTime;
     Time clockOutTime;
     struct ClockNoting *next;
 } ClockNoting;
+
+// 假期配额类型
+typedef struct EmployeeHolidayQuota
+{
+    int employeeID;
+    int holidayTypeID;
+    int totalQuota;
+    int usedQuota;
+    int remainingQuota;
+    struct EmployeeHolidayQuota *next;
+} EmployeeHolidayQuota;
 
 // 角色类型
 typedef enum
@@ -35,41 +52,42 @@ typedef enum
 } RoleType;
 
 // 用户类型
-typedef struct
+typedef struct User
 {
     int id;
     char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     RoleType roleType;
-    User *next;
+    struct User *next;
 } User;
 
 // 员工类型
-typedef struct
+typedef struct Employee
 {
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
-    Employee *next;
+    struct Employee *next;
     ClockNoting* clockNotingData;
+    EmployeeHolidayQuota* holidayQuotaData;
 } Employee;
 
 // 部门信息
-typedef struct
+typedef struct Department
 {
     int departmentID;
     char name[MAX_NAME_LENGTH];
-    Department *next;
+    struct Department *next;
 } Department;
 
 // 假期类型
-typedef struct
+typedef struct HolidayType
 {
     int holidayID;
     char name[MAX_NAME_LENGTH];
     int minimumTime;
     int maximumTime;
-    HolidayType *next;
+    struct HolidayType *next;
 } HolidayType;
 
 // 假期状态
