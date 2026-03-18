@@ -7,27 +7,19 @@
 #define MAX_NAME_LENGTH 1000
 
 // 时间结构体
-// 具体时间
-typedef struct
-{
-    int isClocking;
-    int hour;
-    int minute;
-} Time;
-// 日期
 typedef struct
 {
     int year;
     int month;
     int day;
-} Date;
+    int hour;
+    int minute;
+} Time;
 
 // 打卡类型
 typedef struct ClockNoting
 {
-    int isAbsent;
     int numberOfDays;
-    Date clockDate;
     Time clockInTime;
     Time clockOutTime;
     struct ClockNoting *next;
@@ -36,7 +28,7 @@ typedef struct ClockNoting
 // 角色类型
 typedef enum
 {
-    administrator = 1,
+    administrator = 0,
     manager,
     staff,
     humanresource
@@ -46,7 +38,7 @@ typedef enum
 typedef struct
 {
     int id;
-    int password;
+    char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     RoleType roleType;
 } User;
