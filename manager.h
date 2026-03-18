@@ -17,10 +17,21 @@ typedef struct LeaveApplication
     struct LeaveApplication *next;
 } LeaveApplication;
 
+typedef struct Staff
+{
+    char staffID[20];
+    char staffName[10];
+    char staffDepartment[10];
+    char staffPosition[10];
+    struct Staff *next;
+} Staff;
+
 void manager_menu();
 int APPexamine();
 void vacation();
 void apply_for_vacation();
 void check_my_application();
+void query_department();
+void department_staff();
 
-// gcc main.c manager_menu.c clear_screen.c APPexamine.c vacation.c apply_for_vacation.c check_my_application.c -o test.exe
+// gcc main.c manager_menu.c clear_screen.c APPexamine.c vacation.c apply_for_vacation.c check_my_application.c query_department.c department_staff.c -o test.exe

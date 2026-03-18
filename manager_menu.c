@@ -8,11 +8,12 @@ void manager_menu()
     while (1)
     {
         clear_screen();
-        printf("欢迎！\n");
+        printf("%s %s,欢迎！\n", DEPARTMENT, Name);
         printf("请选择操作:\n");
         printf("1)请假审批\n");
         printf("2)请假申请\n");
-        printf("3)保存并退出\n");
+        printf("3)查询部门信息\n");
+        printf("4)保存并退出\n");
 
         int operation;
         scanf("%d", &operation);
@@ -30,6 +31,10 @@ void manager_menu()
             vacation();
             break;
         case 3:
+            clear_screen();
+            query_department();
+            break;
+        case 4:
             clear_screen();
             return;
             break;
