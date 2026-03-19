@@ -465,6 +465,63 @@ void freeUserNode()
     free(point);
 }
 
+void initHolidayQuota()
+{
+    Employee *employeepoint = employeeHead;
+    HolidayType *holidayPoint = holidayHead;
+    while (employeepoint->next != NULL) {
+        employeepoint = employeepoint->next;
+        employeepoint->holidayQuotaData = NULL;
+        while (holidayPoint->next != NULL) {
+            holidayPoint = holidayPoint->next;
+            EmployeeHolidayQuota *newNode = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+            newNode->employeeID = employeepoint->employeeID;
+            newNode->holidayTypeID = holidayPoint->holidayID;
+            newNode->totalQuota = 0;
+            newNode->usedQuota = 0;
+            newNode->remainingQuota = 0;
+            newNode->next = employeepoint->holidayQuotaData;
+            employeepoint->holidayQuotaData = newNode;
+        }
+    }
+}
+
+int setEmployeeHolidayQuota(int employeeID, int holidayTypeID, int totalQuota)
+{
+    Employee *employeepoint = employeeHead;
+    while (employeepoint->next != NULL) {
+        employeepoint = employeepoint->next;
+        if (employeepoint->employeeID == employeeID) {
+            EmployeeHolidayQuota *holidayQuotaPoint = employeepoint->holidayQuotaData;
+            while (holidayQuotaPoint != NULL) {
+                if (holidayQuotaPoint->holidayTypeID == holidayTypeID) {
+                    holidayQuotaPoint->totalQuota = totalQuota;
+                    holidayQuotaPoint->remainingQuota = totalQuota - holidayQuotaPoint->usedQuota;
+                    return 1;
+                }
+                holidayQuotaPoint = holidayQuotaPoint->next;
+            }
+        }
+    }
+    printf("未找到该员工或假期类型\n");
+    return 0;
+}
+
+void freeHolidayQuota()
+{
+    Employee *employeepoint = employeeHead;
+    while (employeepoint->next != NULL) {
+        employeepoint = employeepoint->next;
+        EmployeeHolidayQuota *holidayQuotaPoint = employeepoint->holidayQuotaData;
+        EmployeeHolidayQuota *preNode = holidayQuotaPoint;
+        while (holidayQuotaPoint != NULL) {
+            preNode = holidayQuotaPoint;
+            holidayQuotaPoint = holidayQuotaPoint->next;
+            free(preNode);
+        }
+    }
+}
+
 int setEmployeeDepartment(int employeeID, int departmentID)
 {
     Employee *point = employeeHead;
@@ -497,6 +554,7 @@ int setHolidayTime(int holidayID, int minimumTime, int maximumTime)
 void freeNode()
 {
     freeDepartmentNode();
+    freeHolidayQuota();
     freeEmployeeNode();
     freeHolidayNode();
     freeUserNode();
