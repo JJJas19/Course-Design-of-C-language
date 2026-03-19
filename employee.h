@@ -96,6 +96,126 @@ bool Clock(Employee* employee) {
 }
 
 //定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
+
+void FindClockNoting(Employee* employee) {
+    printf("您已积累打卡%d天", employee->clockNotingData->numberOfDays);
+    while (employee->clockNotingData != NULL) {
+        printf("%d年%d月%d日打卡情况:", employee->clockNotingData->clockDate.year, employee->clockNotingData->clockDate.month, employee->clockNotingData->clockDate.day);
+        if (employee->clockNotingData->isAbsent == 1) {
+            printf("请假\n");
+        }
+        else if (employee->clockNotingData->isAbsent == 0) {
+            printf("上班:");
+            if (employee->clockNotingData->clockInTime.isClocking == 0) {
+                printf("未打卡!\n");
+            }
+            else if (employee->clockNotingData->clockInTime.isClocking == 1) {
+                printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
+            };
+            else {
+                printf("状态未知!\n");
+                //实际上是多余的，因为isClocking只能取0、1两种值
+            }
+            if (employee->clockNotingData->isAbsent == 1) {
+                printf("请假\n");
+            }
+            else if (employee->clockNotingData->isAbsent == 0) {
+                //对上班的打卡时间查询
+                printf("上班:");
+                if (employee->clockNotingData->clockInTime.isClocking == 0) {
+                    printf("未打卡!\n");
+                }
+                else if (employee->clockNotingData->clockInTime.isClocking == 1) {
+                    printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
+                };
+                else {
+                    printf("状态未知!\n");
+                    //实际上是多余的，因为isClocking只能取0、1两种值
+                }
+                //对下班的打卡时间查询
+                printf("下班:");
+                if (employee->clockNotingData->clockInTime.isClocking == 0) {
+                    printf("未打卡!\n");
+                }
+                else if (employee->clockNotingData->clockInTime.isClocking == 1) {
+                    printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
+                };
+                else {
+                    printf("状态未知!\n");
+                    //实际上是多余的，因为isClocking只能取0、1两种值
+                }
+            }
+            else {
+                printf("未知状态！\n");
+                //实际上是多余的，因为isAbsent只能取0、1两种值
+            }
+        }
+    }
+}
+
+
+void FindClockNotingByDate(Employee* employee) {
+    while (true) {
+        printf("请输入具体日期,格式为yyyy.mm.dd,(输入0返回):");
+        char input[20];
+        int year, month, day;
+        int scanCount;
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            printf("数据解析失败，请重试!\n");
+            continue;
+        }
+        while ((c = getchar()) != EOF && c != '\n');
+        scanCount = sscanf(input, "%d.%d.%d", &year, &month, &day);
+        if (scanCount == 1 && year == 0) {
+            printf("返回到上一界面\n");
+            break;
+        }
+        else if (scanCount == 3) {
+            printf("您选择的日期为%d年%d月%d日\n", year, month, day);
+            //查询该日期的打卡记录
+            ClockNoting* temp = employee->clockNotingData;
+            int isFound = 0; //是否找到该日期的打卡记录
+            while (temp != NULL) {
+                if (temp->clockDate.year == year && temp->clockDate.month == month && temp->clockDate.day == day) {
+                    isFound = 1;
+                    printf("为您查询到的打卡记录:\n");
+                    //是否请假
+                    if (temp->isAbsent == 1) {
+                        printf("请假\n");
+                    }
+                    //若未请假，则查询上下班的打卡记录
+                    else {
+                        printf("上班记录:");
+                        if (temp->clockInTime.isClocking == 0) {
+                            printf("未打卡!\n");
+                        }
+                        else if (temp->clockInTime.isClocking == 1) {
+                            printf("%d:%d", temp->clockInTime.hour, temp->clockInTime.minute);
+                        }
+                        printf("下班记录:");
+                        if (temp->clockOutTime.isClocking == 0) {
+                            printf("未打卡!\n");
+                        }
+                        else if (temp->clockOutTime.isClocking == 1) {
+                            printf("%d:%d", temp->clockOutTime.hour, temp->clockOutTime.minute);
+                        }
+                    }
+                }
+                else {
+                    temp = temp->next;
+                }
+            }
+            if (isFound == 0) {
+                printf("未查询到该日期!\n");
+            }
+        }
+        else {
+            printf("输入有误，请重新输入!\n");
+            continue;
+        }
+    }
+}
+
 void GetClockNoting(Employee* employee) {
     while (true) {
         printf("请选择您要查询的记录:\n");
@@ -109,8 +229,9 @@ void GetClockNoting(Employee* employee) {
         int c;
         if (scanf("%d", &operation) != 1) {
             printf("输入有误，请重新输入!\n");
-            while ((c = getchar()) != EOF && c != '\n');
-            continue;
+            while ((c = getchar()) != EOF && c != '\n') {
+                continue;
+            }
         };
         //输入0，则退出循环
         if (operation == 0) {
@@ -118,59 +239,7 @@ void GetClockNoting(Employee* employee) {
         }
         //输入1，则查询打卡记录
         else if (operation == 1) {
-            printf("您已积累打卡%d天", employee->clockNotingData->numberOfDays);
-            while (employee->clockNotingData != NULL) {
-                printf("%d年%d月%d日打卡情况:", employee->clockNotingData->clockDate.year, employee->clockNotingData->clockDate.month, employee->clockNotingData->clockDate.day);
-                if (employee->clockNotingData->isAbsent == 1) {
-                    printf("请假\n");
-                }
-                else if (employee->clockNotingData->isAbsent == 0) {
-                    printf("上班:");
-                    if (employee->clockNotingData->clockInTime.isClocking == 0) {
-                        printf("未打卡!\n");
-                    }
-                    else if (employee->clockNotingData->clockInTime.isClocking == 1) {
-                        printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
-                    };
-                    else {
-                        printf("状态未知!\n");
-                        //实际上是多余的，因为isClocking只能取0、1两种值
-                    }
-                    if (employee->clockNotingData->isAbsent == 1) {
-                        printf("请假\n");
-                    }
-                    else if (employee->clockNotingData->isAbsent == 0) {
-                        //对上班的打卡时间查询
-                        printf("上班:");
-                        if (employee->clockNotingData->clockInTime.isClocking == 0) {
-                            printf("未打卡!\n");
-                        }
-                        else if (employee->clockNotingData->clockInTime.isClocking == 1) {
-                            printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
-                        };
-                        else {
-                            printf("状态未知!\n");
-                            //实际上是多余的，因为isClocking只能取0、1两种值
-                        }
-                        //对下班的打卡时间查询
-                        printf("下班:");
-                        if (employee->clockNotingData->clockInTime.isClocking == 0) {
-                            printf("未打卡!\n");
-                        }
-                        else if (employee->clockNotingData->clockInTime.isClocking == 1) {
-                            printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
-                        };
-                        else {
-                            printf("状态未知!\n");
-                            //实际上是多余的，因为isClocking只能取0、1两种值
-                        }
-                    }
-                    else {
-                        printf("未知状态！\n");
-                        //实际上是多余的，因为isAbsent只能取0、1两种值
-                    }
-                }
-            }
+            FindClockNoting(employee);
         }
         //输入2，则查询请假记录
         else if (operation == 2) {
@@ -178,65 +247,7 @@ void GetClockNoting(Employee* employee) {
         }
         //输入3，查询某日打卡记录
         else if (operation == 3) {
-            while (true) {
-                printf("请输入具体日期,格式为yyyy.mm.dd,(输入0返回):");
-                char input[20];
-                int year, month, day;
-                int scanCount;
-                if (fgets(input, sizeof(input), stdin) == NULL) {
-                    printf("数据解析失败，请重试!\n");
-                    continue;
-                }
-                while ((c = getchar()) != EOF && c != '\n');
-                scanCount=sscanf(input, "%d.%d.%d", &year, &month, &day);
-                if (scanCount == 1 && year==0) {
-                    printf("返回到上一界面\n");
-                    break;
-                }
-                else if (scanCount == 3) {
-                    printf("您选择的日期为%d年%d月%d日\n", year, month, day);
-                    //查询该日期的打卡记录
-                    ClockNoting* temp = employee->clockNotingData;
-                    int isFound = 0; //是否找到该日期的打卡记录
-                    while (temp != NULL) {
-                        if (temp->clockDate.year == year && temp->clockDate.month == month && temp->clockDate.day == day) {
-                            isFound = 1;
-                            printf("为您查询到的打卡记录:\n");
-                            //是否请假
-                            if (temp->isAbsent == 1) {
-                                printf("请假\n");
-                            }
-                            //若未请假，则查询上下班的打卡记录
-                            else {
-                                printf("上班记录:");
-                                if (temp->clockInTime.isClocking == 0) {
-                                    printf("未打卡!\n");
-                                }
-                                else if (temp->clockInTime.isClocking == 1) {
-                                    printf("%d:%d", temp->clockInTime.hour, temp->clockInTime.minute);
-                                }
-                                printf("下班记录:");
-                                if (temp->clockOutTime.isClocking == 0) {
-                                    printf("未打卡!\n");
-                                }
-                                else if (temp->clockOutTime.isClocking == 1) {
-                                    printf("%d:%d", temp->clockOutTime.hour, temp->clockOutTime.minute);
-                                }
-                            }
-                        }
-                        else {
-                            temp = temp->next;
-                        }
-                    }
-                    if (isFound == 0) {
-                        printf("未查询到该日期!\n");
-                    }
-                }
-                else {
-                    printf("输入有误，请重新输入!\n");
-                    continue;
-                }
-            }
+            FindClockNotingByDate(employee);
         }
         //输入4，查询某月打卡记录
         else if (operation == 4) {
