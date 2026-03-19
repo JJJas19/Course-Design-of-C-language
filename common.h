@@ -25,6 +25,7 @@ typedef struct
 typedef struct ClockNoting
 {
     int numberOfDays;
+    int isAbsent;
     Date clockDate;
     Time clockInTime;
     Time clockOutTime;
