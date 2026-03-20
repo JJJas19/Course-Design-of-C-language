@@ -197,7 +197,7 @@ int modifyEmployeeNode(int index)
 
         printf("请输入部门编号: ");
         int departmentID;
-        scanf("%d", departmentID);
+        scanf("%d", &departmentID);
         point->departmentID = departmentID;
 
         return 1;
@@ -442,7 +442,7 @@ int modifyUserNode(int index)
             printf("输入编号非法\n");
             return 0;
         }
-        point->roleType = roleType;
+        point->roleType = (RoleType)roleType;
 
         return 1;
     }
@@ -559,4 +559,3 @@ void freeNode()
     freeHolidayNode();
     freeUserNode();
 }
-
