@@ -294,11 +294,32 @@ void GetClockNoting(Employee* employee) {
     }
 }
 
+//统计请假信息
+void SortAbsenceMessege(ClockNoting* clockNoting) {
+    int absenceCount = 0;
+    while (clockNoting != NULL) {
+        if (clockNoting->isAbsent == 1) {
+            absenceCount++;
+        }
+        clockNoting = clockNoting->next;
+    }
+}
+
 //定义InformationIntegrety函数，用于统计员工的打卡信息
 void InformationSort(Employee* employee) {
-    printf("请输入您要执行的操作:\n");
-    printf("0.退出\n");
-    printf("1.请假记录统计\n");
+    while (true) {
+        printf("请输入您要执行的操作:\n");
+        printf("0.退出\n");
+        printf("1.请假记录统计\n");
+        int operation;
+        scanf("%d", &operation);
+        if (operation == 0) {
+            return;
+        }
+        else if (operation == 1) {
+            SortAbsenceMessege(employee->clockNotingData);
+        }
+    }
 }
 
 #endif
