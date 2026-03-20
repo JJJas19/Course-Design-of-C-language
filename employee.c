@@ -6,8 +6,6 @@
 #include "common.h"
 #include "employee.h"
 
-
-
 void EmployLogic(Employee* employee) {
 	printf("职员姓名: %s\n", employee->employeeName);
 	printf("职员ID:%d\n", employee->employeeID);
@@ -26,6 +24,9 @@ void EmployLogic(Employee* employee) {
 		}
 		else if (operation == 2) {
 			GetClockNoting(employee);
+		}
+		else if (operation == 3) {
+
 		}
 		else {
 			printf("输入错误，请重新输入！\n");
