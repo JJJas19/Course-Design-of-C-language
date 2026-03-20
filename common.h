@@ -9,12 +9,13 @@
 // 时间结构体
 typedef struct
 {
+    int isClocking;
     int hour;
     int minute;
 } Time;
 
 // 日期结构体
-typedef struct 
+typedef struct
 {
     int year;
     int month;
@@ -68,9 +69,10 @@ typedef struct Employee
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
+    char secretCode[MAX_NAME_LENGTH];
     struct Employee *next;
-    ClockNoting* clockNotingData;
-    EmployeeHolidayQuota* holidayQuotaData;
+    ClockNoting *clockNotingData;
+    EmployeeHolidayQuota *holidayQuotaData;
 } Employee;
 
 // 部门信息
