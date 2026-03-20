@@ -9,6 +9,7 @@
 // 时间结构体
 typedef struct
 {
+    int isClocking;
     int hour;
     int minute;
 } Time;

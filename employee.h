@@ -95,50 +95,48 @@ bool Clock(Employee* employee) {
     return false; // 这里也是多余的，因为在while(true)循环中不会执行到这里
 }
 
-//定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
-
 //某日的打卡情况
 void ClockNotingByDate(ClockNoting* clockNotingData) {
-    printf("%d年%d月%d日打卡情况:", employee->clockNotingData->clockDate.year, employee->clockNotingData->clockDate.month, employee->clockNotingData->clockDate.day);
-    if (employee->clockNotingData->isAbsent == 1) {
+    printf("%d年%d月%d日打卡情况:", clockNotingData->clockDate.year, clockNotingData->clockDate.month, clockNotingData->clockDate.day);
+    if (clockNotingData->isAbsent == 1) {
         printf("请假\n");
     }
-    else if (employee->clockNotingData->isAbsent == 0) {
+    else if (clockNotingData->isAbsent == 0) {
         printf("上班:");
-        if (employee->clockNotingData->clockInTime.isClocking == 0) {
+        if (clockNotingData->clockInTime.isClocking == 0) {
             printf("未打卡!\n");
         }
-        else if (employee->clockNotingData->clockInTime.isClocking == 1) {
-            printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
+        else if (clockNotingData->clockInTime.isClocking == 1) {
+            printf("%d:%d", clockNotingData->clockInTime.hour, clockNotingData->clockInTime.minute);
         }
         else {
             printf("状态未知!\n");
             //实际上是多余的，因为isClocking只能取0、1两种值
         }
-        if (employee->clockNotingData->isAbsent == 1) {
+        if (clockNotingData->isAbsent == 1) {
             printf("请假\n");
         }
-        else if (employee->clockNotingData->isAbsent == 0) {
+        else if (clockNotingData->isAbsent == 0) {
             //对上班的打卡时间查询
             printf("上班:");
-            if (employee->clockNotingData->clockInTime.isClocking == 0) {
+            if (clockNotingData->clockInTime.isClocking == 0) {
                 printf("未打卡!\n");
             }
-            else if (employee->clockNotingData->clockInTime.isClocking == 1) {
-                printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
-            };
+            else if (clockNotingData->clockInTime.isClocking == 1) {
+                printf("%d:%d", clockNotingData->clockInTime.hour, clockNotingData->clockInTime.minute);
+            }
             else {
                 printf("状态未知!\n");
                 //实际上是多余的，因为isClocking只能取0、1两种值
             }
             //对下班的打卡时间查询
             printf("下班:");
-            if (employee->clockNotingData->clockInTime.isClocking == 0) {
+            if (clockNotingData->clockInTime.isClocking == 0) {
                 printf("未打卡!\n");
             }
-            else if (employee->clockNotingData->clockInTime.isClocking == 1) {
-                printf("%d:%d", employee->clockNotingData->clockInTime.hour, employee->clockNotingData->clockInTime.minute);
-            };
+            else if (clockNotingData->clockInTime.isClocking == 1) {
+                printf("%d:%d", clockNotingData->clockInTime.hour, clockNotingData->clockInTime.minute);
+            }
             else {
                 printf("状态未知!\n");
                 //实际上是多余的，因为isClocking只能取0、1两种值
@@ -178,6 +176,7 @@ void FindClockNotingByDate(Employee* employee) {
         char input[20];
         int year, month, day;
         int scanCount;
+        int c;
         if (fgets(input, sizeof(input), stdin) == NULL) {
             printf("数据解析失败，请重试!\n");
             continue;
@@ -249,10 +248,11 @@ void FindClockNotingByMonth(Employee* employee) {
     }
 }
 
+//定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
 void GetClockNoting(Employee* employee) {
     while (true) {
         printf("请选择您要查询的记录:\n");
-        printf("0.退出");
+        printf("0.退出\n");
         printf("1.打卡记录;\n");
         printf("2.请假记录;\n");
         printf("3.查询某日打卡记录;\n");
@@ -292,6 +292,13 @@ void GetClockNoting(Employee* employee) {
             continue;
         }
     }
+}
+
+//定义InformationIntegrety函数，用于统计员工的打卡信息
+void InformationSort(Employee* employee) {
+    printf("请输入您要执行的操作:\n");
+    printf("0.退出\n");
+    printf("1.请假记录统计\n");
 }
 
 #endif
