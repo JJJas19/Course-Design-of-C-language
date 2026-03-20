@@ -15,7 +15,7 @@ typedef struct
 } Time;
 
 // 日期结构体
-typedef struct 
+typedef struct
 {
     int year;
     int month;
@@ -71,8 +71,8 @@ typedef struct Employee
     int departmentID;
     char secretCode[MAX_NAME_LENGTH];
     struct Employee *next;
-    ClockNoting* clockNotingData;
-    EmployeeHolidayQuota* holidayQuotaData;
+    ClockNoting *clockNotingData;
+    EmployeeHolidayQuota *holidayQuotaData;
 } Employee;
 
 // 部门信息
