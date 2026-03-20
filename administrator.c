@@ -18,13 +18,13 @@ int addDepartmentNode(int departmentID, const char* departmentName)
     }
     Department *newNode = (Department*)malloc(sizeof(Department));
     if (newNode == NULL) {
-        printf("´´½¨½ÚµãÊ§°Ü\n");
+        printf("åˆ›å»ºèŠ‚ç‚¹å¤±è´¥\n");
         return 0;
     }
     newNode->departmentID = departmentID;
     int size = strlen(departmentName);
     if (size > MAX_NAME_LENGTH) {
-        printf("²¿ÃÅÃû³Æ¹ı³¤£¬ÇëÖØĞÂ´´½¨\n");
+        printf("éƒ¨é—¨åç§°è¿‡é•¿ï¼Œè¯·é‡æ–°åˆ›å»º\n");
         free(newNode);
         return 0;
     }
@@ -36,15 +36,15 @@ int addDepartmentNode(int departmentID, const char* departmentName)
     }
     point->next = newNode;
 
-    printf("²åÈë²¿ÃÅ³É¹¦");
+    printf("æ’å…¥éƒ¨é—¨æˆåŠŸ");
     return 1;
 }
 
-int removeDepartmentNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
+int removeDepartmentNode(int index) // è¦åˆ é™¤ç¬¬å‡ ä¸ªèŠ‚ç‚¹
 {
     if (index == 0)
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
     int number = 0;
@@ -59,12 +59,12 @@ int removeDepartmentNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
     {
         preNode->next = point->next;
         free(point);
-        printf("É¾³ı³É¹¦\n");
+        printf("åˆ é™¤æˆåŠŸ\n");
         return 1;
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -80,10 +80,10 @@ int modifyDepartmentNode(int index)
     if (number == index)
     {
         char name[MAX_NAME_LENGTH];
-        printf("ÇëÊäÈë²¿ÃÅÃû³Æ: ");
+        printf("è¯·è¾“å…¥éƒ¨é—¨åç§°: ");
         scanf("%s", name);
         while (strlen(name) > MAX_NAME_LENGTH) {
-            printf("²¿ÃÅêÇ³Æ¹ı³¤£¬ÇëÖØĞÂÊäÈë: ");
+            printf("éƒ¨é—¨æ˜µç§°è¿‡é•¿ï¼Œè¯·é‡æ–°è¾“å…¥: ");
             scanf("%s", name);
         }
         
@@ -92,7 +92,7 @@ int modifyDepartmentNode(int index)
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -123,14 +123,14 @@ int addEmployeeNode(int employeeID, int departmentID, const char* employeeName)
     }
     Employee *newNode = (Employee*)malloc(sizeof(Employee));
     if (newNode == NULL) {
-        printf("´´½¨½ÚµãÊ§°Ü\n");
+        printf("åˆ›å»ºèŠ‚ç‚¹å¤±è´¥\n");
         return 0;
     }
     newNode->departmentID = departmentID;
     newNode->employeeID = employeeID;
     int size = strlen(employeeName);
     if (size > MAX_NAME_LENGTH) {
-        printf("²¿ÃÅÃû³Æ¹ı³¤£¬ÇëÖØĞÂ´´½¨\n");
+        printf("éƒ¨é—¨åç§°è¿‡é•¿ï¼Œè¯·é‡æ–°åˆ›å»º\n");
         free(newNode);
         return 0;
     }
@@ -142,15 +142,15 @@ int addEmployeeNode(int employeeID, int departmentID, const char* employeeName)
     }
     point->next = newNode;
 
-    printf("²åÈë²¿ÃÅ³É¹¦");
+    printf("æ’å…¥éƒ¨é—¨æˆåŠŸ");
     return 1;
 }
 
-int removeEmployeeNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
+int removeEmployeeNode(int index) // è¦åˆ é™¤ç¬¬å‡ ä¸ªèŠ‚ç‚¹
 {
     if (index == 0)
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
     int number = 0;
@@ -165,12 +165,12 @@ int removeEmployeeNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
     {
         preNode->next = point->next;
         free(point);
-        printf("É¾³ı³É¹¦\n");
+        printf("åˆ é™¤æˆåŠŸ\n");
         return 1;
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -186,16 +186,16 @@ int modifyEmployeeNode(int index)
     if (number == index)
     {
         char name[MAX_NAME_LENGTH];
-        printf("ÇëÊäÈëÔ±¹¤Ãû³Æ: ");
+        printf("è¯·è¾“å…¥å‘˜å·¥åç§°: ");
         scanf("%s", name);
         while (strlen(name) > MAX_NAME_LENGTH) {
-            printf("²¿ÃÅêÇ³Æ¹ı³¤£¬ÇëÖØĞÂÊäÈë: ");
+            printf("éƒ¨é—¨æ˜µç§°è¿‡é•¿ï¼Œè¯·é‡æ–°è¾“å…¥: ");
             scanf("%s", name);
         }
         
         strcpy(point->employeeName, name);
 
-        printf("ÇëÊäÈë²¿ÃÅ±àºÅ: ");
+        printf("è¯·è¾“å…¥éƒ¨é—¨ç¼–å·: ");
         int departmentID;
         scanf("%d", &departmentID);
         point->departmentID = departmentID;
@@ -204,7 +204,7 @@ int modifyEmployeeNode(int index)
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -235,7 +235,7 @@ int addHolidayNode(int holidayID, int maximumTime, int minimumTime, const char* 
     }
     HolidayType *newNode = (HolidayType*)malloc(sizeof(HolidayType));
     if (newNode == NULL) {
-        printf("´´½¨½ÚµãÊ§°Ü\n");
+        printf("åˆ›å»ºèŠ‚ç‚¹å¤±è´¥\n");
         return 0;
     }
     newNode->holidayID = holidayID;
@@ -243,7 +243,7 @@ int addHolidayNode(int holidayID, int maximumTime, int minimumTime, const char* 
     newNode->minimumTime = minimumTime;
     int size = strlen(name);
     if (size > MAX_NAME_LENGTH) {
-        printf("¼ÙÆÚÃû³Æ¹ı³¤£¬ÇëÖØĞÂ´´½¨\n");
+        printf("å‡æœŸåç§°è¿‡é•¿ï¼Œè¯·é‡æ–°åˆ›å»º\n");
         free(newNode);
         return 0;
     }
@@ -255,15 +255,15 @@ int addHolidayNode(int holidayID, int maximumTime, int minimumTime, const char* 
     }
     point->next = newNode;
 
-    printf("²åÈë¼ÙÆÚ³É¹¦");
+    printf("æ’å…¥å‡æœŸæˆåŠŸ");
     return 1;
 }
 
-int removeHolidayNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
+int removeHolidayNode(int index) // è¦åˆ é™¤ç¬¬å‡ ä¸ªèŠ‚ç‚¹
 {
     if (index == 0)
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
     int number = 0;
@@ -278,12 +278,12 @@ int removeHolidayNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
     {
         preNode->next = point->next;
         free(point);
-        printf("É¾³ı³É¹¦\n");
+        printf("åˆ é™¤æˆåŠŸ\n");
         return 1;
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -299,20 +299,20 @@ int modifyHolidayNode(int index)
     if (number == index)
     {
         char name[MAX_NAME_LENGTH];
-        printf("ÇëÊäÈë¼ÙÆÚÃû³Æ: ");
+        printf("è¯·è¾“å…¥å‡æœŸåç§°: ");
         scanf("%s", name);
         while (strlen(name) > MAX_NAME_LENGTH) {
-            printf("¼ÙÆÚêÇ³Æ¹ı³¤£¬ÇëÖØĞÂÊäÈë: ");
+            printf("å‡æœŸæ˜µç§°è¿‡é•¿ï¼Œè¯·é‡æ–°è¾“å…¥: ");
             scanf("%s", name);
         }
         
         strcpy(point->name, name);
 
-        printf("ÇëÊäÈë¼ÙÆÚ×î¶ÌÊ±¼ä: ");
+        printf("è¯·è¾“å…¥å‡æœŸæœ€çŸ­æ—¶é—´: ");
         int minimumTime;
         scanf("%d", &minimumTime);
         point->minimumTime = minimumTime;
-        printf("ÇëÊäÈë¼ÙÆÚ×î³¤Ê±¼ä: ");
+        printf("è¯·è¾“å…¥å‡æœŸæœ€é•¿æ—¶é—´: ");
         int maximumTime;
         scanf("%d", &maximumTime);
         point->maximumTime = maximumTime;
@@ -321,7 +321,7 @@ int modifyHolidayNode(int index)
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -352,7 +352,7 @@ int addUserNode(int id, const char* password, const char* name, RoleType roleTyp
     }
     User *newNode = (User*)malloc(sizeof(User));
     if (newNode == NULL) {
-        printf("´´½¨½ÚµãÊ§°Ü\n");
+        printf("åˆ›å»ºèŠ‚ç‚¹å¤±è´¥\n");
         return 0;
     }
     newNode->id = id;
@@ -360,7 +360,7 @@ int addUserNode(int id, const char* password, const char* name, RoleType roleTyp
     newNode->roleType = roleType;
     int size = strlen(name);
     if (size > MAX_NAME_LENGTH) {
-        printf("ÓÃ»§Ãû¹ı³¤£¬ÇëÖØĞÂ´´½¨\n");
+        printf("ç”¨æˆ·åè¿‡é•¿ï¼Œè¯·é‡æ–°åˆ›å»º\n");
         free(newNode);
         return 0;
     }
@@ -372,15 +372,15 @@ int addUserNode(int id, const char* password, const char* name, RoleType roleTyp
     }
     point->next = newNode;
 
-    printf("²åÈëÓÃ»§³É¹¦");
+    printf("æ’å…¥ç”¨æˆ·æˆåŠŸ");
     return 1;
 }
 
-int removeUserNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
+int removeUserNode(int index) // è¦åˆ é™¤ç¬¬å‡ ä¸ªèŠ‚ç‚¹
 {
     if (index == 0)
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
     int number = 0;
@@ -395,12 +395,12 @@ int removeUserNode(int index) // ÒªÉ¾³ıµÚ¼¸¸ö½Úµã
     {
         preNode->next = point->next;
         free(point);
-        printf("É¾³ı³É¹¦\n");
+        printf("åˆ é™¤æˆåŠŸ\n");
         return 1;
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -416,30 +416,30 @@ int modifyUserNode(int index)
     if (number == index)
     {
         char name[MAX_NAME_LENGTH];
-        printf("ÇëÊäÈëÓÃ»§Ãû: ");
+        printf("è¯·è¾“å…¥ç”¨æˆ·å: ");
         scanf("%s", name);
         while (strlen(name) > MAX_NAME_LENGTH) {
-            printf("ÓÃ»§Ãû¹ı³¤£¬ÇëÖØĞÂÊäÈë: ");
+            printf("ç”¨æˆ·åè¿‡é•¿ï¼Œè¯·é‡æ–°è¾“å…¥: ");
             scanf("%s", name);
         }
         
         strcpy(point->name, name);
 
         char password[MAX_NAME_LENGTH];
-        printf("ÇëÊäÈëÃÜÂë: ");
+        printf("è¯·è¾“å…¥å¯†ç : ");
         scanf("%s", password);
         while (strlen(password) > MAX_NAME_LENGTH) {
-            printf("ÃÜÂë¹ı³¤£¬ÇëÖØĞÂÊäÈë: ");
+            printf("å¯†ç è¿‡é•¿ï¼Œè¯·é‡æ–°è¾“å…¥: ");
             scanf("%s", password);
         }
         
         strcpy(point->password, password);
 
-        printf("ÇëÊäÈë½ÇÉ«±àºÅ(1-4): ");
+        printf("è¯·è¾“å…¥è§’è‰²ç¼–å·(1-4): ");
         int roleType;
         scanf("%d", &roleType);
         if (roleType < 1 || roleType > 4) {
-            printf("ÊäÈë±àºÅ·Ç·¨\n");
+            printf("è¾“å…¥ç¼–å·éæ³•\n");
             return 0;
         }
         point->roleType = (RoleType)roleType;
@@ -448,7 +448,7 @@ int modifyUserNode(int index)
     }
     else
     {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return 0;
     }
 }
@@ -503,7 +503,7 @@ int setEmployeeHolidayQuota(int employeeID, int holidayTypeID, int totalQuota)
             }
         }
     }
-    printf("Î´ÕÒµ½¸ÃÔ±¹¤»ò¼ÙÆÚÀàĞÍ\n");
+    printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥æˆ–å‡æœŸç±»å‹\n");
     return 0;
 }
 
@@ -532,7 +532,7 @@ int setEmployeeDepartment(int employeeID, int departmentID)
         }
         point = point->next;
     }
-    printf("Î´ÕÒµ½¸ÃÔ±¹¤\n");
+    printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥\n");
     return 0;
 }
 
@@ -547,7 +547,7 @@ int setHolidayTime(int holidayID, int minimumTime, int maximumTime)
         }
         point = point->next;
     }
-    printf("Î´ÕÒµ½¸Ã¼ÙÆÚ\n");
+    printf("æœªæ‰¾åˆ°è¯¥å‡æœŸ\n");
     return 0;
 }
 
@@ -571,9 +571,9 @@ void initlist()
 void displayDepartmentList()
 {
     Department *point = departmentHead->next;
-    printf("²¿ÃÅÁĞ±í:\n");
+    printf("éƒ¨é—¨åˆ—è¡¨:\n");
     while (point != NULL) {
-        printf("²¿ÃÅID: %d, ²¿ÃÅÃû³Æ: %s\n", point->departmentID, point->name);
+        printf("éƒ¨é—¨ID: %d, éƒ¨é—¨åç§°: %s\n", point->departmentID, point->name);
         point = point->next;
     }
 }
@@ -582,9 +582,9 @@ void addDepartment()
 {
     int departmentID;
     char departmentName[MAX_NAME_LENGTH];
-    printf("ÇëÊäÈë²¿ÃÅID: ");
+    printf("è¯·è¾“å…¥éƒ¨é—¨ID: ");
     scanf("%d", &departmentID);
-    printf("ÇëÊäÈë²¿ÃÅÃû³Æ: ");
+    printf("è¯·è¾“å…¥éƒ¨é—¨åç§°: ");
     scanf("%s", departmentName);
     addDepartmentNode(departmentID, departmentName); 
 }
@@ -592,7 +592,7 @@ void addDepartment()
 void removeDepartment()
 {
     int index;
-    printf("ÇëÊäÈëÒªÉ¾³ıµÄ²¿ÃÅ±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦åˆ é™¤çš„éƒ¨é—¨ç¼–å·: ");
     scanf("%d", &index);
     removeDepartmentNode(index);
 }
@@ -600,7 +600,7 @@ void removeDepartment()
 void modifyDepartment()
 {
     int index;
-    printf("ÇëÊäÈëÒªĞŞ¸ÄµÄ²¿ÃÅ±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦ä¿®æ”¹çš„éƒ¨é—¨ç¼–å·: ");
     scanf("%d", &index);
     modifyDepartmentNode(index);
 }
@@ -608,9 +608,9 @@ void modifyDepartment()
 void displayEmployeeList()
 {
     Employee *point = employeeHead->next;
-    printf("Ô±¹¤ÁĞ±í:\n");
+    printf("å‘˜å·¥åˆ—è¡¨:\n");
     while (point != NULL) {
-        printf("Ô±¹¤ID: %d, Ô±¹¤ĞÕÃû: %s, ²¿ÃÅID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+        printf("å‘˜å·¥ID: %d, å‘˜å·¥å§“å: %s, éƒ¨é—¨ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
         point = point->next;
     }
 }
@@ -620,11 +620,11 @@ void addEmployee()
     int employeeID;
     int departmentID;
     char employeeName[MAX_NAME_LENGTH];
-    printf("ÇëÊäÈëÔ±¹¤ID: ");
+    printf("è¯·è¾“å…¥å‘˜å·¥ID: ");
     scanf("%d", &employeeID);
-    printf("ÇëÊäÈë²¿ÃÅID: ");
+    printf("è¯·è¾“å…¥éƒ¨é—¨ID: ");
     scanf("%d", &departmentID);
-    printf("ÇëÊäÈëÔ±¹¤ĞÕÃû: ");
+    printf("è¯·è¾“å…¥å‘˜å·¥å§“å: ");
     scanf("%s", employeeName);
     addEmployeeNode(employeeID, departmentID, employeeName); 
 }
@@ -632,7 +632,7 @@ void addEmployee()
 void removeEmployee()
 {
     int index;
-    printf("ÇëÊäÈëÒªÉ¾³ıµÄÔ±¹¤±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦åˆ é™¤çš„å‘˜å·¥ç¼–å·: ");
     scanf("%d", &index);
     removeEmployeeNode(index);
 }
@@ -640,7 +640,7 @@ void removeEmployee()
 void modifyEmployee()
 {
     int index;
-    printf("ÇëÊäÈëÒªĞŞ¸ÄµÄÔ±¹¤±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦ä¿®æ”¹çš„å‘˜å·¥ç¼–å·: ");
     scanf("%d", &index);
     modifyEmployeeNode(index);
 }
@@ -648,9 +648,9 @@ void modifyEmployee()
 void displayHolidayList()
 {
     HolidayType *point = holidayHead->next;
-    printf("¼ÙÆÚÁĞ±í:\n");
+    printf("å‡æœŸåˆ—è¡¨:\n");
     while (point != NULL) {
-        printf("¼ÙÆÚID: %d, ¼ÙÆÚÃû³Æ: %s, ×î¶ÌÊ±¼ä: %d, ×î³¤Ê±¼ä: %d\n", point->holidayID, point->name, point->minimumTime, point->maximumTime);
+        printf("å‡æœŸID: %d, å‡æœŸåç§°: %s, æœ€çŸ­æ—¶é—´: %d, æœ€é•¿æ—¶é—´: %d\n", point->holidayID, point->name, point->minimumTime, point->maximumTime);
         point = point->next;
     }
 }
@@ -661,13 +661,13 @@ void addHoliday()
     int minimumTime;
     int maximumTime;
     char name[MAX_NAME_LENGTH];
-    printf("ÇëÊäÈë¼ÙÆÚID: ");
+    printf("è¯·è¾“å…¥å‡æœŸID: ");
     scanf("%d", &holidayID);
-    printf("ÇëÊäÈë¼ÙÆÚÃû³Æ: ");
+    printf("è¯·è¾“å…¥å‡æœŸåç§°: ");
     scanf("%s", name);
-    printf("ÇëÊäÈë¼ÙÆÚ×î¶ÌÊ±¼ä: ");
+    printf("è¯·è¾“å…¥å‡æœŸæœ€çŸ­æ—¶é—´: ");
     scanf("%d", &minimumTime);
-    printf("ÇëÊäÈë¼ÙÆÚ×î³¤Ê±¼ä: ");
+    printf("è¯·è¾“å…¥å‡æœŸæœ€é•¿æ—¶é—´: ");
     scanf("%d", &maximumTime);
     addHolidayNode(holidayID, maximumTime, minimumTime, name); 
 }
@@ -675,7 +675,7 @@ void addHoliday()
 void removeHoliday()
 {
     int index;
-    printf("ÇëÊäÈëÒªÉ¾³ıµÄ¼ÙÆÚ±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦åˆ é™¤çš„å‡æœŸç¼–å·: ");
     scanf("%d", &index);
     removeHolidayNode(index);
 }
@@ -683,7 +683,7 @@ void removeHoliday()
 void modifyHoliday()
 {
     int index;
-    printf("ÇëÊäÈëÒªĞŞ¸ÄµÄ¼ÙÆÚ±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦ä¿®æ”¹çš„å‡æœŸç¼–å·: ");
     scanf("%d", &index);
     modifyHolidayNode(index);
 }
@@ -691,9 +691,9 @@ void modifyHoliday()
 void displayUserList()
 {
     User *point = userHead->next;
-    printf("ÓÃ»§ÁĞ±í:\n");
+    printf("ç”¨æˆ·åˆ—è¡¨:\n");
     while (point != NULL) {
-        printf("ÓÃ»§ID: %d, ÓÃ»§Ãû: %s, ½ÇÉ«: %d\n", point->id, point->name, point->roleType);
+        printf("ç”¨æˆ·ID: %d, ç”¨æˆ·å: %s, è§’è‰²: %d\n", point->id, point->name, point->roleType);
         point = point->next;
     }
 }
@@ -704,16 +704,16 @@ void addUser()
     char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     int roleType;
-    printf("ÇëÊäÈëÓÃ»§ID: ");
+    printf("è¯·è¾“å…¥ç”¨æˆ·ID: ");
     scanf("%d", &id);
-    printf("ÇëÊäÈëÓÃ»§Ãû: ");
+    printf("è¯·è¾“å…¥ç”¨æˆ·å: ");
     scanf("%s", name);
-    printf("ÇëÊäÈëÃÜÂë: ");
+    printf("è¯·è¾“å…¥å¯†ç : ");
     scanf("%s", password);
-    printf("ÇëÊäÈë½ÇÉ«±àºÅ(1-4): ");
+    printf("è¯·è¾“å…¥è§’è‰²ç¼–å·(1-4): ");
     scanf("%d", &roleType);
     if (roleType < 1 || roleType > 4) {
-        printf("ÊäÈë±àºÅ·Ç·¨\n");
+        printf("è¾“å…¥ç¼–å·éæ³•\n");
         return;
     }
     addUserNode(id, password, name, (RoleType)roleType); 
@@ -722,7 +722,7 @@ void addUser()
 void removeUser()
 {
     int index;
-    printf("ÇëÊäÈëÒªÉ¾³ıµÄÓÃ»§±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦åˆ é™¤çš„ç”¨æˆ·ç¼–å·: ");
     scanf("%d", &index);
     removeUserNode(index);
 }
@@ -730,7 +730,7 @@ void removeUser()
 void modifyUser()
 {
     int index;
-    printf("ÇëÊäÈëÒªĞŞ¸ÄµÄÓÃ»§±àºÅ: ");
+    printf("è¯·è¾“å…¥è¦ä¿®æ”¹çš„ç”¨æˆ·ç¼–å·: ");
     scanf("%d", &index);
     modifyUserNode(index);
 }
@@ -738,28 +738,28 @@ void modifyUser()
 int queryEmployeeClockNotingByID()
 {
     int employeeID;
-    printf("ÇëÊäÈëÔ±¹¤ID: ");
+    printf("è¯·è¾“å…¥å‘˜å·¥ID: ");
     scanf("%d", &employeeID);
 
     Employee *point = employeeHead->next;
     while (point != NULL) {
         if (point->employeeID == employeeID) {
-            printf("Ô±¹¤ID: %d, Ô±¹¤ĞÕÃû: %s, ²¿ÃÅID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+            printf("å‘˜å·¥ID: %d, å‘˜å·¥å§“å: %s, éƒ¨é—¨ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
             ClockNoting *clockNotingPoint = point->clockNotingData;
-            printf("´ò¿¨¼ÇÂ¼:\n");
+            printf("æ‰“å¡è®°å½•:\n");
             while (clockNotingPoint != NULL) {
-                printf("´ò¿¨ÈÕÆÚ: %d-%d-%d, ÉÏ°àÊ±¼ä: %d:%d, ÏÂ°àÊ±¼ä: %d:%d, ÊÇ·ñÈ±ÇÚ: %s\n",
+                printf("æ‰“å¡æ—¥æœŸ: %d-%d-%d, ä¸Šç­æ—¶é—´: %d:%d, ä¸‹ç­æ—¶é—´: %d:%d, æ˜¯å¦ç¼ºå‹¤: %s\n",
                     clockNotingPoint->clockDate.year, clockNotingPoint->clockDate.month, clockNotingPoint->clockDate.day,
                     clockNotingPoint->clockInTime.hour, clockNotingPoint->clockInTime.minute,
                     clockNotingPoint->clockOutTime.hour, clockNotingPoint->clockOutTime.minute,
-                    clockNotingPoint->isAbsent ? "ÊÇ" : "·ñ");
+                    clockNotingPoint->isAbsent ? "æ˜¯" : "å¦");
                 clockNotingPoint = clockNotingPoint->next;
             }
             return 1;
         }
         point = point->next;
     }
-    printf("Î´ÕÒµ½¸ÃÔ±¹¤\n");
+    printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥\n");
     return 0;
 }
 
@@ -767,9 +767,9 @@ int queryEmployeeClockNotingByNameandDate()
 {
     char employeeName[MAX_NAME_LENGTH];
     Date clockDate;
-    printf("ÇëÊäÈëÔ±¹¤ĞÕÃû: ");
+    printf("è¯·è¾“å…¥å‘˜å·¥å§“å: ");
     scanf("%s", employeeName);
-    printf("ÇëÊäÈë´ò¿¨ÈÕÆÚ (Äê ÔÂ ÈÕ): ");
+    printf("è¯·è¾“å…¥æ‰“å¡æ—¥æœŸ (å¹´ æœˆ æ—¥): ");
     scanf("%d %d %d", &clockDate.year, &clockDate.month, &clockDate.day);
     
     Employee *point = employeeHead->next;
@@ -779,21 +779,21 @@ int queryEmployeeClockNotingByNameandDate()
             while (clockNotingPoint != NULL) {
                 if (clockNotingPoint->clockDate.day == clockDate.day && clockNotingPoint->clockDate.month == clockDate.month && clockNotingPoint->clockDate.year == clockDate.year)
                 {
-                    printf("Ô±¹¤ID: %d, Ô±¹¤ĞÕÃû: %s, ²¿ÃÅID: %d\n", point->employeeID, point->employeeName, point->departmentID);
-                    printf("´ò¿¨ÈÕÆÚ: %d-%d-%d, ÉÏ°àÊ±¼ä: %d:%d, ÏÂ°àÊ±¼ä: %d:%d, ÊÇ·ñÈ±ÇÚ: %s\n",
+                    printf("å‘˜å·¥ID: %d, å‘˜å·¥å§“å: %s, éƒ¨é—¨ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+                    printf("æ‰“å¡æ—¥æœŸ: %d-%d-%d, ä¸Šç­æ—¶é—´: %d:%d, ä¸‹ç­æ—¶é—´: %d:%d, æ˜¯å¦ç¼ºå‹¤: %s\n",
                         clockNotingPoint->clockDate.year, clockNotingPoint->clockDate.month, clockNotingPoint->clockDate.day,
                         clockNotingPoint->clockInTime.hour, clockNotingPoint->clockInTime.minute,
                         clockNotingPoint->clockOutTime.hour, clockNotingPoint->clockOutTime.minute,
-                        clockNotingPoint->isAbsent ? "ÊÇ" : "·ñ");
+                        clockNotingPoint->isAbsent ? "æ˜¯" : "å¦");
                     return 1;
                 }
                 clockNotingPoint = clockNotingPoint->next;
             }
-            printf("Î´ÕÒµ½¸ÃÔ±¹¤ÔÚ¸ÃÈÕÆÚµÄ´ò¿¨¼ÇÂ¼\n");
+            printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥åœ¨è¯¥æ—¥æœŸçš„æ‰“å¡è®°å½•\n");
             return 0;
         }
         point = point->next;
     }
-    printf("Î´ÕÒµ½¸ÃÔ±¹¤\n");
+    printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥\n");
     return 0;
 }
