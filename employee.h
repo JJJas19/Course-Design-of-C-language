@@ -95,8 +95,6 @@ bool Clock(Employee* employee) {
     return false; // 这里也是多余的，因为在while(true)循环中不会执行到这里
 }
 
-//定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
-
 //某日的打卡情况
 void ClockNotingByDate(ClockNoting* clockNotingData) {
     printf("%d年%d月%d日打卡情况:", employee->clockNotingData->clockDate.year, employee->clockNotingData->clockDate.month, employee->clockNotingData->clockDate.day);
@@ -249,6 +247,7 @@ void FindClockNotingByMonth(Employee* employee) {
     }
 }
 
+//定义GetClockNoting函数，用于查询员工的打卡信息,参数为指向Employee结构体的指针
 void GetClockNoting(Employee* employee) {
     while (true) {
         printf("请选择您要查询的记录:\n");
@@ -292,6 +291,11 @@ void GetClockNoting(Employee* employee) {
             continue;
         }
     }
+}
+
+//定义InformationIntegrety函数，用于统计员工的打卡信息
+void InformationIntegrety(Employee* employee) {
+
 }
 
 #endif

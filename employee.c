@@ -25,6 +25,9 @@ void EmployLogic(Employee* employee) {
 		else if (operation == 2) {
 			GetClockNoting(employee);
 		}
+		else if (operation == 3) {
+
+		}
 		else {
 			printf("输入错误，请重新输入！\n");
 			continue;
