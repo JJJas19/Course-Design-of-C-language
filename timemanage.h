@@ -20,7 +20,17 @@ void TimeManage(Date* date) {
 		printf("要进入下一天吗?\n");
 		printf("0.返回\t1.是\n");
 		int operation;
-		scanf("%d", &operation);
+		char input[20];
+		if (fgets(input, 20, stdin) == NULL) {
+			printf("输入错误，请重新输入\n");
+			continue;
+		}
+		while ((c = getchar()) != EOF && c != '\n');
+		int res = sscanf(input, "%d", &operation);
+		if (res != 0) {
+			printf("读取失败!请重新输入!\n");
+			continue;
+		}
 		if (operation == 1) {
 			DateChange(date);
 			printf("已进入下一天!\n");
@@ -33,5 +43,4 @@ void TimeManage(Date* date) {
 			continue;
 		}
 	}
-	
 }

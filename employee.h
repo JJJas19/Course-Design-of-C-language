@@ -314,7 +314,7 @@ void GetClockNoting(Employee* employee) {
         printf("3.查询某日打卡记录;\n");
         printf("4.查询某月打卡记录;\n");
         //定义opertation变量，用于存储用户的输入
-        int input[20];
+        char input[20];
         int operation;
         int c;
         if (fgets(input, sizeof(input), stdin) == NULL) {
