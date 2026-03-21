@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include "common.h"
@@ -12,12 +13,23 @@ void EmployLogic(Employee* employee) {
 	printf("职员ID:%d\n", employee->employeeID);
 	while (true) {
 		printf("请选择要执行的操作:\n");
-		int operation;
-		scanf("%d", &operation);
 		printf("0.退出\n");
 		printf("1.打卡\n");
 		printf("2.打卡记录查询\n");
 		printf("3.时间总控\n");
+		int operation;
+		int c;
+		char input[20];
+		if (fgets(input, sizeof(input), stdin) == NULL) {
+			printf("输入有误!请重新输入!\n");
+			continue;
+		}
+		while ((c = getchar()) != EOF && c != '\n');
+		int res = sscanf(input, "%d", &operation);
+		if (res != 1) {
+			printf("读取失败!请重新尝试!\n");
+			continue;
+		}
 		if (operation == 0) {
 			return;
 		}

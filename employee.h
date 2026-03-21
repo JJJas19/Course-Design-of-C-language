@@ -20,10 +20,18 @@ bool Clock(Employee* employee) {
             printf("要进行打卡吗？(请输入数字)\n");
             printf("1.是\t2.否\n");
             int clocking; // 声明一个整数变量clocking用于存储用户的输入
-            scanf("%d", &clocking); // 读取用户输入的数字
+            char input[20];
+            if (fgets(input, sizeof(input), stdin) == NULL) {
+                printf("输入错误，请重新输入!\n");
+                continue;
+            }
             int c;
-            // 清空输入缓冲区，直到遇到换行符或文件结束符
             while ((c = getchar()) != '\n' && c != EOF);
+            int res=sscanf(input, "%d", &clocking);
+            if (res != 1) {
+                printf("输入错误，请重新输入!\n");
+                continue;
+            }
 
             // 如果用户输入的数字不是1或2，则提示输入错误，并要求重新输入
             while (clocking != 1 && clocking != 2) {
@@ -38,18 +46,20 @@ bool Clock(Employee* employee) {
             while (clocking == 1) {
                 // 提示用户输入打卡时间，并告知输入0可以返回上一级菜单
                 printf("请输入打卡时间:(输入0返回)\n");
-                char input[1000]; // 声明一个字符数组input用于存储用户输入的时间字符串
-                fgets(input, sizeof(input), stdin); // 读取用户输入的时间字符串
-                int len = strlen(input); // 获取输入字符串的长度
-                // 如果用户输入的是"0"（仅包含一个字符'0'和换行符'\n'），则将clocking设置为0并退出循环
-                if (len == 2 && input[0] == '0') {
-                    clocking = 0;
-                    break;
+                int hour, minute; // 声明两个整数变量hour和minute用于存储用户输入的打卡时间
+                if (fgets(input, sizeof(input), stdin) == NULL) {
+                    printf("数据解析失败，请重新输入!\n");
+                    continue;
+                }; // 读取用户输入的时间字符串
+                while ((c = getchar()) != EOF && c != '\n');
+                res = sscanf(input, "%d:%d", &hour, &minute);
+                if (res==1 && hour == 0) {
+                    clocking = 0; // 如果用户输入0，则将clocking设置为0，表示返回上一级菜单
+                    continue;
                 }
                 // 如果用户输入的是格式为"HH:MM"的时间字符串
-                else if (len == 6 && input[2] == ':') {
+                else if (res==2) {
                     // 将小时和分钟从字符串中解析为整数
-                    int hour = (input[0] - '0') * 10 + (input[1] - '0');
                     if (hour == 24) {
                         hour -= 24; // 如果小时为24，则将其调整为0，表示午夜
                     }
@@ -57,7 +67,6 @@ bool Clock(Employee* employee) {
                         printf("输入错误，请重新输入!\n"); // 如果小时大于24，则提示输入错误，并要求重新输入
                         continue;
                     }
-                    int minute = (input[3] - '0') * 10 + (input[4] - '0'); // 计算分钟
                     if (minute >= 60) {
                         printf("输入错误，请重新输入!\n"); // 如果分钟大于等于60，则提示输入错误，并要求重新输入
                         continue;
@@ -108,13 +117,13 @@ bool Clock(Employee* employee) {
 
             // 如果用户选择取消打卡（输入2）
             if (clocking == 2) {
-                printf("取消打卡。\n"); // 打印取消打卡提示
+                printf("取消打卡\n"); // 打印取消打卡提示
                 return false; // 返回false，表示未打卡
             }
 
             // 如果用户选择返回（输入0）
             if (clocking == 0) {
-                printf("返回到上一个界面。\n"); // 打印返回提示
+                printf("返回到上一个界面\n"); // 打印返回提示
                 continue; // 继续下一次循环
             }
 
@@ -264,16 +273,34 @@ void FindClockNotingByDate(Employee* employee) {
 
 //查询某月打卡情况
 void FindClockNotingByMonth(Employee* employee) {
-    printf("请输入年份:");
-    int year;
-    printf("请输入月份");
-    int month;
-    while (employee->clockNotingData != NULL) {
-        
-        if (employee->clockNotingData->clockDate.year == year && employee->clockNotingData->clockDate.month == month) {
-            ClockNotingByDate(employee->clockNotingData);
+    while (true) {
+        int year;
+        int month;
+        int c;
+        printf("请输入要查询的年份和月份，格式为yyyy.mm,(输入0返回):");
+        char input[20];
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            printf("数据解析失败,请重新输入!\n");
+            continue;
         }
-        employee->clockNotingData= employee->clockNotingData->next;
+        while ((c = getchar()) != EOF && c != '\n');
+        int res = sscanf(input, "%d.%d", &year, &month);
+        if (res == 1 && year == 0) {
+            break;
+        }
+        else if (res == 2) {
+            while (employee->clockNotingData != NULL) {
+
+                if (employee->clockNotingData->clockDate.year == year && employee->clockNotingData->clockDate.month == month) {
+                    ClockNotingByDate(employee->clockNotingData);
+                }
+                employee->clockNotingData = employee->clockNotingData->next;
+            }
+        }
+        else {
+            printf("输入有误，请重新输入!\n");
+            continue;
+        }
     }
 }
 
@@ -287,14 +314,19 @@ void GetClockNoting(Employee* employee) {
         printf("3.查询某日打卡记录;\n");
         printf("4.查询某月打卡记录;\n");
         //定义opertation变量，用于存储用户的输入
+        int input[20];
         int operation;
         int c;
-        if (scanf("%d", &operation) != 1) {
-            printf("输入有误，请重新输入!\n");
-            while ((c = getchar()) != EOF && c != '\n') {
-                continue;
-            }
-        };
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            printf("数据解析失败，请重新输入!\n");
+            continue;
+        }
+        while ((c = getchar()) != EOF && c != '\n');
+        int res = sscanf(input, "%d", &operation);
+        if (res != 1) {
+            printf("输入错误，请重新输入!\n");
+            continue;
+        }
         //输入0，则退出循环
         if (operation == 0) {
             return;
