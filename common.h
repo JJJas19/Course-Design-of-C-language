@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <windows.h>
-
+#include "employee.h"
 #define MAX_NAME_LENGTH 1000
 
 // 时间结构体
@@ -69,7 +69,7 @@ typedef struct Employee
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
-    char secretCode[MAX_NAME_LENGTH];
+    Vacation* vacation;
     struct Employee *next;
     ClockNoting *clockNotingData;
     EmployeeHolidayQuota *holidayQuotaData;

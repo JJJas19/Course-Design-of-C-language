@@ -1,5 +1,16 @@
+#include "common.h"
+#include "timemanage.h"
 #ifndef EMPLOY_H
 #define EMPLOY_H
+
+//定义Vacation结构体，用来存储员工的请假信息
+typedef struct Vacation{
+    Date start;
+    Date end;
+    int length;
+    char holidayType[20];
+    struct Vacation* next;
+}Vacation;
 
 // 定义Clock函数，用于处理员工打卡操作，参数为指向Employee结构体的指针
 bool Clock(Employee* employee) {
@@ -355,15 +366,40 @@ void GetClockNoting(Employee* employee) {
     }
 }
 
-//统计请假信息
-void SortAbsenceMessege(ClockNoting* clockNoting) {
-    int absenceCount = 0;
-    while (clockNoting != NULL) {
-        if (clockNoting->isAbsent == 1) {
-            absenceCount++;
+//定义Pop函数，用来为某种信息进行降序排序
+void Pop(int* messeges, int length) {
+    int i, j;
+    for (i = 0; i < length; i++) {
+        int max = i;
+        for (j = i; j < length; j++) {
+            if (messeges[j] > messeges[max]) {
+                max = j;
+            }
         }
-        clockNoting = clockNoting->next;
+        int temp = messeges[i];
+        messeges[i] = messeges[max];
+        messeges[max] = temp;
     }
+}
+
+//统计请假信息
+void SortAbsenceMessege(Vacation* vacation) {
+    int absenceCount = 0;
+    Vacation* q = vacation;
+    while (q != NULL) {
+        absenceCount++;
+        q = q->next;
+    }
+    int absenceMessege[absenceCount];
+    q = vacation;
+    int i;
+    for (i = 0; i < absenceCount; i++) {
+        absenceMessege[i] = q->length;
+        q = q->next;
+    }
+    printf("您的请假信息如下:\n");
+    printf("您的请假次数为:%d", absenceCount);
+    Pop(absenceMessege, absenceCount);
 }
 
 //定义InformationIntegrety函数，用于统计员工的打卡信息
@@ -373,14 +409,39 @@ void InformationSort(Employee* employee) {
         printf("0.退出\n");
         printf("1.请假记录统计\n");
         int operation;
-        scanf("%d", &operation);
+        int c;
+        int input[20];
+        if ((fgets(input, sizeof(input), stdin) == NULL)) {
+            printf("数据解析失败,请重新输入!\n");
+            continue;
+        }
+        int res = sscanf(input, "%d", &operation);
+        if (res != 1) {
+            printf("输入错误，请重新输入!\n");
+            continue;
+        }
         if (operation == 0) {
             return;
         }
         else if (operation == 1) {
-            SortAbsenceMessege(employee->clockNotingData);
+            SortAbsenceMessege(employee->vacation);
+        }
+        else {
+            printf("输入错误，请重新输入!\n");
+            return 0;
         }
     }
+}
+
+//定义AddVacation函数，用来为员工添加请假信息
+void AddVacation(Employee* employee,Date date,int length) {
+    while (employee->vacation != NULL) {
+        employee->vacation=employee->vacation->next;
+    }
+    Vacation* vacation = (Vacation*)malloc(sizeof(Vacation));
+    vacation->start = date;
+    vacation->length = length;
+    vacation->end = CalculateDate(date, length);
 }
 
 #endif

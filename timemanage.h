@@ -2,16 +2,56 @@
 #include <stdlib.h>
 #include "common.h"
 
-void DateChange(Date* date) {
-	date->day=date->day+1;
-	if (date->day > 30) {
-		date->month=date->month+1;
-		date->day = 1;
+
+void ChangeDate(Date* date,int length) {
+	int year[13] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+	if (date->year % 4 == 0 && (date->year % 100 != 0 || date->year % 400 == 0)) {
+		year[2] = 29;
+	}
+	else {
+		year[2] = 28;
+	}
+	date->day += length;
+	while (date->day > year[date->month]) {
+		date->day -= year[date->month];
+		date->month++;
 		if (date->month > 12) {
-			date->year=date->year+1;
-			date->month = 1;
+			date->month -= 12;
+			date->year++;
+			if (date->year % 4 == 0 && (date->year % 100 != 0 || date->year % 400 == 0)) {
+				year[2] = 29;
+			}
+			else {
+				year[2] = 28;
+			}
 		}
 	}
+}
+
+Date CalculateDate(Date date, int length) {
+	int year[13] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+	if (date.year % 4 == 0 && (date.year % 100 != 0 || date.year % 400 == 0)) {
+		year[2] = 29;
+	}
+	else {
+		year[2] = 28;
+	}
+	date.day += length;
+	while (date.day > year[date.month]) {
+		date.day -= year[date.month];
+		date.month++;
+		if (date.month > 12) {
+			date.month -= 12;
+			date.year++;
+			if (date.year % 4 == 0 && (date.year % 100 != 0 || date.year % 400 == 0)) {
+				year[2] = 29;
+			}
+			else {
+				year[2] = 28;
+			}
+		}
+	}
+	return date;
 }
 
 void TimeManage(Date* date) {
@@ -32,7 +72,7 @@ void TimeManage(Date* date) {
 			continue;
 		}
 		if (operation == 1) {
-			DateChange(date);
+			ChangeDate(date,1);
 			printf("已进入下一天!\n");
 		}
 		else if (operation == 0) {
