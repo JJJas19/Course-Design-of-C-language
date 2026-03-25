@@ -69,6 +69,7 @@ typedef struct Employee
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
+    int salary;
     Vacation* vacation;
     struct Employee *next;
     ClockNoting *clockNotingData;

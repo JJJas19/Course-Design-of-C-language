@@ -89,18 +89,18 @@ void query_attendance(Employee *employeeHead)
                 }
                 strcat(afternoonAbsentDates, totalDate);
             }
-            lastdate=clockValues->numberOfDays;
+            lastdate = clockValues->numberOfDays;
             clockValues = clockValues->next;
         }
         const char *morningStr = strlen(morningAbsentDates) == 0 ? "无" : morningAbsentDates;
         const char *afternoonStr = strlen(afternoonAbsentDates) == 0 ? "无" : afternoonAbsentDates;
 
         fprintf(fp, "%d,%s,%d,%s,%s\n", point->employeeID, point->employeeName, lastdate, morningStr, afternoonStr);
-        printf("%-8d\t%-10s\t%-10d\t%-20s\t%-20s\n",point->employeeID,point->employeeName,lastdate,morningStr,afternoonStr);
+        printf("%-8d\t%-10s\t%-10d\t%-20s\t%-20s\n", point->employeeID, point->employeeName, lastdate, morningStr, afternoonStr);
         point = point->next;
     }
-     fclose(fp);
-     printf("\n考勤数据已导出到 Attendance_data.csv\n");
+    fclose(fp);
+    printf("\n考勤数据已导出到 Attendance_data.csv\n");
 
 } // 考勤数据查询
 
@@ -130,12 +130,64 @@ void query_leave_quota(Employee *employeeHead)
     fclose(fp);
 } // 假期额度查询
 
-void attendance_to_salary()
+void attendance_to_salary(Employee *employeeHead)
 {
+    printf("===== 工资数据查询 =====\n");
+    printf("员工ID   员工姓名   员工工资");
+    Employee *employeenode = employeeHead->next;
+    FILE *fp = fopen("salary.csv", "w");
+    if (fp == NULL)
+    {
+        perror("打开CSV文件失败");
+        return;
+    }
+    fprintf(fp, "%10s %10s %10s", "员工ID", "员工姓名", "员工工资");
+    while (employeenode != NULL)
+    {
+        int data[13] = {0};
+        int holidaypunish = 0;
+        int clockpunish = 0;
+        int prize = 0;
+        EmployeeHolidayQuota *holidayquotanode = employeenode->holidayQuotaData;
+        ClockNoting *clocknode = employeenode->clockNotingData;
+        while (holidayquotanode != NULL)
+        {
+            if (holidayquotanode->usedQuota > holidayquotanode->totalQuota)
+            {
+                holidaypunish += (holidayquotanode->usedQuota - holidayquotanode->totalQuota);
+            }
+            holidayquotanode = holidayquotanode->next;
+        }
+        while (clocknode != NULL)
+        {
+            int i = clocknode->clockDate.month;
+            if (clocknode->clockInTime.isClocking == 1 && clocknode->clockOutTime.isClocking == 1)
+            {
+                data[i]++;
+            }
+            clocknode = clocknode->next;
+        }
+        for (int i = 0; i < 12; i++)
+        {
+            if (data[i] >= 27)
+            {
+                prize = 500;
+            }
+            else if (data[i] <= 20)
+            {
+                clockpunish += (data[i] - 20);
+            }
+        }
+        employeenode->salary = 5000 + prize - 100 * holidaypunish - 100 * clockpunish;
+        printf("%10d %10s %10d", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
+        // 将工资信息存入到表中
+        fprintf(fp, "%10d %10s %10d", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
+    }
+    fclose(fp);
 
 } // 考勤对接薪酬
 
 void salary_payment()
 {
-
+    
 } // 薪酬发放系统
