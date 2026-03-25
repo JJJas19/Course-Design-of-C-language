@@ -40,13 +40,13 @@ void hr_menu()
             //          attendance_to_salary(employeeHead);
             break;
         case 5:
-
+            // search_attendance(employeeHead);
             break;
         case 6:
-
+            // query_leave_quota_search(employeeHead);
             break;
         case 7:
-
+            // query_salary(employeeHead);
             break;
         default:
             printf("退出成功");
@@ -121,7 +121,7 @@ void query_leave_quota(Employee *employeeHead)
         return;
     }
     fprintf(fp, "%s,%s,%s,%s,%s,%s\n", "员工ID", "员工姓名", "假期类型ID", "总共额度", "已使用额度", "剩余额度");
-    printf("%s,%s,%s,%s,%s,%s\n", "员工ID", "假期类型ID", "总共额度", "已使用额度", "剩余额度");
+    printf("%s,%s,%s,%s,%s,%s\n", "员工ID", "员工姓名","假期类型ID", "总共额度", "已使用额度", "剩余额度");
     Employee *point = employeeHead->next;
     while (point != NULL)
     {
@@ -146,7 +146,7 @@ void attendance_to_salary(Employee *employeeHead)
     FILE *fp = fopen("salary.csv", "w");
     if (fp == NULL)
     {
-        perror("打开CSV文件失败\n");
+        perror("打开CSV文件失败");
         return;
     }
     fprintf(fp, "%s %s %s\n", "员工ID", "员工姓名", "员工工资");
@@ -380,7 +380,62 @@ void query_leave_quota_search(Employee *employeeHead)
 } // 假期额度查询
 void query_salary(Employee *employeeHead)
 {
-    printf("===== 额度查询 =====\n");
-    Employee* employeenode = employeeHead->next;
+    printf("===== 薪资查询 =====\n");
+    printf("1.按员工ID查询\n");
+    printf("2.按员工姓名查询\n");
+    printf("请选择需要查询的方式： ");
+    int choose;
+    scanf("%d", &choose);
+    getchar();
 
+    int search_id = 0;
+    char search_name[50];
+    Employee *employeenode = employeeHead->next;
+    int found = 0;
+
+    if (choose == 1)
+    {
+        printf("请输入要查询的员工id：\n");
+        scanf("%d", &search_id);
+    }
+    else if (choose == 2)
+    {
+        printf("请输入要查询的员工姓名：\n");
+        scanf("%s", search_name);
+    }
+    else
+    {
+        printf("输入错误！\n");
+        return;
+    }
+    while (employeenode != NULL)
+    {
+        int match = 0;
+
+        if (choose == 1 && employeenode->employeeID == search_id)
+        {
+            match = 1;
+        }
+        if (choose == 2 && strcmp(search_name, employeenode->employeeName) == 0)
+        {
+            match = 1;
+        }
+
+        if (match)
+        {
+            found = 1;
+            break;
+        }
+        employeenode = employeenode->next;
+    }
+    if (found == 1)
+    {
+        printf("\n===== 员工【%s - ID:%d】薪资 =====\n", employeenode->employeeName, employeenode->employeeID);
+        printf("%-10s\t%-10s\t%-10s\n", "员工ID", "员工姓名", "员工薪资");
+        printf("%-10d\t%-10s\t%-10d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
+    }
+    else
+    {
+        printf("未查询到该员工的薪资信息！\n");
+    }
 }
