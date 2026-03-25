@@ -13,12 +13,14 @@ void hr_menu()
     {
         printf("**********欢迎使用HR人力资源管理系统**********\n");
         printf("********************************************\n");
-        printf("**********1.考勤数据查询      ***************\n");
-        printf("**********2.假期额度查询      ***************\n");
+        printf("**********1.考勤数据打印      ***************\n");
+        printf("**********2.假期额度打印      ***************\n");
         printf("**********3.个人密码维护      ***************\n");
-        printf("**********4.考勤对接薪酬      ***************\n");
-        printf("**********5.薪酬发放系统      ***************\n");
-        printf("**********6.退出             ***************\n");
+        printf("**********4.员工薪酬打印      ***************\n");
+        printf("**********5.考勤数据查询      ***************\n");
+        printf("**********6.假期额度查询      ***************\n");
+        printf("**********7.员工薪酬查询      ***************\n");
+        printf("**********8.退出             ***************\n");
         printf("********************************************\n");
         int choose;
         printf("请选择您要做的操作：\n");
@@ -26,21 +28,26 @@ void hr_menu()
         switch (choose)
         {
         case 1:
-
+            //       query_attendance(employeeHead);
             break;
         case 2:
-
+            //        query_leave_quota(employeeHead);
             break;
         case 3:
             modify_password();
             break;
         case 4:
-
+            //          attendance_to_salary(employeeHead);
             break;
         case 5:
 
             break;
+        case 6:
 
+            break;
+        case 7:
+
+            break;
         default:
             printf("退出成功");
             i = 0;
@@ -50,7 +57,7 @@ void hr_menu()
 }
 void query_attendance(Employee *employeeHead)
 {
-    printf("===== 考勤数据查询 =====\n");
+    printf("===== 考勤数据打印 =====\n");
     FILE *fp = fopen("Attendance_data.csv", "w");
     if (fp == NULL)
     {
@@ -102,11 +109,11 @@ void query_attendance(Employee *employeeHead)
     fclose(fp);
     printf("\n考勤数据已导出到 Attendance_data.csv\n");
 
-} // 考勤数据查询
+} // 考勤数据打印
 
 void query_leave_quota(Employee *employeeHead)
 {
-    printf("===== 假期额度数据查询 =====\n");
+    printf("===== 假期额度数据打印 =====\n");
     FILE *fp = fopen("Holiday_quota.csv", "w");
     if (fp == NULL)
     {
@@ -128,20 +135,21 @@ void query_leave_quota(Employee *employeeHead)
         point = point->next;
     }
     fclose(fp);
-} // 假期额度查询
+    printf("\n假期额度数据已导出到 Holiday_quota.csv\n");
+} // 假期额度打印
 
 void attendance_to_salary(Employee *employeeHead)
 {
-    printf("===== 工资数据查询 =====\n");
-    printf("员工ID   员工姓名   员工工资");
+    printf("===== 工资数据打印 =====\n");
+    printf("员工ID   员工姓名   员工工资\n");
     Employee *employeenode = employeeHead->next;
     FILE *fp = fopen("salary.csv", "w");
     if (fp == NULL)
     {
-        perror("打开CSV文件失败");
+        perror("打开CSV文件失败\n");
         return;
     }
-    fprintf(fp, "%10s %10s %10s", "员工ID", "员工姓名", "员工工资");
+    fprintf(fp, "%s %s %s\n", "员工ID", "员工姓名", "员工工资");
     while (employeenode != NULL)
     {
         int data[13] = {0};
@@ -167,7 +175,7 @@ void attendance_to_salary(Employee *employeeHead)
             }
             clocknode = clocknode->next;
         }
-        for (int i = 0; i < 12; i++)
+        for (int i = 1; i < 13; i++)
         {
             if (data[i] >= 27)
             {
@@ -175,19 +183,204 @@ void attendance_to_salary(Employee *employeeHead)
             }
             else if (data[i] <= 20)
             {
-                clockpunish += (data[i] - 20);
+                clockpunish += (20 - data[i]);
             }
         }
         employeenode->salary = 5000 + prize - 100 * holidaypunish - 100 * clockpunish;
-        printf("%10d %10s %10d", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
+        printf("%10d %10s %10d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
         // 将工资信息存入到表中
-        fprintf(fp, "%10d %10s %10d", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
+        fprintf(fp, "%d %s %d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
+        employeenode = employeenode->next;
     }
     fclose(fp);
+    printf("\n薪酬数据已导出到 salary.csv\n");
 
 } // 考勤对接薪酬
 
-void salary_payment()
+// 考勤数据查询 - 支持按员工ID 或 员工姓名查询
+void search_attendance(Employee *employeeHead)
 {
-    
-} // 薪酬发放系统
+    int choice;
+    printf("===== 考勤数据查询 =====\n");
+    printf("1. 按员工ID查询\n");
+    printf("2. 按员工姓名查询\n");
+    printf("请选择查询方式：");
+    scanf("%d", &choice);
+    getchar(); // 吸收回车，避免读取姓名出错
+
+    Employee *point = employeeHead->next;
+    int found = 0; // 标记是否找到员工
+
+    if (choice == 1)
+    {
+        int searchID;
+        printf("请输入要查询的员工ID：");
+        scanf("%d", &searchID);
+
+        // 按ID遍历查找
+        while (point != NULL)
+        {
+            if (point->employeeID == searchID)
+            {
+                found = 1;
+                break;
+            }
+            point = point->next;
+        }
+    }
+    else if (choice == 2)
+    {
+        char searchName[50];
+        printf("请输入要查询的员工姓名：");
+        scanf("%s", searchName);
+
+        // 按姓名遍历查找
+        while (point != NULL)
+        {
+            if (strcmp(point->employeeName, searchName) == 0)
+            {
+                found = 1;
+                break;
+            }
+            point = point->next;
+        }
+    }
+    else
+    {
+        printf("输入错误！\n");
+        return;
+    }
+    if (!found)
+    {
+        printf("未查询到该员工信息！\n");
+        return;
+    }
+
+    // 打印员工考勤汇总表头
+    printf("\n===== 【%s - ID:%d】考勤汇总信息 =====\n", point->employeeName, point->employeeID);
+    printf("%-8s\t%-10s\t%-10s\t%-20s\t%-20s\n",
+           "员工ID", "员工姓名", "总天数", "早上未打卡", "下午未打卡");
+
+    ClockNoting *clockValues = point->clockNotingData;
+    char morningAbsentDates[1000] = "";
+    char afternoonAbsentDates[1000] = "";
+    char totalDate[50] = "";
+    int lastdate = 0;
+
+    // 遍历考勤记录，统计未打卡日期
+    while (clockValues != NULL)
+    {
+        sprintf(totalDate, "%d-%02d-%02d",
+                clockValues->clockDate.year,
+                clockValues->clockDate.month,
+                clockValues->clockDate.day);
+
+        // 早上未打卡
+        if (clockValues->isAbsent == 0 && clockValues->clockInTime.isClocking == 0)
+        {
+            if (strlen(morningAbsentDates) > 0)
+                strcat(morningAbsentDates, ";");
+            strcat(morningAbsentDates, totalDate);
+        }
+
+        // 下午未打卡
+        if (clockValues->isAbsent == 0 && clockValues->clockOutTime.isClocking == 0)
+        {
+            if (strlen(afternoonAbsentDates) > 0)
+                strcat(afternoonAbsentDates, ";");
+            strcat(afternoonAbsentDates, totalDate);
+        }
+
+        lastdate = clockValues->numberOfDays;
+        clockValues = clockValues->next;
+    }
+
+    // 无记录时显示“无”
+    const char *morningStr = strlen(morningAbsentDates) == 0 ? "无" : morningAbsentDates;
+    const char *afternoonStr = strlen(afternoonAbsentDates) == 0 ? "无" : afternoonAbsentDates;
+
+    // 打印查询结果
+    printf("%-8d\t%-10s\t%-10d\t%-20s\t%-20s\n",
+           point->employeeID,
+           point->employeeName,
+           lastdate,
+           morningStr,
+           afternoonStr);
+} // 考勤数据查询
+void query_leave_quota_search(Employee *employeeHead)
+{
+    int choice;
+    printf("===== 假期额度查询 =====\n");
+    printf("1. 按员工ID查询\n");
+    printf("2. 按员工姓名查询\n");
+    printf("请选择查询方式：");
+    scanf("%d", &choice);
+    getchar(); // 吸收回车，防止读取字符串出错
+
+    int searchID = 0;
+    char searchName[50] = "";
+    Employee *point = employeeHead->next;
+    int found = 0;
+
+    // 选择查询条件
+    if (choice == 1)
+    {
+        printf("请输入要查询的员工ID：");
+        scanf("%d", &searchID);
+    }
+    else if (choice == 2)
+    {
+        printf("请输入要查询的员工姓名：");
+        scanf("%s", searchName);
+    }
+    else
+    {
+        printf("输入错误！\n");
+        return;
+    }
+
+    // 遍历查找员工
+    while (point != NULL)
+    {
+        // 匹配ID 或 匹配姓名
+        int match = 0;
+        if (choice == 1 && point->employeeID == searchID)
+            match = 1;
+        if (choice == 2 && strcmp(point->employeeName, searchName) == 0)
+            match = 1;
+
+        if (match)
+        {
+            found = 1;
+            printf("\n===== 员工【%s - ID:%d】假期额度 =====\n", point->employeeName, point->employeeID);
+            printf("%-10s\t%-10s\t%-12s\t%-12s\t%-12s\n",
+                   "假期类型ID", "总共额度", "已使用额度", "剩余额度", "员工姓名");
+
+            // 遍历该员工所有假期额度
+            EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData;
+            while (HolidayQuota != NULL)
+            {
+                printf("%-10d\t%-12d\t%-12d\t%-12d\t%-10s\n",
+                       HolidayQuota->holidayTypeID,
+                       HolidayQuota->totalQuota,
+                       HolidayQuota->usedQuota,
+                       HolidayQuota->remainingQuota,
+                       point->employeeName);
+                HolidayQuota = HolidayQuota->next;
+            }
+            break;
+        }
+        point = point->next;
+    }
+
+    if (!found)
+    {
+        printf("未查询到该员工的假期额度信息！\n");
+    }
+} // 假期额度查询
+void query_salary(Employee *employeeHead)
+{
+    printf("===== 额度查询 =====\n");
+    Employee* employeenode = employeeHead->next;
+
+}
