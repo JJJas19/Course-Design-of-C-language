@@ -18,7 +18,9 @@ void department_record()
         printf("1)查看全部打卡信息\n");
         printf("2)按员工ID查询打卡信息\n");
         printf("3)按员工姓名查询打卡信息\n");
-        printf("4)返回上一步\n");
+        printf("4)按天数升序查询\n");
+        printf("5)按姓名升序查询\n");
+        printf("6)返回上一步\n");
         printf("========================================================\n");
         int operation;
         if (scanf("%d", &operation) != 1)
@@ -44,6 +46,14 @@ void department_record()
             query_by_emp_name(head); // 按姓名查询
             break;
         case 4:
+            clear_screen();
+            sort_by_day_asc(head); //  天数升序
+            break;
+        case 5:
+            clear_screen();
+            sort_by_name_asc(head); //  姓名升序
+            break;
+        case 6:
             clear_screen();
             free_check_in_record(head); // 释放链表
             return;

@@ -10,7 +10,7 @@ void query_by_emp_name(CheckInRecord *head)
     scanf("%s", emp_name);
     fflush(stdin);
 
-    printf("\n查询结果：\n");
+    printf("\n查询结果:\n");
     printf("员工ID,姓名,部门,打卡时间,打卡状态\n");
     printf("========================================================\n");
 
@@ -35,7 +35,7 @@ void query_by_emp_name(CheckInRecord *head)
 
     if (!has_data)
     {
-        printf("未查询到姓名包含【%s】的打卡记录！\n", emp_name);
+        printf("未查询到姓名包含【%s】的打卡记录!\n", emp_name);
     }
 
     printf("========================================================\n");

@@ -10,7 +10,8 @@ void query_department()
         printf("请选择操作：\n");
         printf("1)查询部门人员信息\n");
         printf("2)查询部门打卡情况\n");
-        printf("3)返回上一步\n");
+        printf("3)查询部门请假情况\n");
+        printf("4)返回上一步\n");
         printf("========================================================\n");
         int operation;
         scanf("%d", &operation);
@@ -25,6 +26,10 @@ void query_department()
             department_record();
             break;
         case 3:
+            clear_screen();
+            // department_vaction();
+            break;
+        case 4:
             clear_screen();
             return;
             break;
