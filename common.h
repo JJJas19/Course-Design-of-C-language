@@ -11,6 +11,7 @@ typedef struct
     int isClocking;
     int hour;
     int minute;
+    int second;
 } Time;
 
 // 日期结构体
@@ -25,7 +26,6 @@ typedef struct
 // 打卡类型
 typedef struct ClockNoting
 {
-    int numberOfDays;
     int isAbsent;
     Date clockDate;
     Time clockInTime;
@@ -79,6 +79,7 @@ typedef struct Employee
     int employeeID;
     int departmentID;
     int salary;
+    int numberOfDays;
     Vacation* vacation;
     struct Employee *next;
     ClockNoting *clockNotingData;
