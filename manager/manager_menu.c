@@ -13,7 +13,8 @@ void manager_menu()
         printf("1)请假审批\n");
         printf("2)请假申请\n");
         printf("3)查询部门信息\n");
-        printf("4)保存并退出\n");
+        printf("4)更改账号密码\n");
+        printf("5)保存并退出\n");
 
         int operation;
         scanf("%d", &operation);
@@ -35,6 +36,10 @@ void manager_menu()
             query_department();
             break;
         case 4:
+            clear_screen();
+
+            break;
+        case 5:
             clear_screen();
             return;
             break;

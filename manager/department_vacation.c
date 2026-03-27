@@ -2,7 +2,7 @@
 
 LeaveApplication *load_leave_records()
 {
-    FILE *fp = fopen("./data/leave_applications.csv", "r");
+    FILE *fp = fopen("../data/leave_applications.csv", "r");
     if (fp == NULL)
     {
         printf("打开请假文件失败！\n");

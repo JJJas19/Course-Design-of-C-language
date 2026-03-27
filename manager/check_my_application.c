@@ -1,7 +1,7 @@
 #include "manager.h"
 void check_my_application()
 {
-    FILE *fp = fopen("./data/leave_applications.csv", "r");
+    FILE *fp = fopen("../data/leave_applications.csv", "r");
     if (fp == NULL)
     {
         printf("打开文件失败！无法查询！\n");
