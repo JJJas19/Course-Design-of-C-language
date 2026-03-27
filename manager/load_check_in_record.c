@@ -2,7 +2,7 @@
 
 CheckInRecord *load_check_in_record()
 {
-    FILE *fp = fopen("check_in_record.csv", "r");
+    FILE *fp = fopen("./data/check_in_record.csv", "r");
     if (fp == NULL)
     {
         printf("打开打卡记录文件失败！\n");

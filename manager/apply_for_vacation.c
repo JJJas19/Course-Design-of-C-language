@@ -1,8 +1,8 @@
-#include "manager.h"
+#include "../head/manager.h"
 
 void apply_for_vacation()
 {
-    FILE *fp = fopen("leave_applications.csv", "a");
+    FILE *fp = fopen("./data/leave_applications.csv", "a");
     if (fp == NULL)
     {
         printf("打开文件失败！无法进行申请\n");
