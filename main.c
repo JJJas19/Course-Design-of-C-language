@@ -1,5 +1,7 @@
-#include "common.h"
-#include "manager.h"
+#include "head\common.h"
+#include "head\manager.h"
+#include "head\administrator.h"
+#include "head\employee.h"
 
 int main()
 {
