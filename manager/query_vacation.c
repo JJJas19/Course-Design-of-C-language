@@ -379,6 +379,41 @@ void vacation_by_time_asc(LeaveApplication *headall)
     }
 }
 
+void count_department_leave(LeaveApplication *head)
+{
+    int personal_leave = 0, sick_leave = 0, annual_leave = 0;
+    int total_days = 0; // 总请假天数
+    LeaveApplication *cur = head->next;
+
+    while (cur != NULL)
+    {
+        if (strcmp(cur->department, DEPARTMENT) == 0 && cur->status == 2)
+        {
+            total_days += cur->leave_days; // 累加总天数
+            if (cur->leave_type == 1)
+                personal_leave += cur->leave_days; // 事假天数
+            else if (cur->leave_type == 2)
+                sick_leave += cur->leave_days; // 病假天数
+            else if (cur->leave_type == 3)
+                annual_leave += cur->leave_days; // 年假天数
+        }
+        cur = cur->next;
+    }
+
+    printf("========================================================\n");
+    printf("              【%s】请假情况统计（审批通过）\n", DEPARTMENT);
+    printf("========================================================\n");
+    printf("  事假：%d 天\n", personal_leave);
+    printf("  病假：%d 天\n", sick_leave);
+    printf("  年假：%d 天\n", annual_leave);
+    printf("--------------------------------------------------------\n");
+    printf("  总计请假：%d 天\n", total_days);
+    printf("========================================================\n");
+    printf("输入任意字符返回...");
+    fflush(stdin);
+    getchar();
+}
+
 void query_vacation()
 {
     LeaveApplication *head = load_vacation_record();
@@ -399,7 +434,8 @@ void query_vacation()
         printf("3)按员工姓名查询请假信息\n");
         printf("4)按请假次数升序查询\n");
         printf("5)按请假天数升序查询\n");
-        printf("6)返回上一步\n");
+        printf("6)查看部门请假数据\n");
+        printf("7)返回上一步\n");
         printf("========================================================\n");
         int operation;
         if (scanf("%d", &operation) != 1)
@@ -433,6 +469,10 @@ void query_vacation()
             vacation_by_day_asc(head); //  次数升序
             break;
         case 6:
+            clear_screen();
+            count_department_leave(head); //  全部数据
+            break;
+        case 7:
             clear_screen();
             free_vacation(head);
             return;
