@@ -37,7 +37,7 @@ void manager_menu()
             break;
         case 4:
             clear_screen();
-
+            modify_password();
             break;
         case 5:
             clear_screen();
