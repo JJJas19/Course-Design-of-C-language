@@ -391,11 +391,17 @@ void FindClockNotingByMonth(Employee* employee) {
                 printf("请重新输入\n");
                 continue;
             }
-            while (employee->clockNotingData != NULL) {
-                if (employee->clockNotingData->clockDate.dateID/100==year*100+month) {
-                    ClockNotingByDate(employee->clockNotingData);
+            int isFound = 0;
+            ClockNoting* q = employee->clockNotingData;
+            while (q != NULL) {
+                if (q->clockDate.dateID/100==year*100+month) {
+                    ClockNotingByDate(q);
+                    isFound = 1;
                 }
-                employee->clockNotingData = employee->clockNotingData->next;
+                q = q->next;
+            }
+            if (isFound == 0) {
+                printf("未找到当月打卡记录!\n");
             }
         }
         else {
@@ -577,15 +583,16 @@ void UnpunctuatedDays(ClockNoting* clockNoting) {
     int earlyCount = 0;
     while (clockNoting != NULL) {
         if (clockNoting->clockInTime.isClocking == 1) {
-            if (clockNoting->clockInTime.hour < 8) {
+            if (clockNoting->clockInTime.hour > 8) {
                 lateCount++;
             }
         }
         if (clockNoting->clockOutTime.isClocking == 1) {
-            if (clockNoting->clockOutTime.hour > 18) {
+            if (clockNoting->clockOutTime.hour < 18) {
                 earlyCount++;
             }
         }
+        clockNoting = clockNoting->next;
     }
     printf("您共计迟到%d次\n", lateCount);
     printf("您共计早退%d次\n", earlyCount);
