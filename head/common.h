@@ -67,6 +67,7 @@ typedef struct User
 {
     int id;
     char password[MAX_NAME_LENGTH];
+    char account[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
     RoleType roleType;
     struct User *next;

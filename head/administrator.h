@@ -15,6 +15,8 @@ int modifyDepartmentNode(int index);
 void freeDepartmentNode();
 void initEmployeeList();
 int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName);
+int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType);
+int addHolidayNode(int holidayID, int maximumTime, int minimumTime, const char* name);
 int setEmployeeDepartment(int employeeID, int departmentID);
 int setHolidayTime(int holidayID, int minimumTime, int maximumTime);
 void freeNode();

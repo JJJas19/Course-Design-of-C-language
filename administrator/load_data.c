@@ -26,7 +26,7 @@ void loadDepartmentData()
     }
 
     fclose(file);
-    system("cls");
+    //system("cls");
     printf("部门数据加载成功！\n");
 }
 
@@ -59,13 +59,13 @@ void loadEmployeeData()
     }
 
     fclose(file);
-    system("cls");
+    //system("cls");
     printf("员工数据加载成功！\n");
 }
 
 void loadUserData()
 {
-    FILE *file = fopen("../data/all_user.csv", "r");
+    FILE *file = fopen("../data/userdata.csv", "r");
     if (file == NULL) {
         printf("无法打开用户数据文件！\n");
         return;
@@ -74,6 +74,8 @@ void loadUserData()
     int id;
     char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
+    char role[MAX_NAME_LENGTH];
+    char account[MAX_NAME_LENGTH];
     int roleType;
 
     char buffer[1024];
@@ -81,19 +83,54 @@ void loadUserData()
 
     while (fgets(buffer, sizeof(buffer), file))
     {
-        if (sscanf(buffer, "%d,%[^,\n],%[^,\n],%d",
-            &id,
-            name,
+        if (sscanf(buffer, "%[^,\n],%[^,\n],%[^,\n],%[^,\n],%d,%d",
+            role,
+            account,
             password,
-            &roleType) == 4)
+            name,
+            &id,
+            &roleType) == 6)
         {
-            addUserNode(id, password, name, (RoleType)roleType);
+            addUserNode(id, password, name, account, (RoleType)roleType);
         }
     }
 
     fclose(file);
-    system("cls");
+    //system("cls");
     printf("用户数据加载成功！\n");
+}
+
+void loadHolidayData()
+{
+    FILE *file = fopen("../data/holidaydata.csv", "r");
+    if (file == NULL) {
+        printf("无法打开假期数据文件！\n");
+        return;
+    }
+
+    int holidayID;
+    char holidayName[MAX_NAME_LENGTH];
+    int minimumTime;
+    int maximumTime;
+
+    char buffer[1024];
+    fgets(buffer, sizeof(buffer), file);
+
+    while (fgets(buffer, sizeof(buffer), file))
+    {
+        if (sscanf(buffer, "%d,%[^,\n],%d,%d",
+            &holidayID,
+            holidayName,
+            &minimumTime,
+            &maximumTime) == 4)
+        {
+            addHolidayNode(holidayID, minimumTime, maximumTime, holidayName);
+        }
+    }
+
+    fclose(file);
+    //system("cls");
+    printf("假期数据加载成功！\n");
 }
 
 void loadData()
@@ -101,4 +138,8 @@ void loadData()
     initlist();
     loadDepartmentData();
     loadEmployeeData();
+    loadUserData();
+    loadHolidayData();
+    system("cls");
+    printf("数据加载成功！\n");
 }
