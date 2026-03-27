@@ -2,9 +2,9 @@
 #include <windows.h>
 #include <string.h>
 #include <stdlib.h>
-#include "menu.h"
-#include "common.h"
-#include "administrator.h"
+#include "../head/menu.h"
+#include "../head/common.h"
+#include "../head/hr_specialist.h"
 
 void hr_menu()
 {
@@ -58,7 +58,7 @@ void hr_menu()
 void query_attendance(Employee *employeeHead)
 {
     printf("===== 考勤数据打印 =====\n");
-    FILE *fp = fopen("Attendance_data.csv", "w");
+    FILE *fp = fopen("../data/Attendance_data.csv", "w");
     if (fp == NULL)
     {
         perror("打开CSV文件失败");
@@ -109,12 +109,12 @@ void query_attendance(Employee *employeeHead)
     fclose(fp);
     printf("\n考勤数据已导出到 Attendance_data.csv\n");
 
-} // 考勤数据打印
+} // 考勤数据打印，打印在Attendance_data.csv
 
 void query_leave_quota(Employee *employeeHead)
 {
     printf("===== 假期额度数据打印 =====\n");
-    FILE *fp = fopen("Holiday_quota.csv", "w");
+    FILE *fp = fopen("../data/Holiday_quota.csv", "w");
     if (fp == NULL)
     {
         perror("打开CSV文件失败");
@@ -136,14 +136,14 @@ void query_leave_quota(Employee *employeeHead)
     }
     fclose(fp);
     printf("\n假期额度数据已导出到 Holiday_quota.csv\n");
-} // 假期额度打印
+} // 假期额度打印，打印在Holiday_quota.csv中
 
 void attendance_to_salary(Employee *employeeHead)
 {
     printf("===== 工资数据打印 =====\n");
     printf("员工ID   员工姓名   员工工资\n");
     Employee *employeenode = employeeHead->next;
-    FILE *fp = fopen("salary.csv", "w");
+    FILE *fp = fopen("../data/salary.csv", "w");
     if (fp == NULL)
     {
         perror("打开CSV文件失败");
@@ -195,7 +195,7 @@ void attendance_to_salary(Employee *employeeHead)
     fclose(fp);
     printf("\n薪酬数据已导出到 salary.csv\n");
 
-} // 考勤对接薪酬
+} // 考勤对接薪酬，打印在salary.csv中
 
 // 考勤数据查询 - 支持按员工ID 或 员工姓名查询
 void search_attendance(Employee *employeeHead)
