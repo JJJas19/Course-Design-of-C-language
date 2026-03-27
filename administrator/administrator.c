@@ -559,3 +559,305 @@ void freeNode()
     freeHolidayNode();
     freeUserNode();
 }
+
+void initlist()
+{
+    initDepartmentList();
+    initEmployeeList();
+    initHolidayList();
+    initUserList();
+}
+
+void displayDepartmentList()
+{
+    Department *point = departmentHead->next;
+    printf("部门列表:\n");
+    while (point != NULL) {
+        printf("部门ID: %d, 部门名称: %s\n", point->departmentID, point->name);
+        point = point->next;
+    }
+}
+
+void addDepartment()
+{
+    int departmentID;
+    char departmentName[MAX_NAME_LENGTH];
+    printf("请输入部门ID: ");
+    scanf("%d", &departmentID);
+    printf("请输入部门名称: ");
+    scanf("%s", departmentName);
+    addDepartmentNode(departmentID, departmentName); 
+}
+
+void removeDepartment()
+{
+    int index;
+    printf("请输入要删除的部门编号: ");
+    scanf("%d", &index);
+    removeDepartmentNode(index);
+}
+
+void modifyDepartment()
+{
+    int index;
+    printf("请输入要修改的部门编号: ");
+    scanf("%d", &index);
+    modifyDepartmentNode(index);
+}
+
+void displayEmployeeList()
+{
+    Employee *point = employeeHead->next;
+    printf("员工列表:\n");
+    while (point != NULL) {
+        printf("员工ID: %d, 员工姓名: %s, 部门ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+        point = point->next;
+    }
+}
+
+void addEmployee()
+{
+    int employeeID;
+    int departmentID;
+    char employeeName[MAX_NAME_LENGTH];
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+    printf("请输入部门ID: ");
+    scanf("%d", &departmentID);
+    printf("请输入员工姓名: ");
+    scanf("%s", employeeName);
+    addEmployeeNode(employeeID, departmentID, employeeName); 
+}
+
+void removeEmployee()
+{
+    int index;
+    printf("请输入要删除的员工编号: ");
+    scanf("%d", &index);
+    removeEmployeeNode(index);
+}
+
+void modifyEmployee()
+{
+    int index;
+    printf("请输入要修改的员工编号: ");
+    scanf("%d", &index);
+    modifyEmployeeNode(index);
+}
+
+void displayHolidayList()
+{
+    HolidayType *point = holidayHead->next;
+    printf("假期列表:\n");
+    while (point != NULL) {
+        printf("假期ID: %d, 假期名称: %s, 最短时间: %d, 最长时间: %d\n", point->holidayID, point->name, point->minimumTime, point->maximumTime);
+        point = point->next;
+    }
+}
+
+void addHoliday()
+{
+    int holidayID;
+    int minimumTime;
+    int maximumTime;
+    char name[MAX_NAME_LENGTH];
+    printf("请输入假期ID: ");
+    scanf("%d", &holidayID);
+    printf("请输入假期名称: ");
+    scanf("%s", name);
+    printf("请输入假期最短时间: ");
+    scanf("%d", &minimumTime);
+    printf("请输入假期最长时间: ");
+    scanf("%d", &maximumTime);
+    addHolidayNode(holidayID, maximumTime, minimumTime, name); 
+}
+
+void removeHoliday()
+{
+    int index;
+    printf("请输入要删除的假期编号: ");
+    scanf("%d", &index);
+    removeHolidayNode(index);
+}
+
+void modifyHoliday()
+{
+    int index;
+    printf("请输入要修改的假期编号: ");
+    scanf("%d", &index);
+    modifyHolidayNode(index);
+}
+
+void displayUserList()
+{
+    User *point = userHead->next;
+    printf("用户列表:\n");
+    while (point != NULL) {
+        printf("用户ID: %d, 用户名: %s, 角色: %d\n", point->id, point->name, point->roleType);
+        point = point->next;
+    }
+}
+
+void addUser()
+{
+    int id;
+    char password[MAX_NAME_LENGTH];
+    char name[MAX_NAME_LENGTH];
+    int roleType;
+    printf("请输入用户ID: ");
+    scanf("%d", &id);
+    printf("请输入用户名: ");
+    scanf("%s", name);
+    printf("请输入密码: ");
+    scanf("%s", password);
+    printf("请输入角色编号(1-4): ");
+    scanf("%d", &roleType);
+    if (roleType < 1 || roleType > 4) {
+        printf("输入编号非法\n");
+        return;
+    }
+    addUserNode(id, password, name, (RoleType)roleType); 
+}
+
+void removeUser()
+{
+    int index;
+    printf("请输入要删除的用户编号: ");
+    scanf("%d", &index);
+    removeUserNode(index);
+}
+
+void modifyUser()
+{
+    int index;
+    printf("请输入要修改的用户编号: ");
+    scanf("%d", &index);
+    modifyUserNode(index);
+}
+
+int queryEmployeeClockNotingByID()
+{
+    int employeeID;
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+
+    Employee *point = employeeHead->next;
+    while (point != NULL) {
+        if (point->employeeID == employeeID) {
+            printf("员工ID: %d, 员工姓名: %s, 部门ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+            ClockNoting *clockNotingPoint = point->clockNotingData;
+            printf("打卡记录:\n");
+            while (clockNotingPoint != NULL) {
+                printf("打卡日期: %d-%d-%d, 上班时间: %d:%d, 下班时间: %d:%d, 是否缺勤: %s\n",
+                    clockNotingPoint->clockDate.year, clockNotingPoint->clockDate.month, clockNotingPoint->clockDate.day,
+                    clockNotingPoint->clockInTime.hour, clockNotingPoint->clockInTime.minute,
+                    clockNotingPoint->clockOutTime.hour, clockNotingPoint->clockOutTime.minute,
+                    clockNotingPoint->isAbsent ? "是" : "否");
+                clockNotingPoint = clockNotingPoint->next;
+            }
+            return 1;
+        }
+        point = point->next;
+    }
+    printf("未找到该员工\n");
+    return 0;
+}
+
+int queryEmployeeClockNotingByNameandDate()
+{
+    char employeeName[MAX_NAME_LENGTH];
+    Date clockDate;
+    printf("请输入员工姓名: ");
+    scanf("%s", employeeName);
+    printf("请输入打卡日期 (年 月 日): ");
+    scanf("%d %d %d", &clockDate.year, &clockDate.month, &clockDate.day);
+    
+    Employee *point = employeeHead->next;
+    while (point != NULL) {
+        if (strcmp(point->employeeName, employeeName) == 0) {
+            ClockNoting *clockNotingPoint = point->clockNotingData;
+            while (clockNotingPoint != NULL) {
+                if (clockNotingPoint->clockDate.day == clockDate.day && clockNotingPoint->clockDate.month == clockDate.month && clockNotingPoint->clockDate.year == clockDate.year)
+                {
+                    printf("员工ID: %d, 员工姓名: %s, 部门ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+                    printf("打卡日期: %d-%d-%d, 上班时间: %d:%d, 下班时间: %d:%d, 是否缺勤: %s\n",
+                        clockNotingPoint->clockDate.year, clockNotingPoint->clockDate.month, clockNotingPoint->clockDate.day,
+                        clockNotingPoint->clockInTime.hour, clockNotingPoint->clockInTime.minute,
+                        clockNotingPoint->clockOutTime.hour, clockNotingPoint->clockOutTime.minute,
+                        clockNotingPoint->isAbsent ? "是" : "否");
+                    return 1;
+                }
+                clockNotingPoint = clockNotingPoint->next;
+            }
+            printf("未找到该员工在该日期的打卡记录\n");
+            return 0;
+        }
+        point = point->next;
+    }
+    printf("未找到该员工\n");
+    return 0;
+}
+
+void setpasswordMenu()
+{
+    int userID;
+    char newPassword[MAX_NAME_LENGTH];
+    printf("请输入用户ID: ");
+    scanf("%d", &userID);
+    printf("请输入新密码: ");
+    scanf("%s", newPassword);
+    while (strlen(newPassword) > MAX_NAME_LENGTH) {
+        printf("密码过长，请重新输入: ");
+        scanf("%s", newPassword);
+    }
+    
+    User *point = userHead->next;
+    while (point != NULL) {
+        if (point->id == userID) {
+            strcpy(point->password, newPassword);
+            printf("密码修改成功\n");
+            return;
+        }
+        point = point->next;
+    }
+    printf("未找到该用户\n");
+}
+
+void setHolidayTimeMenu()
+{
+    int holidayID;
+    int minimumTime;
+    int maximumTime;
+    printf("请输入假期ID: ");
+    scanf("%d", &holidayID);
+    printf("请输入假期最短时间: ");
+    scanf("%d", &minimumTime);
+    printf("请输入假期最长时间: ");
+    scanf("%d", &maximumTime);
+    setHolidayTime(holidayID, minimumTime, maximumTime);
+}
+
+void setEmployeeHolidayQuotaMenu()
+{
+    int employeeID;
+    int holidayTypeID;
+    int totalQuota;
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+    printf("请输入假期类型ID: ");
+    scanf("%d", &holidayTypeID);
+    printf("请输入假期总额度: ");
+    scanf("%d", &totalQuota);
+    setEmployeeHolidayQuota(employeeID, holidayTypeID, totalQuota);
+}
+
+void setEmployeeDepartmentMenu()
+{
+    int employeeID;
+    int departmentID;
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+    printf("请输入部门ID: ");
+    scanf("%d", &departmentID);
+    setEmployeeDepartment(employeeID, departmentID);
+}

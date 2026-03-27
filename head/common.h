@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <windows.h>
-
 #define MAX_NAME_LENGTH 1000
 
 // 时间结构体
@@ -12,6 +11,7 @@ typedef struct
     int isClocking;
     int hour;
     int minute;
+    int second;
 } Time;
 
 // 日期结构体
@@ -20,18 +20,27 @@ typedef struct
     int year;
     int month;
     int day;
+    int dateID;
 } Date;
 
 // 打卡类型
 typedef struct ClockNoting
 {
-    int numberOfDays;
     int isAbsent;
     Date clockDate;
     Time clockInTime;
     Time clockOutTime;
     struct ClockNoting *next;
 } ClockNoting;
+
+//定义Vacation结构体，用来存储员工的请假信息
+typedef struct Vacation {
+    Date start;
+    Date end;
+    int length;
+    char holidayType[20];
+    struct Vacation* next;
+}Vacation;
 
 // 假期配额类型
 typedef struct EmployeeHolidayQuota
@@ -69,7 +78,9 @@ typedef struct Employee
     char employeeName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
-    char secretCode[MAX_NAME_LENGTH];
+    int salary;
+    int numberOfDays;
+    Vacation* vacation;
     struct Employee *next;
     ClockNoting *clockNotingData;
     EmployeeHolidayQuota *holidayQuotaData;
