@@ -2,13 +2,19 @@
 #define ADMINISTRATOR_H
 
 #include "common.h"
+
+extern Department *departmentHead;
+extern Employee *employeeHead;
+extern HolidayType *holidayHead;
+extern User *userHead;
+
 void initDepartmentList();
 int addDepartmentNode(int departmentID, const char* departmentName);
 int removeDepartmentNode(int index);
 int modifyDepartmentNode(int index);
 void freeDepartmentNode();
 void initEmployeeList();
-int addEmployeeNode(int employeeID, int departmentID, const char* employeeName);
+int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName);
 int setEmployeeDepartment(int employeeID, int departmentID);
 int setHolidayTime(int holidayID, int minimumTime, int maximumTime);
 void freeNode();
@@ -38,5 +44,9 @@ void setpasswordMenu();
 void setHolidayTimeMenu();
 void setEmployeeDepartmentMenu();
 void setEmployeeHolidayQuotaMenu();
+
+void loadDepartmentData();
+void loadEmployeeData();
+void loadData();
 
 #endif 
