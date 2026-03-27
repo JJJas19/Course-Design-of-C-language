@@ -8,7 +8,7 @@ void menu();
 int check(char account[], char password[]);
 
 // 角色登录跳转函数
-void login(int role);
+void login(int role,Employee* employeehead);
 
 // 修改密码函数
 void modify_password();

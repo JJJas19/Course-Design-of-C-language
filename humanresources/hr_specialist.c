@@ -6,7 +6,7 @@
 #include "../head/common.h"
 #include "../head/hr_specialist.h"
 
-void hr_menu()
+void hr_menu(Employee* employeeHead)
 {
     int i = 1;
     while (i)
@@ -28,25 +28,25 @@ void hr_menu()
         switch (choose)
         {
         case 1:
-            //       query_attendance(employeeHead);
+            query_attendance(employeeHead);
             break;
         case 2:
-            //        query_leave_quota(employeeHead);
+            query_leave_quota(employeeHead);
             break;
         case 3:
             modify_password();
             break;
         case 4:
-            //          attendance_to_salary(employeeHead);
+            attendance_to_salary(employeeHead);
             break;
         case 5:
-            // search_attendance(employeeHead);
+            search_attendance(employeeHead);
             break;
         case 6:
-            // query_leave_quota_search(employeeHead);
+            query_leave_quota_search(employeeHead);
             break;
         case 7:
-            // query_salary(employeeHead);
+            query_salary(employeeHead);
             break;
         default:
             printf("退出成功");
