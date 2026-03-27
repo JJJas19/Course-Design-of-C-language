@@ -1,11 +1,5 @@
-#include <stdio.h>
-#include <windows.h>
-
-#include "head\common.h"
-#include "head\manager.h"
-#include "head\administrator.h"
-#include "head\employee.h"
-
+#include "common.h"
+#include "manager.h"
 
 int main()
 {
