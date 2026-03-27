@@ -1,4 +1,4 @@
-#include "clear_screen.h"
+#include "../head/clear_screen.h"
 
 void clear_screen()
 {

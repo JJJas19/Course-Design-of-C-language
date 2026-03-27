@@ -3,8 +3,8 @@
 
 int APPexamine()
 {
-    FILE *fp = fopen("./data/leave_applications.csv", "r");
-    FILE *fp_temp = fopen("./data/temp.csv", "w");
+    FILE *fp = fopen("../data/leave_applications.csv", "r");
+    FILE *fp_temp = fopen("../data/temp.csv", "w");
 
     // 文件打开校验
     if (fp == NULL)
@@ -130,8 +130,8 @@ int APPexamine()
     fclose(fp);
     fclose(fp_temp);
 
-    remove("./data/leave_applications.csv");
-    rename("./data/temp.csv", "./data/leave_applications.csv");
+    remove("../data/leave_applications.csv");
+    rename("../data/temp.csv", "../data/leave_applications.csv");
 
     printf("审批完成！数据已保存\n");
     return 1;

@@ -1,7 +1,7 @@
 #include "manager.h"
 LeaveApplication *load_vacation_record()
 {
-    FILE *fp = fopen("./data/leave_applications.csv", "r");
+    FILE *fp = fopen("../data/leave_applications.csv", "r");
     if (fp == NULL)
     {
         printf("打开打卡记录文件失败！\n");
