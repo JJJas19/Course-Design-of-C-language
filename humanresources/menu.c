@@ -8,56 +8,67 @@
 
 void menu()
 {
-    setlocale(LC_ALL, "zh_CN.UTF-8");  
+    // Windows 中文不乱码（最稳定）
+    system("chcp 65001");
+    setlocale(LC_ALL, "");
+
     printf("**********欢迎使用考勤管理系统**********\n");
     printf("**************************************\n");
     printf("**********1.登录             **********\n");
     printf("**********2.退出             **********\n");
     printf("***************************************\n");
+
     int log;
     scanf("%d", &log);
+
     if (log == 1)
     {
-        int role;
+        int role = 0;
+        int login_success = 0;  // 标记登录是否成功
+
+        // 3次登录机会
         for (int i = 0; i < 3; i++)
         {
             printf("请输入账号与密码（剩余%d次机会）\n", 3 - i);
-            char account[21]; // 存储账号
+            char account[21];
             printf("账号：");
-            scanf("%s", account); // 输入账号
+            scanf("%s", account);
 
-            char password[21]; // 存储密码
+            char password[21];
             printf("密码：");
-            scanf("%s", password); // 输入密码
+            scanf("%s", password);
 
+            // 密码必须6位
             int password_len = strlen(password);
             if (password_len != 6)
             {
                 printf("输入错误！密码长度必须为6个字符，你输入了%d个字符。\n", password_len);
-                if (i < 2)
-                {
-                    printf("剩余登录机会：%d次\n", 2 - i);
-                } // 输入剩余登录机会
                 continue;
-            } // 判断密码数目是否合格
-            role = check(account, password);
+            }
 
+            // 验证账号密码
+            role = check(account, password);
             if (role > 0)
             {
-
                 printf("登录成功！\n");
-                break; // 立即退出for循环
+                login_success = 1;
+                break;
             }
             else
             {
                 printf("账号或密码错误！\n");
-                if (i < 2)
-                {
-                    printf("剩余登录机会：%d次\n", 2 - i);
-                }
             }
         }
-        // login(role);
+
+        // 3次失败直接退出
+        if (!login_success)
+        {
+            printf("3次登录失败，程序自动退出！\n");
+            exit(0);
+        }
+
+        // 进入对应菜单
+        login(role);
     }
     else
     {
@@ -68,38 +79,41 @@ void menu()
 
 int check(char account[], char password[])
 {
-                            
-    FILE *fp = fopen("account and password storage.csv", "r"); // 打开文件只读模式
+    FILE *fp = fopen("account and password storage.csv", "r");
     if (fp == NULL)
     {
         printf("错误：账号密码文件不存在！\n");
         return 0;
-    } // 验证账号密码文件
+    }
+
     char line[100];
-    fgets(line, sizeof(line), fp); // 读取账号密码文件的一行
-    // 不做任何处理，跳过第一行
-    int number = 1; // 判断身份
+    fgets(line, sizeof(line), fp); // 跳过表头
+
+    int number = 1;
     while (fgets(line, sizeof(line), fp) != NULL)
     {
         line[strcspn(line, "\n\r")] = '\0';
-        char *role = strtok(line, ",");         // 字符串分割函数，按，,（中英文都可）分割
-        char *role_account = strtok(NULL, ","); // 当第一个参数是NULL时，从上一次分割的地方开始分割
+        char *role = strtok(line, ",");
+        char *role_account = strtok(NULL, ",");
         char *role_password = strtok(NULL, ",");
+
         if (role_account == NULL || role_password == NULL)
         {
             number++;
             continue;
         }
+
         if (strcmp(role_account, account) == 0 && strcmp(role_password, password) == 0)
         {
             fclose(fp);
             return number;
         }
-        number++; // 是否匹配下一个身份
+        number++;
     }
+
     fclose(fp);
     return 0;
-} // 登录验证函数
+}
 
 void login(int role)
 {
@@ -107,80 +121,74 @@ void login(int role)
     {
         hr_menu();
     }
-} // 登录函数
+}
 
+//修改密码
 void modify_password()
 {
+    printf("===== 修改密码 =====\n");
 
-    FILE *aandp = fopen("account and password storage.csv", "r+");
-    if (aandp == NULL)
-    {
-        printf("错误：账号密码文件不存在！\n");
-        return;
-    }
-    char line[MAX_NAME_LENGTH];
-    fgets(line, sizeof(line), aandp); // 不做任何操作，跳过第一行
-
-    User userlist[4];
-    int i = 0;
-    while (fgets(line, sizeof(line), aandp) != NULL)
-    {
-        line[strcspn(line, "\n\r")] = '\0';
-        char *name = strtok(line, ",");
-        char *name_account = strtok(NULL, ",");
-        char *name_password = strtok(NULL, ",");
-        userlist[i].id = i;
-        strcpy(userlist[i].name, name_account);
-        strcpy(userlist[i].password, name_password);
-        userlist[i].roleType = i;
-        i++;
-    } // 存入数据体
-    fclose(aandp);
-    printf("请输入原本的账号：\n");
-    char account[MAX_NAME_LENGTH], password[MAX_NAME_LENGTH];
-    scanf("%s", account);
-    printf("请输入原本的密码：\n");
-    scanf("%s", password);
     FILE *aandp2 = fopen("account and password storage.csv", "r+");
     if (aandp2 == NULL)
     {
         printf("错误：账号密码文件不存在！\n");
         return;
     }
+
+    char account[MAX_NAME_LENGTH], password[MAX_NAME_LENGTH];
+    printf("请输入原本的账号：");
+    scanf("%s", account);
+    printf("请输入原本的密码：");
+    scanf("%s", password);
+
     char line2[MAX_NAME_LENGTH];
-    long line_start_pos = 0; // 记录当前行的起始偏移量
+    long line_start_pos = 0;
     fgets(line2, sizeof(line2), aandp2);
-    line_start_pos = ftell(aandp2); // 记录表头后第一行的起始位置
+    line_start_pos = ftell(aandp2);//获取文件指针当前的位置
+
+    int found = 0;
+
     while (fgets(line2, sizeof(line2), aandp2) != NULL)
     {
-        long current_line_pos = line_start_pos; // 保存当前行的起始偏移量（用于后续定位修改）
-        line_start_pos = ftell(aandp2);         // 更新下一行的起始偏移量
+        long current_line_pos = line_start_pos;
+        line_start_pos = ftell(aandp2);
         line2[strcspn(line2, "\n\r")] = '\0';
+
         char *name = strtok(line2, ",");
         char *name_account = strtok(NULL, ",");
         char *name_password = strtok(NULL, ",");
+
         if (!name || !name_account || !name_password)
-            continue; // 跳过格式错误的行
+            continue;//若没有则重新读
+
         if (strcmp(name_account, account) == 0 && strcmp(name_password, password) == 0)
         {
-            printf("请输入想要更改的密码：\n");
+            found = 1;//找到了
+            printf("请输入新密码（6位）：");
             char new_password[MAX_NAME_LENGTH];
             scanf("%s", new_password);
+
             if (strlen(new_password) != 6)
             {
-                printf("错误：密码长度必须为6位！\n");
+                printf("密码必须6位！\n");
                 fclose(aandp2);
                 return;
             }
-            long pwd_offset = current_line_pos + strlen(name) + 1 + strlen(name_account) + 1; // 密码字段偏移 = 当前行起始位置 + 角色长度 + 1(逗号) + 账号长度 + 1(逗号)
-            fseek(aandp2, pwd_offset, SEEK_SET);
+
+            long pwd_offset = current_line_pos + strlen(name) + 1 + strlen(name_account) + 1;//pwd_offset= 当前行开始位置+ 角色长度+ 1（逗号）+ 账号长度+ 1（逗号）
+
+            fseek(aandp2, pwd_offset, SEEK_SET);//把文件指针跳到密码开头 
             fputs(new_password, aandp2);
-            fflush(aandp2);
-            printf("密码修改成功！新密码：%s\n", new_password);
+            fflush(aandp2);//存
+            printf("密码修改成功！\n");
             break;
         }
     }
-//     fclose(aandp2); // 关闭文件
-// printf("账号或密码错误，修改失败！\n");
 
-} // 个人密码维护
+    if (!found)
+    {
+        printf("账号或密码错误，修改失败！\n");
+    }
+
+    fclose(aandp2);
+}

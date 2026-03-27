@@ -96,7 +96,7 @@ void query_attendance(Employee *employeeHead)
                 }
                 strcat(afternoonAbsentDates, totalDate);
             }
-            lastdate = clockValues->numberOfDays;
+            lastdate = point->numberOfDays;
             clockValues = clockValues->next;
         }
         const char *morningStr = strlen(morningAbsentDates) == 0 ? "无" : morningAbsentDates;
@@ -286,7 +286,7 @@ void search_attendance(Employee *employeeHead)
             strcat(afternoonAbsentDates, totalDate);
         }
 
-        lastdate = clockValues->numberOfDays;
+        lastdate = point->numberOfDays;
         clockValues = clockValues->next;
     }
     const char *morningStr = strlen(morningAbsentDates) == 0 ? "无" : morningAbsentDates;

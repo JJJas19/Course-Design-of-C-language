@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "administrator.h"
+#include "../head/administrator.h"
 
 Department *departmentHead = NULL;
 void initDepartmentList()
