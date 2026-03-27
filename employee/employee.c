@@ -18,6 +18,7 @@ void ControlEmployee(Employee* employee) {
 		printf("1.打卡\n");
 		printf("2.打卡记录查询\n");
         printf("3.信息统计\n");
+        printf("4.请假\n");
 		int operation;
 		int c;
 		char input[20];
@@ -45,6 +46,9 @@ void ControlEmployee(Employee* employee) {
 		}
         else if (operation == 3) {
             SortInformation(employee);
+        }
+        else if (operation == 4) {
+            ApplyForVacation(employee);
         }
 		else {
 			printf("输入错误，请重新输入！\n");
@@ -699,3 +703,122 @@ bool JudgeDate(int year, int month, int day) {
     }
     return true;
 }
+
+//定义ApplyForVacation函数，用来为员工请假
+void ApplyForVacation(Employee* employee)
+{
+    while (true) {
+        printf("要进行请假吗?\n");
+        printf("1.是\t2.否\n");
+        int c;
+        char input[20];
+        int operation;
+        if ((fgets(input, sizeof(input), stdin)) == NULL) {
+            printf("数据解析失败，请重试!\n");
+            continue;
+        }
+        while (strchr(input, '\n') == NULL) {
+            while ((c = getchar()) != EOF && c != '\n');
+        }
+        int res = sscanf(input, "%d", &operation);
+        if (res != 1) {
+            printf("输入有误，请重新输入!\n");
+        }
+        else {
+            if (operation == 2) {
+                return;
+            }
+            else if (operation == 1) {
+                FILE* fp = fopen("./data/leave_applications.csv", "a");
+                if (fp == NULL)
+                {
+                    printf("打开文件失败！无法进行申请\n");
+                    return;
+                }
+                int year = 0, month = 0, day = 0;
+                int length;
+                while (true)
+                {
+                    printf("请输入假期类型：\n");
+                    printf("0.返回\n");
+                    printf("1.事假\n");
+                    printf("2.病假\n");
+                    printf("3.年假\n");
+                    if ((fgets(input, sizeof(input), stdin)) == NULL) {
+                        printf("数据解析失败，请重试!\n");
+                        continue;
+                    }
+                    while (strchr(input, '\n') == NULL) {
+                        while ((c = getchar()) != EOF && c != '\n');
+                    }
+                    int res=sscanf(input, "%d", &operation);
+                    if (operation == 0)
+                    {
+                        printf("返回上一界面...\n");
+                        break;
+                    }
+                    else if (operation != 1 && operation != 2 && operation != 3) {
+                        printf("您的输入有误，请重新输入!\n");
+                        continue;
+                    }
+                    break;
+                }
+                if (operation == 0) {
+                    continue;
+                }
+                else {
+                    while (true)
+                    {
+                        printf("请输入请假开始时间yyyy.mm.dd:\n");
+                        if ((fgets(input, sizeof(input), stdin)) == NULL) {
+                            printf("数据解析失败，请重新输入!\n");
+                            continue;
+                        }
+                        while (strchr(input, '\n') == NULL) {
+                            while ((c = getchar()) != EOF && c != '\n');
+                        }
+                        int res = sscanf(input, "%d.%d.%d", &year, &month, &day);
+                        if (res != 3) {
+                            printf("输入有误,请重新输入!\n");
+                        }
+                        else {
+                            if (!JudgeDate(year, month, day)) {
+                                printf("请重新输入!\n");
+                                continue;
+                            }
+                            break;
+                        }
+                    }
+                    while (true)
+                    {
+                        printf("请输入请假长度(天):\n");
+                        if ((fgets(input, sizeof(input), stdin)) == NULL) {
+                            printf("数据解析失败，请重试!\n");
+                            continue;
+                        }
+                        while (strchr(input, '\n') == NULL) {
+                            while ((c = getchar()) != EOF && c != '\n');
+                        }
+                        int res = sscanf(input, "%d", &length);
+                        if (res != 1) {
+                            printf("输入有误，请重新输入!\n");
+                            continue;
+                        }
+                        break;
+                    }
+                    fprintf(fp, "%d,%s,%d,%d,%d,%d-%d-%d,1\n", employee->employeeID,employee->employeeName ,employee->departmentID, operation, length, year, month, day);
+                    printf("申请成功！请等待审批！\n");
+                    Sleep(1000);
+                    fclose(fp);
+                    continue;
+                }
+            }
+            else {
+                printf("输入有误，请重新输入!\n");
+                continue;
+            }
+        }
+    }
+}
+
+//gcc employee_test.c -o main -fexec-charset=GBK

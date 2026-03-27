@@ -52,3 +52,6 @@ void AddVacation(Employee* employee, Date date, int length);
 
 //定义JudgeDate函数，用来判断日期是否合法
 bool JudgeDate(int year, int month, int day);
+
+//定义ApplyForVacation函数，用来为员工请假
+void ApplyForVacation(Employee* employee);
