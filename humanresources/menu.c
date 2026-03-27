@@ -144,7 +144,7 @@ void modify_password()
     char line2[MAX_NAME_LENGTH];
     long line_start_pos = 0;
     fgets(line2, sizeof(line2), aandp2);
-    line_start_pos = ftell(aandp2);
+    line_start_pos = ftell(aandp2);//获取文件指针当前的位置
 
     int found = 0;
 
@@ -159,11 +159,11 @@ void modify_password()
         char *name_password = strtok(NULL, ",");
 
         if (!name || !name_account || !name_password)
-            continue;
+            continue;//若没有则重新读
 
         if (strcmp(name_account, account) == 0 && strcmp(name_password, password) == 0)
         {
-            found = 1;
+            found = 1;//找到了
             printf("请输入新密码（6位）：");
             char new_password[MAX_NAME_LENGTH];
             scanf("%s", new_password);
@@ -175,10 +175,11 @@ void modify_password()
                 return;
             }
 
-            long pwd_offset = current_line_pos + strlen(name) + 1 + strlen(name_account) + 1;
-            fseek(aandp2, pwd_offset, SEEK_SET);
+            long pwd_offset = current_line_pos + strlen(name) + 1 + strlen(name_account) + 1;//pwd_offset= 当前行开始位置+ 角色长度+ 1（逗号）+ 账号长度+ 1（逗号）
+
+            fseek(aandp2, pwd_offset, SEEK_SET);//把文件指针跳到密码开头 
             fputs(new_password, aandp2);
-            fflush(aandp2);
+            fflush(aandp2);//存
             printf("密码修改成功！\n");
             break;
         }
