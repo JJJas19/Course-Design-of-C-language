@@ -1,5 +1,5 @@
-#include "common.h"
-#include "clear_screen.h"
+#include "../head/common.h"
+#include "../head/clear_screen.h"
 
 extern char ID[];
 extern char Name[];
