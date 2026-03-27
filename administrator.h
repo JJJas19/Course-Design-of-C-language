@@ -34,4 +34,9 @@ void displayUserList();
 
 void initlist();
 
+void setpasswordMenu();
+void setHolidayTimeMenu();
+void setEmployeeDepartmentMenu();
+void setEmployeeHolidayQuotaMenu();
+
 #endif 

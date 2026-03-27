@@ -197,6 +197,49 @@ void userMenu()
     }
 }
 
+void maintainMenu()
+{
+    while (1)
+    {
+        int choice;
+        printf("进入系统维护菜单...\n");
+        printf("请选择操作：\n");
+        printf("0. 返回上一级菜单\n");
+        printf("1. 设置密码\n");
+        printf("2. 设置假期时间\n");
+        printf("3. 设置员工部门\n");
+        scanf("%d", &choice);
+        system("cls"); // 清屏
+        switch (choice) {
+            case 0:
+                printf("返回上一级菜单。\n");
+                system("pause");
+                system("cls");
+                return;
+            case 1:
+                setpasswordMenu();
+                system("pause");
+                system("cls");
+                break;
+            case 2:
+                setHolidayTimeMenu();
+                system("pause");
+                system("cls");
+                break;
+            case 3:
+                setEmployeeDepartmentMenu();
+                system("pause");
+                system("cls");
+                break;
+            default:
+                printf("无效的操作编号，请重新选择。\n");
+                system("pause");
+                system("cls");
+                break;
+        }
+    }
+}
+
 void homemeun()
 {
     initlist ();
@@ -208,6 +251,7 @@ void homemeun()
     printf("2. 管理员工\n");
     printf("3. 管理假期\n");
     printf("4. 管理用户\n");
+    printf("5. 系统维护\n");
     scanf("%d", &choice);
     system("cls");
     switch (choice) {
@@ -226,6 +270,8 @@ void homemeun()
         case 4:
             userMenu();
             break;
+        case 5:
+            maintainMenu();
         default:
             printf("无效的操作编号，请重新选择。\n");
             system("pause");

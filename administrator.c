@@ -797,3 +797,67 @@ int queryEmployeeClockNotingByNameandDate()
     printf("未找到该员工\n");
     return 0;
 }
+
+void setpasswordMenu()
+{
+    int userID;
+    char newPassword[MAX_NAME_LENGTH];
+    printf("请输入用户ID: ");
+    scanf("%d", &userID);
+    printf("请输入新密码: ");
+    scanf("%s", newPassword);
+    while (strlen(newPassword) > MAX_NAME_LENGTH) {
+        printf("密码过长，请重新输入: ");
+        scanf("%s", newPassword);
+    }
+    
+    User *point = userHead->next;
+    while (point != NULL) {
+        if (point->id == userID) {
+            strcpy(point->password, newPassword);
+            printf("密码修改成功\n");
+            return;
+        }
+        point = point->next;
+    }
+    printf("未找到该用户\n");
+}
+
+void setHolidayTimeMenu()
+{
+    int holidayID;
+    int minimumTime;
+    int maximumTime;
+    printf("请输入假期ID: ");
+    scanf("%d", &holidayID);
+    printf("请输入假期最短时间: ");
+    scanf("%d", &minimumTime);
+    printf("请输入假期最长时间: ");
+    scanf("%d", &maximumTime);
+    setHolidayTime(holidayID, minimumTime, maximumTime);
+}
+
+void setEmployeeHolidayQuotaMenu()
+{
+    int employeeID;
+    int holidayTypeID;
+    int totalQuota;
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+    printf("请输入假期类型ID: ");
+    scanf("%d", &holidayTypeID);
+    printf("请输入假期总额度: ");
+    scanf("%d", &totalQuota);
+    setEmployeeHolidayQuota(employeeID, holidayTypeID, totalQuota);
+}
+
+void setEmployeeDepartmentMenu()
+{
+    int employeeID;
+    int departmentID;
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+    printf("请输入部门ID: ");
+    scanf("%d", &departmentID);
+    setEmployeeDepartment(employeeID, departmentID);
+}
