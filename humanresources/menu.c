@@ -6,7 +6,9 @@
 #include "../head/menu.h"
 #include "../head/common.h"
 
-void menu()
+char employeename[100];
+int employeeID;
+void menu(Employee* employeehead)
 {
     system("chcp 65001");
     setlocale(LC_ALL, "");
@@ -61,7 +63,7 @@ void menu()
             exit(0);
         }
 
-        login(role);
+        login(role,employeehead);
     }
     else
     {
@@ -100,6 +102,11 @@ int check(char account[], char password[])
         if (strcmp(acc, account) == 0 && strcmp(pwd, password) == 0)
         {
             int real_role = atoi(role_val);
+            if(real_role==4)
+            {
+                strcpy(employeename,name);
+                employeeID=atoi(id);
+            }
             fclose(fp);
             return real_role; 
         }
@@ -110,7 +117,7 @@ int check(char account[], char password[])
 }
 
 //登录
-void login(int role)
+void login(int role,Employee* employeehead)
 {
     if (role == 1)
     {
@@ -130,6 +137,16 @@ void login(int role)
     else if (role == 4)
     {
         printf("==== 欢迎员工登录 ====\n");
+        Employee* employeenode=employeehead->next;
+        while(employeenode!=NULL)
+        {
+            if(strcmp(employeenode->employeeName,employeename)==0&&employeenode->employeeID==employeeID)
+            {
+                ControlEmployee(employeenode);
+                break;
+            }
+            employeenode=employeenode->next;
+        }
         //ControlEmployee(Employee* employee)
     }
     else
