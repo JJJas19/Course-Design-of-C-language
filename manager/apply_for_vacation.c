@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 
 void apply_for_vacation()
 {
