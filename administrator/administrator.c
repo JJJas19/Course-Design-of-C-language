@@ -116,7 +116,7 @@ void initEmployeeList()
     employeeHead->next = NULL;
 }
 
-int addEmployeeNode(int employeeID, int departmentID, const char* employeeName)
+int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName)
 {
     if (employeeHead == NULL) {
         initEmployeeList();
@@ -126,7 +126,7 @@ int addEmployeeNode(int employeeID, int departmentID, const char* employeeName)
         printf("创建节点失败\n");
         return 0;
     }
-    newNode->departmentID = departmentID;
+    
     newNode->employeeID = employeeID;
     int size = strlen(employeeName);
     if (size > MAX_NAME_LENGTH) {
@@ -134,8 +134,14 @@ int addEmployeeNode(int employeeID, int departmentID, const char* employeeName)
         free(newNode);
         return 0;
     }
+    size = strlen(departmentName);
+    if (size > MAX_NAME_LENGTH) {
+        printf("部门名称过长，请重新创建\n");
+        free(newNode);
+        return 0;
+    }
     strcpy(newNode->employeeName, employeeName);
-
+    strcpy(newNode->departmentName, departmentName);
     Employee *point = employeeHead;
     while (point->next != NULL) {
         point = point->next;
@@ -610,7 +616,7 @@ void displayEmployeeList()
     Employee *point = employeeHead->next;
     printf("员工列表:\n");
     while (point != NULL) {
-        printf("员工ID: %d, 员工姓名: %s, 部门ID: %d\n", point->employeeID, point->employeeName, point->departmentID);
+        printf("员工ID: %d, 员工姓名: %s, 部门名称: %s\n", point->employeeID, point->employeeName, point->departmentName);
         point = point->next;
     }
 }
@@ -618,15 +624,15 @@ void displayEmployeeList()
 void addEmployee()
 {
     int employeeID;
-    int departmentID;
     char employeeName[MAX_NAME_LENGTH];
+    char departmentName[MAX_NAME_LENGTH];
     printf("请输入员工ID: ");
     scanf("%d", &employeeID);
-    printf("请输入部门ID: ");
-    scanf("%d", &departmentID);
+    printf("请输入部门名称: ");
+    scanf("%s", departmentName);
     printf("请输入员工姓名: ");
     scanf("%s", employeeName);
-    addEmployeeNode(employeeID, departmentID, employeeName); 
+    addEmployeeNode(employeeID, departmentName, employeeName); 
 }
 
 void removeEmployee()
