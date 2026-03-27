@@ -46,7 +46,7 @@ typedef struct Staff
     struct Staff *next;
 } Staff;
 
-void manager_menu();
+void manager_menu(char id[], char name[], char department[]);
 
 int APPexamine(); // 请假审批
 

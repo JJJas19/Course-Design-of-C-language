@@ -2,9 +2,11 @@
 
 char ID[] = "101", Name[] = "RageLog", DEPARTMENT[] = "研发部";
 
-void manager_menu()
+void manager_menu(char id[], char name[], char department[])
 {
-
+    strcpy(ID, id);
+    strcpy(Name, name);
+    strcpy(DEPARTMENT, department);
     while (1)
     {
         clear_screen();
