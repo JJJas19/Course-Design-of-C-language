@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include "../common.h"
+#include "../head/common.h"
 #include "employee.h"
 
 //定义ControlEmployee函数，用于实现员工总控
