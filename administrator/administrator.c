@@ -36,7 +36,7 @@ int addDepartmentNode(int departmentID, const char* departmentName)
     }
     point->next = newNode;
 
-    printf("插入部门成功");
+    printf("插入部门成功\n");
     return 1;
 }
 
@@ -130,13 +130,13 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     newNode->employeeID = employeeID;
     int size = strlen(employeeName);
     if (size > MAX_NAME_LENGTH) {
-        printf("部门名称过长，请重新创建\n");
+        printf("员工名称过长，请重新创建\n");
         free(newNode);
         return 0;
     }
     size = strlen(departmentName);
     if (size > MAX_NAME_LENGTH) {
-        printf("部门名称过长，请重新创建\n");
+        printf("员工名称过长，请重新创建\n");
         free(newNode);
         return 0;
     }
@@ -148,7 +148,7 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     }
     point->next = newNode;
 
-    printf("插入部门成功");
+    printf("插入员工成功\n");
     return 1;
 }
 
@@ -351,7 +351,7 @@ void initUserList()
     userHead->next = NULL;
 }
 
-int addUserNode(int id, const char* password, const char* name, RoleType roleType)
+int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType)
 {
     if (userHead == NULL) {
         initUserList();
@@ -361,16 +361,24 @@ int addUserNode(int id, const char* password, const char* name, RoleType roleTyp
         printf("创建节点失败\n");
         return 0;
     }
-    newNode->id = id;
-    strcpy(newNode->password, password);
-    newNode->roleType = roleType;
-    int size = strlen(name);
+
+    int size = strlen(account);
     if (size > MAX_NAME_LENGTH) {
-        printf("用户名过长，请重新创建\n");
+        printf("账号过长，请重新创建\n");
+        free(newNode);
+        return 0;
+    }
+    size = strlen(password);
+    if (size > MAX_NAME_LENGTH) {
+        printf("密码过长，请重新创建\n");
         free(newNode);
         return 0;
     }
     strcpy(newNode->name, name);
+    strcpy(newNode->account, account);
+    strcpy(newNode->password, password);
+    newNode->id = id;
+    newNode->roleType = roleType;
 
     User *point = userHead;
     while (point->next != NULL) {
@@ -378,7 +386,7 @@ int addUserNode(int id, const char* password, const char* name, RoleType roleTyp
     }
     point->next = newNode;
 
-    printf("插入用户成功");
+    printf("插入用户成功\n");
     return 1;
 }
 
@@ -709,11 +717,14 @@ void addUser()
     int id;
     char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
+    char account[MAX_NAME_LENGTH];
     int roleType;
     printf("请输入用户ID: ");
     scanf("%d", &id);
     printf("请输入用户名: ");
     scanf("%s", name);
+    printf("请输入账号: ");
+    scanf("%s", account);
     printf("请输入密码: ");
     scanf("%s", password);
     printf("请输入角色编号(1-4): ");
@@ -722,7 +733,7 @@ void addUser()
         printf("输入编号非法\n");
         return;
     }
-    addUserNode(id, password, name, (RoleType)roleType); 
+    addUserNode(id, password, name, account, (RoleType)roleType); 
 }
 
 void removeUser()

@@ -1,0 +1,5 @@
+leave_type_id,leave_type_name,min_days,max_days
+1,事假,1,30
+2,婚假,3,3
+3,产假,98,98
+4,年假,5,30
