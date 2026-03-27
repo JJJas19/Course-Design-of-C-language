@@ -17,9 +17,6 @@ void departmentMenu()
         system("cls"); // 清屏
         switch (choice) {
             case 0:
-                printf("返回上一级菜单。\n");
-                system("pause");
-                system("cls");
                 return;
             case 1:
                 addDepartment();
@@ -66,9 +63,6 @@ void employeeMenu()
         system("cls");
         switch (choice) {
             case 0:
-                printf("返回上一级菜单。\n");
-                system("pause");
-                system("cls");
                 return;
             case 1:
                 addEmployee();
@@ -115,9 +109,6 @@ void holidayMenu()
         system("cls"); // 清屏
         switch (choice) {
             case 0:
-                printf("返回上一级菜单。\n");
-                system("pause");
-                system("cls");
                 return;
             case 1:
                 addHoliday();
@@ -164,9 +155,6 @@ void userMenu()
         system("cls"); // 清屏
         switch (choice) {
             case 0:
-                printf("返回上一级菜单。\n");
-                system("pause");
-                system("cls");
                 return;
             case 1:
                 addUser();
@@ -212,9 +200,6 @@ void maintainMenu()
         system("cls"); // 清屏
         switch (choice) {
             case 0:
-                printf("返回上一级菜单。\n");
-                system("pause");
-                system("cls");
                 return;
             case 1:
                 setpasswordMenu();
@@ -242,7 +227,6 @@ void maintainMenu()
 
 void homemeun()
 {
-    initlist ();
     int choice;
     printf("欢迎来到管理员菜单！\n");
     printf("请选择操作：\n");
@@ -284,6 +268,7 @@ int main()
 {
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
+    loadData();
     while (1) {
         homemeun();
     }
