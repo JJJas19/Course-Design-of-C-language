@@ -282,7 +282,8 @@ void homemeun()
 
 int main()
 {
-    SetConsoleOutputCP(936);
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
     while (1) {
         homemeun();
     }
