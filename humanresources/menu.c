@@ -75,7 +75,7 @@ void menu(Employee* employeehead)
 //检查
 int check(char account[], char password[])
 {
-    FILE *fp = fopen("../data/account and password storage.csv", "r");
+    FILE *fp = fopen("../data/userdata.csv", "r");
     if (fp == NULL)
     {
         printf("错误：账号密码文件不存在！\n");
@@ -160,7 +160,7 @@ void modify_password()
 {
     printf("===== 修改密码 =====\n");
 
-    FILE *aandp2 = fopen("../data/account and password storage.csv", "r+");
+    FILE *aandp2 = fopen("../data/userdata.csv", "r+");
     if (aandp2 == NULL)
     {
         printf("错误：账号密码文件不存在！\n");
