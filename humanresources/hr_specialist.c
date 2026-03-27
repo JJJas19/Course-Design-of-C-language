@@ -58,7 +58,7 @@ void hr_menu()
 void query_attendance(Employee *employeeHead)
 {
     printf("===== 考勤数据打印 =====\n");
-    FILE *fp = fopen("Attendance_data.csv", "w");
+    FILE *fp = fopen("../data/Attendance_data.csv", "w");
     if (fp == NULL)
     {
         perror("打开CSV文件失败");
@@ -114,7 +114,7 @@ void query_attendance(Employee *employeeHead)
 void query_leave_quota(Employee *employeeHead)
 {
     printf("===== 假期额度数据打印 =====\n");
-    FILE *fp = fopen("Holiday_quota.csv", "w");
+    FILE *fp = fopen("../data/Holiday_quota.csv", "w");
     if (fp == NULL)
     {
         perror("打开CSV文件失败");
@@ -143,7 +143,7 @@ void attendance_to_salary(Employee *employeeHead)
     printf("===== 工资数据打印 =====\n");
     printf("员工ID   员工姓名   员工工资\n");
     Employee *employeenode = employeeHead->next;
-    FILE *fp = fopen("salary.csv", "w");
+    FILE *fp = fopen("../data/salary.csv", "w");
     if (fp == NULL)
     {
         perror("打开CSV文件失败");
