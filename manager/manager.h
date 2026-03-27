@@ -31,7 +31,8 @@ typedef struct EmpDayCount
 {
     char emp_id[20];
     char emp_name[10];
-    int day_count; // 打卡总天数
+    int day_count;  // 总天数
+    int time_count; // 总次数
     struct EmpDayCount *next;
 } EmpDayCount;
 
@@ -70,6 +71,9 @@ EmpDayCount *count_emp_days(CheckInRecord *head);
 void show(EmpDayCount *head);
 void free_day_count(EmpDayCount *head);
 void sort_by_name_asc(CheckInRecord *head);
+// 部门请假查询
+void query_vacation();
+void department_vacation(LeaveApplication *head);
 
 // gcc main.c manager_menu.c clear_screen.c APPexamine.c vacation.c apply_for_vacation.c check_my_application.c query_department.c department_staff.c -o test.exe
-// gcc main.c sort_by_name_asc.c free_day_count.c sort_by_day_asc.c count_emp_days.c load_check_in_record.c show.c show_all_check_in.c query_by_emp_id.c query_by_emp_name.c free_check_in_record.c manager_menu.c clear_screen.c APPexamine.c vacation.c apply_for_vacation.c check_my_application.c query_department.c department_staff.c department_record.c -o test.exe
+// gcc main.c query_vacation.c department_vacation.c sort_by_name_asc.c free_day_count.c sort_by_day_asc.c count_emp_days.c load_check_in_record.c show.c show_all_check_in.c query_by_emp_id.c query_by_emp_name.c free_check_in_record.c manager_menu.c clear_screen.c APPexamine.c vacation.c apply_for_vacation.c check_my_application.c query_department.c department_staff.c department_record.c -o test.exe

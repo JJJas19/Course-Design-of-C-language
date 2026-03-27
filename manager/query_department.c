@@ -27,7 +27,7 @@ void query_department()
             break;
         case 3:
             clear_screen();
-            // department_vaction();
+            query_vacation();
             break;
         case 4:
             clear_screen();
