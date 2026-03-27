@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include "../head/common.h"
-#include "employee.h"
+#include "../head/employee.h"
 
 //定义ControlEmployee函数，用于实现员工总控
 void ControlEmployee(Employee* employee) {
