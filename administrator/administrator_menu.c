@@ -1,4 +1,4 @@
-#include "administrator.h"
+#include "../head/administrator.h"
 #include <windows.h>
 
 void departmentMenu()
