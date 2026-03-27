@@ -1,7 +1,7 @@
 #include "manager.h"
 void department_staff()
 {
-    FILE *fp = fopen("all_staff.csv", "r");
+    FILE *fp = fopen("./data/all_staff.csv", "r");
     if (fp == NULL)
     {
         printf("打开文件失败!无法查询员工信息!\n");
