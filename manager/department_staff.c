@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 void department_staff()
 {
     FILE *fp = fopen("../data/all_staff.csv", "r");

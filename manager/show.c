@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 void show(EmpDayCount *head)
 {
     clear_screen();

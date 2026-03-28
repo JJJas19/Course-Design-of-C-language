@@ -57,4 +57,6 @@ void saveUserData();
 void saveHolidayData();
 void saveData();
 
+void administrator_menu();
+
 #endif 

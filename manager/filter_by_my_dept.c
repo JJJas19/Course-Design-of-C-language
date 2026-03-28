@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 
 CheckInRecord *filter_by_my_dept(CheckInRecord *head)
 {

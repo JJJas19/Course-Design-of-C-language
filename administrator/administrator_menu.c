@@ -225,7 +225,7 @@ void maintainMenu()
     }
 }
 
-void homemeun()
+void administrator_menu()
 {
     int choice;
     printf("欢迎来到管理员菜单！\n");
@@ -262,16 +262,4 @@ void homemeun()
             system("cls");
             break;
     }
-}
-
-int main()
-{
-    SetConsoleCP(CP_UTF8);
-    SetConsoleOutputCP(CP_UTF8);
-    loadData();
-    while (1) {
-        homemeun();
-    }
-    system("pause");
-    return 0;
 }

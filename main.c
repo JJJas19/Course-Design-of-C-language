@@ -11,7 +11,7 @@ int main()
     SetConsoleCP(CP_UTF8);
 
     // manager_menu();
-    loadData();
+    // loadData();
     
     return 0;
 }

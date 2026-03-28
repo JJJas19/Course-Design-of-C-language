@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 void show_all_check_in(CheckInRecord *head)
 {
     printf("========================================================\n");

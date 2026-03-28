@@ -1,8 +1,10 @@
 #ifndef HR_SPECIALIST_H
 #define HR_SPECIALIST_H
 
+#include "common.h"
+
 // HR 主菜单
-void hr_menu();
+void hr_menu(Employee* employeeHead);
 
 // 考勤数据打印
 void query_attendance(Employee *employeeHead);

@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 // 统计本部门每个员工的打卡天数
 EmpDayCount *count_emp_days(CheckInRecord *head)
 {

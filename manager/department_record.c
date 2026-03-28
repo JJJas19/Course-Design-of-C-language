@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 
 // 统计部门打卡情况：正常/迟到/早退
 void count_department_checkin(CheckInRecord *head)

@@ -132,7 +132,7 @@ void login(int role,Employee* employeehead)
     else if (role == 3)
     {
         printf("==== 欢迎人力资源登录 ====\n");
-        hr_menu();
+        hr_menu(employeehead);
     }
     else if (role == 4)
     {

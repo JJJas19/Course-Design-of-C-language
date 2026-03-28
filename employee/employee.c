@@ -140,7 +140,7 @@ bool Clock(Employee* employee) {
             continue;
         }
         if (clockingType == 0) {
-            return;
+            return false;
         }
         if (clockingType != 1 && clockingType != 2) {
             printf("输入错误，请重新输入!\n");

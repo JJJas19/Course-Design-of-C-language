@@ -1,8 +1,14 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "common.h"
+#include "administrator.h"
+#include "employee.h"
+#include "hr_specialist.h"
+#include "manager.h"
+
 // 主菜单函数
-void menu();
+void menu(Employee* employeehead);
 
 // 登录验证函数
 int check(char account[], char password[]);

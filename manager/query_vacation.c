@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 LeaveApplication *load_vacation_record()
 {
     FILE *fp = fopen("../data/leave_applications.csv", "r");

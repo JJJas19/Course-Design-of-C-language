@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 void free_day_count(EmpDayCount *head)
 {
     EmpDayCount *cur = head;

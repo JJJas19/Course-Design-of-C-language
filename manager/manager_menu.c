@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 
 char ID[] = "101", Name[] = "RageLog", DEPARTMENT[] = "研发部";
 

@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 void free_check_in_record(CheckInRecord *head)
 {
     CheckInRecord *cur = head;

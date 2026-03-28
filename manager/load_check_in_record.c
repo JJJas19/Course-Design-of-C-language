@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 
 CheckInRecord *load_check_in_record()
 {

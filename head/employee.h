@@ -1,6 +1,5 @@
-
-
-
+#ifndef EMPLOYEE_H
+#define EMPLOYEE_H
 
 //定义FindDay函数，用于查找某日的打卡记录，参数为指向ClockNoting结构体的指针、指向Vacation结构体的指针、年、月、日
 ClockNoting* FindDay(ClockNoting** origDate, Vacation* vacationList, int year, int month, int day);
@@ -55,3 +54,7 @@ bool JudgeDate(int year, int month, int day);
 
 //定义ApplyForVacation函数，用来为员工请假
 void ApplyForVacation(Employee* employee);
+
+void ControlEmployee(Employee* employee);
+
+#endif

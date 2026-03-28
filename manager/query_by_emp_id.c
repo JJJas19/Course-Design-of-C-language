@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "../head/manager.h"
 void query_by_emp_id(CheckInRecord *head)
 {
     printf("========================================================\n");
