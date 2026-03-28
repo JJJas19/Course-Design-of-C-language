@@ -127,7 +127,7 @@ void login(int role,Employee* employeehead)
     else if (role == 2)
     {
         printf("==== 欢迎经理登录 ====\n");
-        manager_menu();
+        manager_menu(employeehead);
     }
     else if (role == 3)
     {
