@@ -2,6 +2,7 @@
 #include "head\manager.h"
 #include "head\administrator.h"
 #include "head\employee.h"
+#include "head\hr_specialist.h"
 
 int main()
 {

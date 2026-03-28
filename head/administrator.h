@@ -51,4 +51,10 @@ void loadDepartmentData();
 void loadEmployeeData();
 void loadData();
 
+void saveDepartmentData();
+void saveEmployeeData();
+void saveUserData();
+void saveHolidayData();
+void saveData();
+
 #endif 
