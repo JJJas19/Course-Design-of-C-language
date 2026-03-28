@@ -8,6 +8,9 @@
 
 char employeename[100];
 int employeeID;
+char managername[100];
+char managerID[100];
+char managedepartment[100];
 void menu(Employee* employeehead)
 {
     system("chcp 65001");
@@ -96,6 +99,7 @@ int check(char account[], char password[])
         char *name     = strtok(NULL, ",");//姓名
         char *id       = strtok(NULL, ",");//ID
         char *role_val = strtok(NULL, ",");//判断
+        char *department = strtok(NULL,",");//部门
 
         if (!acc || !pwd || !role_val) continue;//防止误读
 
@@ -106,6 +110,12 @@ int check(char account[], char password[])
             {
                 strcpy(employeename,name);
                 employeeID=atoi(id);
+            }
+            if(real_role==2)
+            {
+                strcpy(managedepartment,department);
+                strcpy(managerID,id);
+                strcpy(managername,name);
             }
             fclose(fp);
             return real_role; 
@@ -127,7 +137,17 @@ void login(int role,Employee* employeehead)
     else if (role == 2)
     {
         printf("==== 欢迎经理登录 ====\n");
-        manager_menu(employeehead);
+        Employee* employeenode=employeehead->next;
+          while(employeenode!=NULL)
+        {
+            if(strcmp(employeenode->employeeName,employeename)==0&&employeenode->employeeID==employeeID)
+            {
+                ControlEmployee(employeenode);
+                break;
+            }
+            employeenode=employeenode->next;
+        }
+        manager_menu(managerID,managername,managedepartment);
     }
     else if (role == 3)
     {
