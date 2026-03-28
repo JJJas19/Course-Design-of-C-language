@@ -24,6 +24,7 @@ void departmentMenu()
                 system("cls");
                 break;
             case 2:
+                displayDepartmentList();
                 removeDepartment();
                 system("pause");
                 system("cls");
@@ -70,6 +71,7 @@ void employeeMenu()
                 system("cls");
                 break;
             case 2:
+                displayEmployeeList();
                 removeEmployee();
                 system("pause");
                 system("cls");
@@ -116,6 +118,7 @@ void holidayMenu()
                 system("cls");
                 break;
             case 2:
+                displayHolidayList();
                 removeHoliday();
                 system("pause");
                 system("cls");
