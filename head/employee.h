@@ -55,6 +55,25 @@ bool JudgeDate(int year, int month, int day);
 //定义ApplyForVacation函数，用来为员工请假
 void ApplyForVacation(Employee* employee);
 
+//用来实现员工总控
 void ControlEmployee(Employee* employee);
+
+//用来保存员工信息
+void SaveEmployee(Employee* employee);
+
+//用来判断打卡状态
+const char* JudgeClockingState(ClockNoting* clockNoting, int kind);
+
+//用来判断所属部门
+char* JudgeDepartment(int departmentID);
+
+//用来读取员工打卡信息
+void GetClockInfo(Employee* employee);
+
+//用来读取员工假期信息
+void GetVacationInfo(Employee* employee);
+
+//用来判断打卡的类型
+int JudgeClockingKind(char* state);
 
 #endif
