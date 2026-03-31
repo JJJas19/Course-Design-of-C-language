@@ -14,7 +14,7 @@ void ControlEmployee(Employee* employee) {
 	printf("职员ID:%d\n", employee->employeeID);
 	while (true) {
 		printf("请选择要执行的操作:\n");
-		printf("0.退出\n");
+		printf("0.保存并退出\n");
 		printf("1.打卡\n");
 		printf("2.打卡记录查询\n");
         printf("3.信息统计\n");
@@ -35,8 +35,10 @@ void ControlEmployee(Employee* employee) {
 			continue;
 		}
 		if (operation == 0) {
-            printf("正在退出...\n");
-			return;
+            printf("正在保存信息...\n");
+            SaveEmployee(employee);
+            
+            return;
 		}
 		else if (operation == 1) {
 			Clock(employee);
@@ -55,6 +57,7 @@ void ControlEmployee(Employee* employee) {
 			continue;
 		}
 	}
+
 }
 
 //定义FindDay函数，用于查找某日的打卡记录，参数为指向ClockNoting结构体的指针、指向Vacation结构体的指针、年、月、日
@@ -672,16 +675,37 @@ Date CalculateDate(Date date, int length) {
 }
 
 //定义AddVacation函数，用来为员工添加请假信息
-void AddVacation(Employee* employee, Date date, int length) {
-    while (employee->vacation != NULL) {
-        employee->vacation = employee->vacation->next;
+void AddVacation(Employee* employee, int year,int month,int day, int length) {
+    if (employee->vacation == NULL) {
+        employee->vacation = (Vacation*)malloc(sizeof(Vacation));
+        employee->vacation->start.year = 0;
+        employee->vacation->start.month = 0;
+        employee->vacation->start.day = 0;
+        employee->vacation->start.dateID = 0;
+        employee->vacation->end.year = 0;
+        employee->vacation->end.month = 0;
+        employee->vacation->end.day = 0;
+        employee->vacation->end.dateID = 0;
+        employee->vacation->length = 0;
+        employee->vacation->next = NULL;
     }
+    Vacation* p = employee->vacation;
+    while (p->next != NULL) {
+        p = p->next;
+    }
+    Date date;
+    date.year = year;
+    date.month = month;
+    date.day = day;
+
     Vacation* vacation = (Vacation*)malloc(sizeof(Vacation));
     vacation->start = date;
     vacation->start.dateID = vacation->start.year * 10000 + vacation->start.month * 100 + vacation->start.day;
     vacation->length = length;
     vacation->end = CalculateDate(date, length);
     vacation->end.dateID = vacation->end.year * 10000 + vacation->end.month * 100 + vacation->end.day;
+    vacation->next = NULL;
+    p->next = vacation;
 }
 
 //定义JudgeDate函数，用来判断日期是否合法
@@ -818,6 +842,272 @@ void ApplyForVacation(Employee* employee)
                 continue;
             }
         }
+    }
+}
+
+//用来保存员工信息
+void SaveEmployee(Employee* employee) {
+    ClockNoting* q = employee->clockNotingData;
+    if (q == NULL || q->next == NULL) {
+        printf("打卡信息不存在!\n");
+        return;
+    }
+    q = q->next;
+    FILE* fp = ("../data/check_in_record.csv", "w");
+    if (fp == NULL) {
+        printf("文件打开失败!保存失败!\n");
+        return;
+    }
+    while (q != NULL) {
+        fprintf("%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+            employee->employeeID,
+            employee->employeeName,
+            employee->departmentID,
+            q->clockDate.year,
+            q->clockDate.month,
+            q->clockDate.day,
+            q->clockInTime.hour,
+            q->clockInTime.minute,
+            q->clockInTime.second,
+            JudgeClockingState(q, 1)
+        );
+        fprintf("%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+            employee->employeeID,
+            employee->employeeName,
+            JudgeDepartment(employee->departmentID),
+            q->clockDate.year,
+            q->clockDate.month,
+            q->clockDate.day,
+            q->clockOutTime.hour,
+            q->clockOutTime.minute,
+            q->clockOutTime.second,
+            JudgeClockingState(q, 2)
+        );
+        q = q->next;
+    }
+    printf("信息保存成功!\n");
+    fclose(fp);
+}
+
+//用来判断打卡状态
+const char* JudgeClockingState(ClockNoting* clockNoting,int kind) {
+    if (kind == 1) {
+        if (clockNoting->clockInTime.isClocking == 1) {
+            if (clockNoting->clockInTime.hour >= 8) {
+                return "迟到";
+            }
+            else {
+                return "下班";
+            }
+        }
+        else {
+            return "未打卡";
+        }
+    }
+    else if (kind == 2) {
+        if (clockNoting->clockOutTime.isClocking == 1) {
+            if (clockNoting->clockOutTime.hour < 18) {
+                return "早退";
+            }
+            else {
+                return "正常";
+            }
+        }
+        else {
+            return "未打卡";
+        }
+    }
+    else {
+        return "未知";
+    }
+}
+
+//用来判断所属部门
+char* JudgeDepartment(int departmentID) {
+    FILE* fp = fopen("../data/all_apartment.csv", "r");
+    if (fp == NULL) {
+        printf("文件不存在！\n");
+        return "文件错误";
+    }
+    char line[256];
+    fgets(line, sizeof(line), fp);
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        line[strcspn(line, "\n")] = 0;
+        int ID;
+        char departmentName[20];
+        int res = sscanf(line,"%d,%s", &ID, departmentName);
+        if (res != 2) {
+            printf("数据解析失败!请检查文件是否完整！\n");
+            fclose(fp);
+            return "错误";
+        }
+        else {
+            if (departmentID == ID) {
+                static char result[20];
+                strcpy(result, departmentName);
+                fclose(fp);
+                return result;
+            }
+        }
+    }
+    fclose(fp);
+    return "未知";
+}
+
+//用来读取员工打卡信息
+void GetClockInfo(Employee* employee) {
+    employee->clockNotingData = (ClockNoting*)malloc(sizeof(ClockNoting));
+    employee->clockNotingData->next = NULL;
+    employee->clockNotingData->isAbsent = 0;
+    employee->clockNotingData->clockDate.year = 0;
+    employee->clockNotingData->clockDate.month = 0;
+    employee->clockNotingData->clockDate.day = 0;
+    employee->clockNotingData->clockInTime.hour = 0;
+    employee->clockNotingData->clockInTime.minute = 0;
+    employee->clockNotingData->clockInTime.second = 0;
+    employee->clockNotingData->clockInTime.isClocking = 0;
+    employee->clockNotingData->clockOutTime.hour = 0;
+    employee->clockNotingData->clockOutTime.minute = 0;
+    employee->clockNotingData->clockOutTime.second = 0;
+    employee->clockNotingData->clockOutTime.isClocking = 0;
+    FILE* fp = fopen("../data/chaeck_in_record.csv", "r");
+    if (fp == NULL) {
+        printf("打卡信息不存在!\n");
+        return;
+    }
+    char line[256];
+    fgets(line, sizeof(line), fp);
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        line[strcspn(line, "\n")] = 0;
+        int ID;
+        char name[20];
+        char departmentName[20];
+        int year;
+        int month;
+        int day;
+        int hour;
+        int minute;
+        int second;
+        char state[20];
+        int res = sscanf(line, "%d,%s,%s,%d-%d-%d %d.%d.%d,%s", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
+        if (res != 10) {
+            printf("文件损坏!\n");
+            continue;
+        }
+        if (ID == employee->employeeID) {
+            int kind=JudgeClockingKind(state);
+            if (kind == 0) {
+                printf("未知打卡信息!\n");
+                continue;
+            }
+            ClockNoting* q = employee->clockNotingData;
+            int dateID = year * 10000 + month * 100 + day;
+            while (q != NULL) {
+                if (q->clockDate.dateID == dateID) {
+                    break;
+                }
+                q = q->next;
+            }
+            if (q == NULL) {
+                q = (ClockNoting*)malloc(sizeof(ClockNoting));
+                q->clockDate.year = year;
+                q->clockDate.month = month;
+                q->clockDate.day = day;
+                q->clockDate.dateID = dateID;
+                q->isAbsent = 0;
+                q->clockInTime.isClocking = 0;
+                q->clockOutTime.isClocking = 0;
+                if (kind == 1) {
+                    q->clockInTime.hour = hour;
+                    q->clockInTime.minute = minute;
+                    q->clockInTime.second = second;
+                    q->clockInTime.isClocking = 1;
+                }
+                else {
+                    q->clockOutTime.hour= hour;
+                    q->clockOutTime.minute = minute;
+                    q->clockOutTime.second = second;
+                    q->clockOutTime.isClocking = 1;
+                }
+                q->next = NULL;
+                ClockNoting* p = employee->clockNotingData;
+                while (p->next != NULL) {
+                    p = p->next;
+                }
+                p->next = q;
+            }
+            else {
+                if (kind == 1) {
+                    q->clockInTime.hour = hour;
+                    q->clockInTime.minute = minute;
+                    q->clockInTime.second = second;
+                    q->clockInTime.isClocking = 1;
+                }
+                else {
+                    q->clockOutTime.hour = hour;
+                    q->clockOutTime.minute = minute;
+                    q->clockOutTime.second = second;
+                    q->clockOutTime.isClocking = 1;
+                }
+            }
+        }
+    }
+    fclose(fp);
+}
+
+//用来读取员工假期信息
+void GetVacationInfo(Employee* employee) {
+    employee->vacation = (Vacation*)malloc(sizeof(vacation));
+    employee->vacation->next = NULL;
+    employee->vacation->start.year = 0;
+    employee->vacation->start.month = 0;
+    employee->vacation->start.day = 0;
+    employee->vacation->start.dateID = 0;
+    employee->vacation->length = 0;
+    employee->vacation->end.year = 0;
+    employee->vacation->end.month = 0;
+    employee->vacation->end.day = 0;
+    employee->vacation->end.dateID = 0;
+    FILE* fp = fopen("../data/leave_applications.csv", "r");
+    if (fp == NULL) {
+        printf("假期信息不存在!\n");
+        return;
+    }
+    char line[256];
+    fgets(line, sizeof(line), stdin);
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        line[strcspn(line, "\n")] = 0;
+        int ID;
+        char name[20];
+        char departmentName[20];
+        int type;
+        int length;
+        int year;
+        int month;
+        int day;
+        int state;
+        int res = sscanf(line, "%d,%s,%s,%d,%d,%d-%d-%d,%d", &ID, name, departmentName, &type, &length, &year, &month, &day, &state);
+        if (res != 9) {
+            printf("文件损坏!请检查文件是否完整!\n");
+            continue;
+        }
+        if (employee->employeeID == ID) {
+            AddVacation(employee, year, month, day, length);
+        }
+    }
+    fclose(fp);
+}
+
+//用来判断打卡的类型
+int JudgeClockingKind(char* state) {
+    if (strcmp(state, "迟到") == 0 || strcmp(state,"正常"==0) {
+        return 1;
+    }
+    else if (strcmp(state, "早退") == 0 || strcmp(state, "下班") == 0) {
+        return 2;
+    }
+    else {
+        return 0;
     }
 }
 
