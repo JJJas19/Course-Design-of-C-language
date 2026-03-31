@@ -228,6 +228,36 @@ void maintainMenu()
     }
 }
 
+void queryMeun()
+{
+    query_vacation();
+    while (1)
+    {
+        int choice;
+        printf("进入信息查询菜单...\n");
+        printf("请选择操作：\n");
+        printf("0. 返回上一级菜单\n");
+        printf("1. 查询请假记录\n");
+
+        scanf("%d", &choice);
+        system("cls"); // 清屏
+        switch (choice) {
+            case 0:
+                return;
+            case 1:
+                query_leave_history();
+                system("pause");
+                system("cls");
+                break;
+            default:
+                printf("无效的操作编号，请重新选择。\n");
+                system("pause");
+                system("cls");
+                break;
+        }
+    }
+}
+
 void administrator_menu()
 {
     while (1)
@@ -240,7 +270,8 @@ void administrator_menu()
         printf("2. 管理员工\n");
         printf("3. 管理假期\n");
         printf("4. 管理用户\n");
-        printf("5. 系统维护\n");
+        printf("5. 信息查询\n");
+        printf("6. 系统维护\n");
         scanf("%d", &choice);
         system("cls");
         switch (choice) {
@@ -260,7 +291,11 @@ void administrator_menu()
                 userMenu();
                 break;
             case 5:
+                queryMeun();
+                break;
+            case 6:
                 maintainMenu();
+                break;
             default:
                 printf("无效的操作编号，请重新选择。\n");
                 system("pause");

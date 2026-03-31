@@ -18,6 +18,8 @@ typedef struct LeaveApplication
     struct LeaveApplication *next;
 } LeaveApplication;
 
+extern LeaveApplication *leave_head;
+
 typedef struct CheckInRecord
 {
     char emp_id[20];       // 员工ID

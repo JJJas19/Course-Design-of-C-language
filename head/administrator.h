@@ -2,6 +2,7 @@
 #define ADMINISTRATOR_H
 
 #include "common.h"
+#include "manager.h"
 
 extern Department *departmentHead;
 extern Employee *employeeHead;
@@ -70,5 +71,9 @@ void saveEmployeeData();
 void saveUserData();
 void saveHolidayData();
 void saveData();
+
+// 请假信息查询
+void displayLeaveHistory();
+void query_leave_history();
 
 #endif 
