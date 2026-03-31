@@ -63,6 +63,51 @@ void loadEmployeeData()
     printf("员工数据加载成功！\n");
 }
 
+void loadAttendanceData() {
+    FILE *file = fopen("../data/check_in_record.csv", "r");
+    if (file == NULL) {
+        printf("无法打开打卡记录！\n");
+        return;
+    }
+
+    char buffer[1024];
+    fgets(buffer, sizeof(buffer), file);  // 跳过表头
+
+    int employeeID;
+    char checkTime[50];   // 打卡时间字符串
+    char status[20];      // 正常/迟到/早退/下班
+    int year, month, day, hour, minute, second;
+    while (fgets(buffer, sizeof(buffer), file))
+    {
+        // 读取：员工ID、打卡时间、打卡状态
+        
+        if (sscanf(buffer, "%d,%*[^,],%*[^,],%d-%d-%d %d:%d:%d,%[^\n]",
+            &employeeID,
+            &year, &month, &day, &hour, &minute, &second,
+            status) == 7)
+        {
+            // ==============================================
+            // 在这里你可以直接用这三个变量：
+            // employeeID  员工ID
+            // checkTime   打卡时间（如 2026-03-19 08:26:00）
+            // status      状态（正常/迟到/早退/下班）
+            // ==============================================
+
+            printf("ID:%d  时间:%d-%d-%d %d:%d:%d  状态:%s\n", employeeID, year, month, day, hour, minute, second, status);
+            Employee *point = employeeHead->next;
+            while (point != NULL) {
+                if (point->employeeID == employeeID) {
+                    // addClockNotingNode(point, year, month, day, hour, minute, second, status);
+                    break;
+                }
+                point = point->next;
+            }
+        }
+    }
+
+    fclose(file);
+}
+
 void loadUserData()
 {
     FILE *file = fopen("../data/userdata.csv", "r");
@@ -140,6 +185,7 @@ void loadData()
     loadEmployeeData();
     loadUserData();
     loadHolidayData();
+    loadAttendanceData();
     system("cls");
     printf("数据加载成功！\n");
 }

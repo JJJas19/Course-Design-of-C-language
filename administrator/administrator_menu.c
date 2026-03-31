@@ -230,39 +230,66 @@ void maintainMenu()
 
 void administrator_menu()
 {
-    int choice;
-    printf("欢迎来到管理员菜单！\n");
-    printf("请选择操作：\n");
-    printf("0. 退出\n");
-    printf("1. 管理部门\n");
-    printf("2. 管理员工\n");
-    printf("3. 管理假期\n");
-    printf("4. 管理用户\n");
-    printf("5. 系统维护\n");
-    scanf("%d", &choice);
-    system("cls");
-    switch (choice) {
-        case 0:
-            printf("退出管理员菜单。\n");
-            exit(0);
-        case 1:
-            departmentMenu();
-            break;
-        case 2:
-            employeeMenu();
-            break;
-        case 3:
-            holidayMenu();
-            break;
-        case 4:
-            userMenu();
-            break;
-        case 5:
-            maintainMenu();
-        default:
-            printf("无效的操作编号，请重新选择。\n");
-            system("pause");
-            system("cls");
-            break;
+    while (1)
+    {
+        int choice;
+        printf("欢迎来到管理员菜单！\n");
+        printf("请选择操作：\n");
+        printf("0. 退出\n");
+        printf("1. 管理部门\n");
+        printf("2. 管理员工\n");
+        printf("3. 管理假期\n");
+        printf("4. 管理用户\n");
+        printf("5. 系统维护\n");
+        scanf("%d", &choice);
+        system("cls");
+        switch (choice) {
+            case 0:
+                printf("退出管理员菜单。\n");
+                return;
+            case 1:
+                departmentMenu();
+                break;
+            case 2:
+                employeeMenu();
+                break;
+            case 3:
+                holidayMenu();
+                break;
+            case 4:
+                userMenu();
+                break;
+            case 5:
+                maintainMenu();
+            default:
+                printf("无效的操作编号，请重新选择。\n");
+                system("pause");
+                system("cls");
+                break;
+        }
     }
 }
+
+// void addClockNotingNode(Employee *employee, int year, int month, int day, int hour, int minute, int second, char *status)
+// {
+//     ClockNoting *newNode = (ClockNoting *)malloc(sizeof(ClockNoting));
+//     Date clockDate = {year, month, day, 0}; // dateID暂时设为0
+//     newNode->year = year;
+//     newNode->month = month;
+//     newNode->day = day;
+//     newNode->hour = hour;
+//     newNode->minute = minute;
+//     newNode->second = second;
+//     strncpy(newNode->status, status, MAX_NAME_LENGTH);
+//     newNode->next = NULL;
+
+//     if (employee->clockNotingHead == NULL) {
+//         employee->clockNotingHead = newNode;
+//     } else {
+//         ClockNoting *current = employee->clockNotingHead;
+//         while (current->next != NULL) {
+//             current = current->next;
+//         }
+//         current->next = newNode;
+//     }
+// }

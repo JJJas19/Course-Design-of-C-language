@@ -10,9 +10,9 @@ int main()
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
-    // manager_menu();
     loadData();
     administrator_menu();
     
+
     return 0;
 }

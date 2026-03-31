@@ -853,13 +853,13 @@ void SaveEmployee(Employee* employee) {
         return;
     }
     q = q->next;
-    FILE* fp = ("../data/check_in_record.csv", "w");
+    FILE* fp = fopen("../data/check_in_record.csv", "w");
     if (fp == NULL) {
         printf("文件打开失败!保存失败!\n");
         return;
     }
     while (q != NULL) {
-        fprintf("%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
             employee->employeeID,
             employee->employeeName,
             employee->departmentID,
@@ -871,7 +871,7 @@ void SaveEmployee(Employee* employee) {
             q->clockInTime.second,
             JudgeClockingState(q, 1)
         );
-        fprintf("%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
             employee->employeeID,
             employee->employeeName,
             JudgeDepartment(employee->departmentID),
@@ -1057,7 +1057,7 @@ void GetClockInfo(Employee* employee) {
 
 //用来读取员工假期信息
 void GetVacationInfo(Employee* employee) {
-    employee->vacation = (Vacation*)malloc(sizeof(vacation));
+    employee->vacation = (Vacation*)malloc(sizeof(Vacation));
     employee->vacation->next = NULL;
     employee->vacation->start.year = 0;
     employee->vacation->start.month = 0;
@@ -1100,7 +1100,7 @@ void GetVacationInfo(Employee* employee) {
 
 //用来判断打卡的类型
 int JudgeClockingKind(char* state) {
-    if (strcmp(state, "迟到") == 0 || strcmp(state,"正常"==0) {
+    if (strcmp(state, "迟到") == 0 || strcmp(state,"正常")==0) {
         return 1;
     }
     else if (strcmp(state, "早退") == 0 || strcmp(state, "下班") == 0) {
