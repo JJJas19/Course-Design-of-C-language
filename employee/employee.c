@@ -977,6 +977,7 @@ void GetClockInfo(Employee* employee) {
     employee->clockNotingData->clockOutTime.minute = 0;
     employee->clockNotingData->clockOutTime.second = 0;
     employee->clockNotingData->clockOutTime.isClocking = 0;
+    employee->numberOfDays = 0;
     FILE* fp = fopen("../data/check_in_record.csv", "r");
     if (fp == NULL) {
         printf("打卡信息不存在!\n");
@@ -1009,11 +1010,16 @@ void GetClockInfo(Employee* employee) {
             }
             ClockNoting* q = employee->clockNotingData;
             int dateID = year * 10000 + month * 100 + day;
+            int find = 0;
             while (q != NULL) {
                 if (q->clockDate.dateID == dateID) {
+                    find = 1;
                     break;
                 }
                 q = q->next;
+            }
+            if (find == 0) {
+                employee->numberOfDays++;
             }
             if (q == NULL) {
                 q = (ClockNoting*)malloc(sizeof(ClockNoting));
@@ -1122,5 +1128,3 @@ void GetEmployeeInfo(Employee* employee) {
     GetClockInfo(employee);
     GetVacationInfo(employee);
 }
-
-//gcc employee_test.c -o main -fexec-charset=GBK
