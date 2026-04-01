@@ -16,7 +16,7 @@ void ControlEmployee(Employee* employee) {
 	printf("职员ID:%d\n", employee->employeeID);
 	while (true) {
 		printf("请选择要执行的操作:\n");
-		printf("0.保存并退出\n");
+		printf("0.退出\n");
 		printf("1.打卡\n");
 		printf("2.打卡记录查询\n");
         printf("3.信息统计\n");
@@ -37,9 +37,7 @@ void ControlEmployee(Employee* employee) {
 			continue;
 		}
 		if (operation == 0) {
-            printf("正在保存信息...\n");
-            SaveEmployee(employee);
-            
+            printf("正在退出...\n");
             return;
 		}
 		else if (operation == 1) {
@@ -507,12 +505,12 @@ void PopDownByDate(Vacation** messeges, int length) {
 
 //统计请假信息
 void SortAbsenceMessege(Vacation* vacation) {
-    if (vacation == NULL) {
+    Vacation* q = vacation->next;
+    if (vacation==NULL || q==NULL) {
         printf("还没有请假记录!\n");
         return;
     }
     int absenceCount = 0;
-    Vacation* q = vacation;
     while (q != NULL) {
         absenceCount++;
         q = q->next;
@@ -860,16 +858,16 @@ void SaveEmployee(Employee* employee) {
         return;
     }
     q = q->next;
-    FILE* fp = fopen("../data/check_in_record.csv", "w");
+    FILE* fp = fopen("../data/check_in_record.csv", "a");
     if (fp == NULL) {
         printf("文件打开失败!保存失败!\n");
         return;
     }
     while (q != NULL) {
-        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s\n",
             employee->employeeID,
             employee->employeeName,
-            employee->departmentID,
+            JudgeDepartment(employee->departmentID),
             q->clockDate.year,
             q->clockDate.month,
             q->clockDate.day,
@@ -878,7 +876,7 @@ void SaveEmployee(Employee* employee) {
             q->clockInTime.second,
             JudgeClockingState(q, 1)
         );
-        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s\n",
             employee->employeeID,
             employee->employeeName,
             JudgeDepartment(employee->departmentID),
@@ -997,7 +995,7 @@ void GetClockInfo(Employee* employee) {
         int minute;
         int second;
         char state[20];
-        int res = sscanf(line, "%d,%s,%s,%d-%d-%d %d.%d.%d,%s", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
+        int res = sscanf(line, "%d,%[^,],%[^,],%d-%d-%d %d:%d:%d,%[^,]", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
         if (res != 10) {
             printf("文件损坏!\n");
             continue;
@@ -1099,7 +1097,7 @@ void GetVacationInfo(Employee* employee) {
         int month;
         int day;
         int state;
-        int res = sscanf(line, "%d,%s,%s,%d,%d,%d-%d-%d,%d", &ID, name, departmentName, &type, &length, &year, &month, &day, &state);
+        int res = sscanf(line, "%d,%[^,],%[^,],%d,%d,%d-%d-%d,%d", &ID, name, departmentName, &type, &length, &year, &month, &day, &state);
         if (res != 9) {
             printf("文件损坏!请检查文件是否完整!\n");
             continue;
