@@ -1116,4 +1116,9 @@ int JudgeClockingKind(char* state) {
     }
 }
 
+void GetEmployeeInfo(Employee* employee) {
+    GetClockInfo(employee);
+    GetVacationInfo(employee);
+}
+
 //gcc employee_test.c -o main -fexec-charset=GBK

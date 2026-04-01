@@ -76,4 +76,6 @@ void GetVacationInfo(Employee* employee);
 //用来判断打卡的类型
 int JudgeClockingKind(char* state);
 
+//用来读取员工信息
+void GetEmployeeInfo(Employee* employee);
 #endif
