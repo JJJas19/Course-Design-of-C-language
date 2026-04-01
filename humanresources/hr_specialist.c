@@ -25,6 +25,7 @@ void hr_menu(Employee* employeeHead)
         int choose;
         printf("请选择您要做的操作：\n");
         scanf("%d", &choose);
+        system("cls");
         switch (choose)
         {
         case 1:
@@ -53,6 +54,7 @@ void hr_menu(Employee* employeeHead)
             i = 0;
             break;
         }
+      
     }
 }
 void query_attendance(Employee *employeeHead)
