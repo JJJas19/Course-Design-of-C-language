@@ -120,23 +120,60 @@ void query_leave_quota(Employee *employeeHead)
         perror("打开CSV文件失败");
         return;
     }
-    fprintf(fp, "%s,%s,%s,%s,%s,%s\n", "员工ID", "员工姓名", "假期类型ID", "总共额度", "已使用额度", "剩余额度");
-    printf("%s,%s,%s,%s,%s,%s\n", "员工ID", "员工姓名","假期类型ID", "总共额度", "已使用额度", "剩余额度");
+
+    // 表头修改：假期类型ID → 假期类型
+    fprintf(fp, "%s,%s,%s,%s,%s,%s\n", "员工ID", "员工姓名", "假期类型", "总共额度", "已使用额度", "剩余额度");
+    printf("%-8s %-8s %-8s %-8s %-8s %-8s\n", "员工ID", "员工姓名","假期类型", "总共额度", "已使用额度", "剩余额度");
+
     Employee *point = employeeHead->next;
     while (point != NULL)
     {
         EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData;
         while (HolidayQuota != NULL)
         {
-            fprintf(fp, "%d,%s,%d,%d,%d,%d\n", HolidayQuota->employeeID, point->employeeName, HolidayQuota->holidayTypeID, HolidayQuota->totalQuota, HolidayQuota->usedQuota, HolidayQuota->remainingQuota);
-            printf("%d,%s,%d,%d,%d,%d\n", HolidayQuota->employeeID, point->employeeName, HolidayQuota->holidayTypeID, HolidayQuota->totalQuota, HolidayQuota->usedQuota, HolidayQuota->remainingQuota);
+            // 定义变量存储假期类型名称
+            char typeName[20];
+            switch (HolidayQuota->holidayTypeID)
+            {
+                case 1:
+                    strcpy(typeName, "年假");
+                    break;
+                case 2:
+                    strcpy(typeName, "病假");
+                    break;
+                case 3:
+                    strcpy(typeName, "事假");
+                    break;
+                default:
+                    strcpy(typeName, "未知类型");
+                    break;
+            }
+
+            // 输出：替换ID为中文名称
+            fprintf(fp, "%d,%s,%s,%d,%d,%d\n",
+                    HolidayQuota->employeeID,
+                    point->employeeName,
+                    typeName,        // 中文假期类型
+                    HolidayQuota->totalQuota,
+                    HolidayQuota->usedQuota,
+                    HolidayQuota->remainingQuota);
+
+            printf("%-8d %-8s %-8s %-8d %-8d %-8d\n",
+                   HolidayQuota->employeeID,
+                   point->employeeName,
+                   typeName,        // 中文假期类型
+                   HolidayQuota->totalQuota,
+                   HolidayQuota->usedQuota,
+                   HolidayQuota->remainingQuota);
+
             HolidayQuota = HolidayQuota->next;
         }
         point = point->next;
     }
+
     fclose(fp);
     printf("\n假期额度数据已导出到 Holiday_quota.csv\n");
-} // 假期额度打印，打印在Holiday_quota.csv中
+}
 
 void attendance_to_salary(Employee *employeeHead)
 {
@@ -186,7 +223,7 @@ void attendance_to_salary(Employee *employeeHead)
                 clockpunish += (20 - data[i]);
             }
         }
-        employeenode->salary = 5000 + prize - 100 * holidaypunish - 100 * clockpunish;
+        employeenode->salary = 5000 + prize - 80 * holidaypunish - 20 * clockpunish;
         printf("%10d %10s %10d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
         // 将工资信息存入到表中
         fprintf(fp, "%d %s %d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
@@ -339,17 +376,29 @@ void query_leave_quota_search(Employee *employeeHead)
         {
             found = 1;
             printf("\n===== 员工【%s - ID:%d】假期额度 =====\n", point->employeeName, point->employeeID);
-            printf("%-10s\t%-10s\t%-12s\t%-12s\t%-12s\n",
-                   "假期类型ID", "总共额度", "已使用额度", "剩余额度", "员工姓名");
+            // 修改表头：假期类型ID → 假期类型
+            printf("%-10s\t%-12s\t%-12s\t%-12s\n",
+                   "假期类型", "总共额度", "已使用额度", "剩余额度");
             EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData;
             while (HolidayQuota != NULL)
             {
-                printf("%-10d\t%-12d\t%-12d\t%-12d\t%-10s\n",
-                       HolidayQuota->holidayTypeID,
+                // 数字ID转中文名称
+                char typeName[20];
+                switch (HolidayQuota->holidayTypeID)
+                {
+                    case 1: strcpy(typeName, "年假"); break;
+                    case 2: strcpy(typeName, "病假"); break;
+                    case 3: strcpy(typeName, "事假"); break;
+                    default: strcpy(typeName, "未知"); break;
+                }
+
+                // 输出：替换ID为中文
+                printf("%-10s\t%-12d\t%-12d\t%-12d\n",
+                       typeName,  // 这里显示中文
                        HolidayQuota->totalQuota,
                        HolidayQuota->usedQuota,
-                       HolidayQuota->remainingQuota,
-                       point->employeeName);
+                       HolidayQuota->remainingQuota);
+
                 HolidayQuota = HolidayQuota->next;
             }
             break;
@@ -361,7 +410,7 @@ void query_leave_quota_search(Employee *employeeHead)
     {
         printf("未查询到该员工的假期额度信息！\n");
     }
-} // 假期额度查询
+}
 void query_salary(Employee *employeeHead)
 {
     printf("===== 薪资查询 =====\n");

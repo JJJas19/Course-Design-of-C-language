@@ -10,6 +10,8 @@
 
 //定义ControlEmployee函数，用于实现员工总控
 void ControlEmployee(Employee* employee) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 	printf("职员姓名: %s\n", employee->employeeName);
 	printf("职员ID:%d\n", employee->employeeID);
 	while (true) {
@@ -20,7 +22,7 @@ void ControlEmployee(Employee* employee) {
         printf("3.信息统计\n");
         printf("4.请假\n");
 		int operation;
-		int c;
+		// int c;
 		char input[20];
 		if (fgets(input, sizeof(input), stdin) == NULL) {
 			printf("输入有误!请重新输入!\n");

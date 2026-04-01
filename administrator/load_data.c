@@ -197,6 +197,6 @@ void loadData()
     loadAttendanceData();
     loadVacationRecord();
     loadEmployeeInfo();
-    system("cls");
+    // system("cls");
     printf("数据加载成功！\n");
 }

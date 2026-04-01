@@ -11,68 +11,72 @@ int employeeID;
 char managername[100];
 char managerID[100];
 char managedepartment[100];
-void menu(Employee* employeehead)
+void menu(Employee *employeehead)
 {
-    printf("**********欢迎使用考勤管理系统**********\n");
-    printf("**************************************\n");
-    printf("**********1.登录             **********\n");
-    printf("**********2.退出             **********\n");
-    printf("***************************************\n");
-
-    int log;
-    scanf("%d", &log);
-
-    if (log == 1)
+    int i = 1;
+    while (i)
     {
-        int role = 0;
-        int login_success = 0;
+        printf("**********欢迎使用考勤管理系统**********\n");
+        printf("**************************************\n");
+        printf("**********1.登录             **********\n");
+        printf("**********2.退出             **********\n");
+        printf("***************************************\n");
 
-        for (int i = 0; i < 3; i++)
+        int log;
+        scanf("%d", &log);
+
+        if (log == 1)
         {
-            printf("请输入账号与密码（剩余%d次机会）\n", 3 - i);
-            char account[21];
-            printf("账号：");
-            scanf("%s", account);//输入账号
+            int role = 0;
+            int login_success = 0;
 
-            char password[21];
-            printf("密码：");
-            scanf("%s", password);//输入密码
-
-            if (strlen(password) != 6)
+            for (int i = 0; i < 3; i++)
             {
-                printf("输入错误！密码长度必须为6个字符！\n");
-                continue;
-            }//判断密码长度
+                printf("请输入账号与密码（剩余%d次机会）\n", 3 - i);
+                char account[21];
+                printf("账号：");
+                scanf("%s", account); // 输入账号
 
-            role = check(account, password);
-            if (role > 0)
+                char password[21];
+                printf("密码：");
+                scanf("%s", password); // 输入密码
+
+                if (strlen(password) != 6)
+                {
+                    printf("输入错误！密码长度必须为6个字符！\n");
+                    continue;
+                } // 判断密码长度
+
+                role = check(account, password);
+                if (role > 0)
+                {
+                    printf("登录成功！\n");
+                    login_success = 1;
+                    break;
+                }
+                else
+                {
+                    printf("账号或密码错误！\n");
+                }
+            } // 判断是否登录成功
+
+            if (!login_success)
             {
-                printf("登录成功！\n");
-                login_success = 1;
-                break;
+                printf("3次登录失败，程序自动退出！\n");
+                exit(0);
             }
-            else
-            {
-                printf("账号或密码错误！\n");
-            }
-        }//判断是否登录成功
 
-        if (!login_success)
+            login(role, employeehead);
+        }
+        else
         {
-            printf("3次登录失败，程序自动退出！\n");
+            printf("退出成功！");
             exit(0);
         }
-
-        login(role,employeehead);
-    }
-    else
-    {
-        printf("退出成功！");
-        exit(0);
     }
 }
 
-//检查
+// 检查
 int check(char account[], char password[])
 {
     FILE *fp = fopen("../data/userdata.csv", "r");
@@ -80,7 +84,7 @@ int check(char account[], char password[])
     {
         printf("错误：账号密码文件不存在！\n");
         return 0;
-    }//打开文件
+    } // 打开文件
 
     char line[200];
     fgets(line, sizeof(line), fp); // 跳过表头
@@ -90,32 +94,33 @@ int check(char account[], char password[])
         line[strcspn(line, "\n\r")] = '\0';
 
         // 分割6个字段
-        char *role_str = strtok(line, ",");//角色
-        char *acc      = strtok(NULL, ",");//账户
-        char *pwd      = strtok(NULL, ",");//密码
-        char *name     = strtok(NULL, ",");//姓名
-        char *id       = strtok(NULL, ",");//ID
-        char *role_val = strtok(NULL, ",");//判断
-        char *department = strtok(NULL,",");//部门
+        char *role_str = strtok(line, ",");   // 角色
+        char *acc = strtok(NULL, ",");        // 账户
+        char *pwd = strtok(NULL, ",");        // 密码
+        char *name = strtok(NULL, ",");       // 姓名
+        char *id = strtok(NULL, ",");         // ID
+        char *role_val = strtok(NULL, ",");   // 判断
+        char *department = strtok(NULL, ","); // 部门
 
-        if (!acc || !pwd || !role_val) continue;//防止误读
+        if (!acc || !pwd || !role_val)
+            continue; // 防止误读
 
         if (strcmp(acc, account) == 0 && strcmp(pwd, password) == 0)
         {
             int real_role = atoi(role_val);
-            if(real_role==4)
+            if (real_role == 4)
             {
-                strcpy(employeename,name);
-                employeeID=atoi(id);
+                strcpy(employeename, name);
+                employeeID = atoi(id);
             }
-            if(real_role==2)
+            if (real_role == 2)
             {
-                strcpy(managedepartment,department);
-                strcpy(managerID,id);
-                strcpy(managername,name);
+                strcpy(managedepartment, department);
+                strcpy(managerID, id);
+                strcpy(managername, name);
             }
             fclose(fp);
-            return real_role; 
+            return real_role;
         }
     }
 
@@ -123,8 +128,8 @@ int check(char account[], char password[])
     return 0;
 }
 
-//登录
-void login(int role,Employee* employeehead)
+// 登录
+void login(int role, Employee *employeehead)
 {
     if (role == 1)
     {
@@ -134,17 +139,17 @@ void login(int role,Employee* employeehead)
     else if (role == 2)
     {
         printf("==== 欢迎经理登录 ====\n");
-        Employee* employeenode=employeehead->next;
-          while(employeenode!=NULL)
+        Employee *employeenode = employeehead->next;
+        while (employeenode != NULL)
         {
-            if(strcmp(employeenode->employeeName,employeename)==0&&employeenode->employeeID==employeeID)
+            if (strcmp(employeenode->employeeName, employeename) == 0 && employeenode->employeeID == employeeID)
             {
                 ControlEmployee(employeenode);
                 break;
             }
-            employeenode=employeenode->next;
+            employeenode = employeenode->next;
         }
-        manager_menu(managerID,managername,managedepartment);
+        manager_menu(managerID, managername, managedepartment);
     }
     else if (role == 3)
     {
@@ -154,17 +159,17 @@ void login(int role,Employee* employeehead)
     else if (role == 4)
     {
         printf("==== 欢迎员工登录 ====\n");
-        Employee* employeenode=employeehead->next;
-        while(employeenode!=NULL)
+        Employee *employeenode = employeehead->next;
+        while (employeenode != NULL)
         {
-            if(strcmp(employeenode->employeeName,employeename)==0&&employeenode->employeeID==employeeID)
+            if (strcmp(employeenode->employeeName, employeename) == 0 && employeenode->employeeID == employeeID)
             {
                 ControlEmployee(employeenode);
                 break;
             }
-            employeenode=employeenode->next;
+            employeenode = employeenode->next;
         }
-        //ControlEmployee(Employee* employee)
+        // ControlEmployee(Employee* employee)
     }
     else
     {
@@ -172,7 +177,7 @@ void login(int role,Employee* employeehead)
     }
 }
 
-//密码管理
+// 密码管理
 void modify_password()
 {
     printf("===== 修改密码 =====\n");
@@ -205,13 +210,14 @@ void modify_password()
 
         // 读取6个字段
         char *role_str = strtok(line2, ",");
-        char *acc      = strtok(NULL, ",");
-        char *pwd      = strtok(NULL, ",");
-        char *name     = strtok(NULL, ",");
-        char *id       = strtok(NULL, ",");
+        char *acc = strtok(NULL, ",");
+        char *pwd = strtok(NULL, ",");
+        char *name = strtok(NULL, ",");
+        char *id = strtok(NULL, ",");
         char *role_val = strtok(NULL, ",");
 
-        if (!role_str || !acc || !pwd) continue;
+        if (!role_str || !acc || !pwd)
+            continue;
 
         if (strcmp(acc, account) == 0 && strcmp(pwd, old_pwd) == 0)
         {
@@ -228,9 +234,7 @@ void modify_password()
             }
 
             // 计算密码在文件中的真实偏移量
-            long pos = current_line_pos
-                     + strlen(role_str) + 1
-                     + strlen(acc) + 1;
+            long pos = current_line_pos + strlen(role_str) + 1 + strlen(acc) + 1;
 
             fseek(aandp2, pos, SEEK_SET);
             fputs(new_pwd, aandp2);
