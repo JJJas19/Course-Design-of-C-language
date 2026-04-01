@@ -61,6 +61,7 @@ void employeeMenu()
         printf("2. 删除员工\n");
         printf("3. 修改员工\n");
         printf("4. 显示员工列表\n");
+        printf("5. 设置员工假期配额\n");
         scanf("%d", &choice);
         system("cls");
         switch (choice) {
@@ -85,6 +86,11 @@ void employeeMenu()
                 break;
             case 4:
                 displayEmployeeList();
+                system("pause");
+                system("cls");
+                break;
+            case 5:
+                setHolidayQuotaMenu();
                 system("pause");
                 system("cls");
                 break;

@@ -86,12 +86,6 @@ void loadAttendanceData() {
             &year, &month, &day, &hour, &minute, &second,
             status) == 7)
         {
-            // ==============================================
-            // 在这里你可以直接用这三个变量：
-            // employeeID  员工ID
-            // checkTime   打卡时间（如 2026-03-19 08:26:00）
-            // status      状态（正常/迟到/早退/下班）
-            // ==============================================
 
             printf("ID:%d  时间:%d-%d-%d %d:%d:%d  状态:%s\n", employeeID, year, month, day, hour, minute, second, status);
             Employee *point = employeeHead->next;
@@ -187,6 +181,54 @@ void loadEmployeeInfo()
     }
 }
 
+void loadHolidayQuota()
+{
+    FILE *file = fopen("../data/holidayquotadata.csv", "r");
+    if (file == NULL) {
+        printf("无法打开假期配额数据文件！\n");
+        return;
+    }
+    
+    char buffer[1024];
+    fgets(buffer, sizeof(buffer), file);  // 跳过表头
+
+    while (fgets(buffer, sizeof(buffer), file))
+    {
+        char name[MAX_NAME_LENGTH];
+        int employeeID;
+        int holidayID;
+        int totalQuota;
+        int usedQuota;
+        int remainingQuota;
+
+        if (sscanf(buffer, "%d,%[^,\n],%d,%d,%d,%d", &employeeID, name, &holidayID, &totalQuota, &usedQuota, &remainingQuota) == 6)
+        {
+            // printf("员工ID: %d, 员工姓名: %s, 总配额: %d, 已用配额: %d, 剩余配额: %d\n",
+            //     employeeID, name, totalQuota, usedQuota, remainingQuota);
+            Employee *point = employeeHead->next;
+            while (point != NULL) {
+                if (point->holidayQuotaData == NULL) {
+                        point->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+                        point->holidayQuotaData->next = NULL;
+                    }
+                if (point->employeeID == employeeID) {
+                    EmployeeHolidayQuota *newNode = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+                    newNode->employeeID = employeeID;
+                    newNode->holidayTypeID = holidayID;
+                    newNode->totalQuota = totalQuota;
+                    newNode->usedQuota = usedQuota;
+                    newNode->remainingQuota = remainingQuota;
+                    newNode->next = point->holidayQuotaData->next;
+                    point->holidayQuotaData->next = newNode;
+                    break;
+                }
+                point = point->next;
+            }
+        }
+    }
+    fclose(file);
+}
+
 void loadData()
 {
     initlist();
@@ -197,6 +239,7 @@ void loadData()
     loadAttendanceData();
     loadVacationRecord();
     loadEmployeeInfo();
-    // system("cls");
+    loadHolidayQuota(); 
+    system("cls");
     printf("数据加载成功！\n");
 }

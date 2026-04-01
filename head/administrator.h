@@ -60,6 +60,7 @@ void setHolidayTimeMenu();
 void setEmployeeDepartmentMenu();
 void setEmployeeHolidayQuotaMenu();
 void administrator_menu();
+void setHolidayQuotaMenu();
 
 // 数据加载与保存
 void loadDepartmentData();
@@ -75,6 +76,10 @@ void saveData();
 // 请假信息查询
 void displayLeaveHistory();
 void query_leave_history();
+
+// 假期配额
+void displayHolidayQuotaList();
+void displayHolidayQuota(Employee *employee);
 
 // 信息统计
 void statisticsMenu();

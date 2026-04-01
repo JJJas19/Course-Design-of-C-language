@@ -111,6 +111,7 @@ int APPexamine()
                 Sleep(1000);
                 break;
             default:
+                fflush(stdin);
                 printf("无效输入！请输入1-4之间的数字！\n");
                 Sleep(1000);
                 break;

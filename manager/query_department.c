@@ -34,6 +34,7 @@ void query_department()
             return;
             break;
         default:
+            fflush(stdin);
             printf("\n输入不合法,请重新输入\n");
             Sleep(1000);
             clear_screen();

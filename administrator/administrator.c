@@ -878,3 +878,77 @@ void setEmployeeDepartmentMenu()
     scanf("%d", &departmentID);
     setEmployeeDepartment(employeeID, departmentID);
 }
+
+void displayHolidayQuotaList()
+{
+    Employee *point = employeeHead->next;
+    while (point != NULL) {
+        printf("员工ID: %d, 员工姓名: %s\n", point->employeeID, point->employeeName);
+        if (point->holidayQuotaData == NULL) {
+            printf("该员工无假期配额数据\n");
+            point = point->next;
+            continue;
+        }
+        EmployeeHolidayQuota *holidayQuotaPoint = point->holidayQuotaData->next;
+        while (holidayQuotaPoint != NULL) {
+            printf("假期类型ID: %d, 总配额: %d, 已用配额: %d, 剩余配额: %d\n",
+                holidayQuotaPoint->holidayTypeID,
+                holidayQuotaPoint->totalQuota,
+                holidayQuotaPoint->usedQuota,
+                holidayQuotaPoint->remainingQuota);
+            holidayQuotaPoint = holidayQuotaPoint->next;
+        }
+        point = point->next;
+    }
+}
+
+void displayHolidayQuota(Employee *employee)
+{
+    printf("员工ID: %d, 员工姓名: %s\n", employee->employeeID, employee->employeeName);
+    if (employee->holidayQuotaData == NULL) {
+        printf("该员工无假期配额数据\n");
+        return;
+    }
+    EmployeeHolidayQuota *holidayQuotaPoint = employee->holidayQuotaData->next;
+    while (holidayQuotaPoint != NULL) {
+        printf("假期类型ID: %d, 总配额: %d, 已用配额: %d, 剩余配额: %d\n",
+            holidayQuotaPoint->holidayTypeID,
+            holidayQuotaPoint->totalQuota,
+            holidayQuotaPoint->usedQuota,
+            holidayQuotaPoint->remainingQuota);
+        holidayQuotaPoint = holidayQuotaPoint->next;
+    }
+}
+
+void setHolidayQuotaMenu()
+{
+    int employeeID;
+    int holidayTypeID;
+    int totalQuota;
+    displayEmployeeList();
+    printf("请输入员工ID: ");
+    scanf("%d", &employeeID);
+    Employee *point = employeeHead;
+    while (point->next != NULL) {
+        point = point->next;
+        if (point->employeeID == employeeID) {
+            system("cls");
+            displayHolidayQuota(point);
+            printf("请输入假期类型ID: ");
+            scanf("%d", &holidayTypeID);
+            printf("请输入假期总额度: ");
+            scanf("%d", &totalQuota);
+            EmployeeHolidayQuota *holidayQuotaPoint = point->holidayQuotaData->next;
+            while (holidayQuotaPoint != NULL) {
+                if (holidayQuotaPoint->holidayTypeID == holidayTypeID) {
+                    holidayQuotaPoint->totalQuota = totalQuota;
+                    holidayQuotaPoint->remainingQuota = max(totalQuota - holidayQuotaPoint->usedQuota, 0);
+                    printf("假期额度设置成功\n");
+                    return;
+                }
+                holidayQuotaPoint = holidayQuotaPoint->next;
+            }
+        }
+        printf("未找到该员工\n");
+    }
+}
