@@ -835,6 +835,7 @@ void ApplyForVacation(Employee* employee)
                         break;
                     }
                     fprintf(fp, "%d,%s,%d,%d,%d,%d-%d-%d,1\n", employee->employeeID,employee->employeeName ,employee->departmentID, operation, length, year, month, day);
+                    AddVacation(employee, operation, year, month, day, length, 1);
                     printf("申请成功！请等待审批！\n");
                     Sleep(1000);
                     fclose(fp);
