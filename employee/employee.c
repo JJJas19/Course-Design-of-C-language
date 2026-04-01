@@ -507,12 +507,12 @@ void PopDownByDate(Vacation** messeges, int length) {
 
 //统计请假信息
 void SortAbsenceMessege(Vacation* vacation) {
-    if (vacation == NULL) {
+    Vacation* q = vacation->next;
+    if (vacation==NULL || q==NULL) {
         printf("还没有请假记录!\n");
         return;
     }
     int absenceCount = 0;
-    Vacation* q = vacation;
     while (q != NULL) {
         absenceCount++;
         q = q->next;
@@ -866,10 +866,10 @@ void SaveEmployee(Employee* employee) {
         return;
     }
     while (q != NULL) {
-        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s",
             employee->employeeID,
             employee->employeeName,
-            employee->departmentID,
+            JudgeDepartment(employee->departmentID),
             q->clockDate.year,
             q->clockDate.month,
             q->clockDate.day,
@@ -997,7 +997,7 @@ void GetClockInfo(Employee* employee) {
         int minute;
         int second;
         char state[20];
-        int res = sscanf(line, "%d,%s,%s,%d-%d-%d %d.%d.%d,%s", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
+        int res = sscanf(line, "%d,%[^,],%[^,],%d-%d-%d %d:%d:%d,%[^,]", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
         if (res != 10) {
             printf("文件损坏!\n");
             continue;
@@ -1099,7 +1099,7 @@ void GetVacationInfo(Employee* employee) {
         int month;
         int day;
         int state;
-        int res = sscanf(line, "%d,%s,%s,%d,%d,%d-%d-%d,%d", &ID, name, departmentName, &type, &length, &year, &month, &day, &state);
+        int res = sscanf(line, "%d,%[^,],%[^,],%d,%d,%d-%d-%d,%d", &ID, name, departmentName, &type, &length, &year, &month, &day, &state);
         if (res != 9) {
             printf("文件损坏!请检查文件是否完整!\n");
             continue;
