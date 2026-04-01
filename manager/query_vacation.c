@@ -39,7 +39,8 @@ void loadVacationRecord() // 加载全局请假链表数据 供管理员使用
                                   new_node->apply_time,
                                   &(new_node->status));
 
-        if (parse_result != 7) {
+        if (parse_result != 7)
+        {
             continue;
         }
         new_node->next = leave_head->next;
@@ -235,27 +236,25 @@ EmpDayCount *count_vacation_days(LeaveApplication *head)
 {
     // 创建统计链表头节点
     EmpDayCount *count_head = (EmpDayCount *)malloc(sizeof(EmpDayCount));
+    if (count_head == NULL)
+        return NULL;
     count_head->next = NULL;
 
     LeaveApplication *p = head->next;
 
-    // 遍历所有打卡记录
     while (p != NULL)
     {
-        // 只处理本部门
-        if (strcmp(p->department, DEPARTMENT) != 0)
+        if (strcmp(p->department, DEPARTMENT) != 0 || p->status != 2)
         {
             p = p->next;
             continue;
         }
 
-        // 查找当前员工是否已经统计
         EmpDayCount *q = count_head->next;
         int found = 0;
 
         while (q != NULL)
         {
-            // 找到,天数+1
             if (strcmp(q->emp_id, p->emp_id) == 0)
             {
                 q->day_count += p->leave_days;
@@ -266,14 +265,15 @@ EmpDayCount *count_vacation_days(LeaveApplication *head)
             q = q->next;
         }
 
-        // 没找到,新建节点
         if (!found)
         {
             EmpDayCount *new_node = (EmpDayCount *)malloc(sizeof(EmpDayCount));
+            if (new_node == NULL)
+                break;
             strcpy(new_node->emp_id, p->emp_id);
             strcpy(new_node->emp_name, p->emp_name);
-            new_node->day_count = 1;
-
+            new_node->day_count = p->leave_days;
+            new_node->time_count = 1;
             new_node->next = count_head->next;
             count_head->next = new_node;
         }
@@ -528,6 +528,7 @@ void query_vacation()
             return;
             break;
         default:
+            fflush(stdin);
             printf("\n输入不合法,请重新输入\n");
             Sleep(1000);
             clear_screen();

@@ -213,11 +213,11 @@ void loadHolidayQuota()
             //     employeeID, name, totalQuota, usedQuota, remainingQuota);
             Employee *point = employeeHead->next;
             while (point != NULL) {
-                if (point->employeeID == employeeID) {
-                    if (point->holidayQuotaData == NULL) {
+                if (point->holidayQuotaData == NULL) {
                         point->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
                         point->holidayQuotaData->next = NULL;
                     }
+                if (point->employeeID == employeeID) {
                     EmployeeHolidayQuota *newNode = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
                     newNode->employeeID = employeeID;
                     newNode->holidayTypeID = holidayID;
@@ -235,29 +235,6 @@ void loadHolidayQuota()
     fclose(file);
 }
 
-void displayHolidayQuota()
-{
-    Employee *point = employeeHead->next;
-    while (point != NULL) {
-        printf("员工ID: %d, 员工姓名: %s\n", point->employeeID, point->employeeName);
-        if (point->holidayQuotaData == NULL) {
-            printf("该员工无假期配额数据\n");
-            point = point->next;
-            continue;
-        }
-        EmployeeHolidayQuota *holidayQuotaPoint = point->holidayQuotaData->next;
-        while (holidayQuotaPoint != NULL) {
-            printf("假期类型ID: %d, 总配额: %d, 已用配额: %d, 剩余配额: %d\n",
-                holidayQuotaPoint->holidayTypeID,
-                holidayQuotaPoint->totalQuota,
-                holidayQuotaPoint->usedQuota,
-                holidayQuotaPoint->remainingQuota);
-            holidayQuotaPoint = holidayQuotaPoint->next;
-        }
-        point = point->next;
-    }
-}
-
 void loadData()
 {
     initlist();
@@ -267,7 +244,7 @@ void loadData()
     loadHolidayData();
     loadAttendanceData();
     loadVacationRecord();
-    // loadEmployeeInfo();
+    loadEmployeeInfo();
     loadHolidayQuota(); 
     // displayHolidayQuota();
     system("cls");

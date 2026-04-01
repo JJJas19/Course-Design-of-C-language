@@ -76,6 +76,10 @@ void saveData();
 void displayLeaveHistory();
 void query_leave_history();
 
+// 假期配额
+void displayHolidayQuotaList();
+void displayHolidayQuota(Employee *employee);
+
 // 信息统计
 void statisticsMenu();
 
