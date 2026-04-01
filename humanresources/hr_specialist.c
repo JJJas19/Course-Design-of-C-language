@@ -130,7 +130,7 @@ void query_leave_quota(Employee *employeeHead)
     Employee *point = employeeHead->next;
     while (point != NULL)
     {
-        EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData;
+        EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData->next;
         while (HolidayQuota != NULL)
         {
             // 定义变量存储假期类型名称
@@ -225,7 +225,7 @@ void attendance_to_salary(Employee *employeeHead)
                 clockpunish += (20 - data[i]);
             }
         }
-        employeenode->salary = 5000 + prize - 80 * holidaypunish - 20 * clockpunish;
+        employeenode->salary = 25000 + prize - 80 * holidaypunish - 20 * clockpunish;
         printf("%10d %10s %10d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
         // 将工资信息存入到表中
         fprintf(fp, "%d %s %d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
@@ -381,7 +381,7 @@ void query_leave_quota_search(Employee *employeeHead)
             // 修改表头：假期类型ID → 假期类型
             printf("%-10s\t%-12s\t%-12s\t%-12s\n",
                    "假期类型", "总共额度", "已使用额度", "剩余额度");
-            EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData;
+            EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData->next;
             while (HolidayQuota != NULL)
             {
                 // 数字ID转中文名称
