@@ -1,6 +1,9 @@
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 
+#include <stdbool.h>
+#include "common.h"
+
 //定义FindDay函数，用于查找某日的打卡记录，参数为指向ClockNoting结构体的指针、指向Vacation结构体的指针、年、月、日
 ClockNoting* FindDay(ClockNoting** origDate, Vacation* vacationList, int year, int month, int day);
 
