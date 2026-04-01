@@ -1,6 +1,57 @@
 #include "../head/administrator.h"
 
+LeaveApplication *queryResult = NULL;
+
+void initQueryResult() {
+    queryResult = (LeaveApplication*)malloc(sizeof(LeaveApplication));
+    queryResult->next = NULL;
+}
+
+void freeQueryResult() {
+    LeaveApplication *current = queryResult;
+    while (current != NULL) {
+        LeaveApplication *temp = current;
+        current = current->next;
+        free(temp);
+    }
+    queryResult = NULL;
+}
+
+void printQueryResult() {
+    LeaveApplication *point = queryResult->next;
+    if (point == NULL) {
+        printf("没有符合条件的请假记录。\n");
+        return;
+    }
+    while (point != NULL)
+    {
+        printf("员工ID: %s\n", point->emp_id);
+        printf("员工姓名: %s\n", point->emp_name);
+        printf("所属部门: %s\n", point->department);
+        printf("请假天数: %d\n", point->leave_days);
+        printf("请假类型: %d\n", point->leave_type);
+        printf("申请时间: %s\n", point->apply_time);
+        printf("审批状态: %d\n", point->status);
+        printf("-----------------------------------\n");
+        point = point->next;
+    }
+}
+
+void addqueryResultNode(LeaveApplication *application) {
+    LeaveApplication *newNode = (LeaveApplication*)malloc(sizeof(LeaveApplication));
+    strcpy(newNode->emp_id, application->emp_id);
+    strcpy(newNode->emp_name, application->emp_name);
+    strcpy(newNode->department, application->department);
+    newNode->leave_type = application->leave_type;
+    newNode->leave_days = application->leave_days;
+    strcpy(newNode->apply_time, application->apply_time);
+    newNode->status = application->status;
+    newNode->next = queryResult->next;
+    queryResult->next = newNode;
+}
+
 void queryLeaveHistorybyID() {
+    initQueryResult();
     char employeeID[20];
     printf("请输入员工ID: ");
     scanf("%s", employeeID);
@@ -8,19 +59,11 @@ void queryLeaveHistorybyID() {
     LeaveApplication *current = leave_head->next;
     while (current != NULL) {
         if (strcmp(current->emp_id, employeeID) == 0) {
-            printf("员工ID: %s\n", current->emp_id);
-            printf("员工姓名: %s\n", current->emp_name);
-            printf("所属部门: %s\n", current->department);
-            printf("请假天数: %d\n", current->leave_days);
-            printf("请假类型: %d\n", current->leave_type);
-            printf("申请时间: %s\n", current->apply_time);
-            printf("审批状态: %d\n", current->status);
-            printf("-----------------------------------\n");
-            return;
+            addqueryResultNode(current);
         }
         current = current->next;
     }
-    printf("未找到员工ID为%s的员工。\n", employeeID);
+    printQueryResult();
 }
 
 void queryLeaveHistorybystatus() {
@@ -29,24 +72,13 @@ void queryLeaveHistorybystatus() {
     scanf("%d", &status);
 
     LeaveApplication *current = leave_head->next;
-    int found = 0;
     while (current != NULL) {
         if (current->status == status) {
-            printf("员工ID: %s\n", current->emp_id);
-            printf("员工姓名: %s\n", current->emp_name);
-            printf("所属部门: %s\n", current->department);
-            printf("请假天数: %d\n", current->leave_days);
-            printf("请假类型: %d\n", current->leave_type);
-            printf("申请时间: %s\n", current->apply_time);
-            printf("审批状态: %d\n", current->status);
-            printf("-----------------------------------\n");
-            found = 1;
+            addqueryResultNode(current);
         }
         current = current->next;
     }
-    if (!found) {
-        printf("未找到审批状态为%d的请假申请。\n", status);
-    }
+    printQueryResult();
 }
 
 void queryLeaveHistorybyleaveType() {
@@ -55,24 +87,13 @@ void queryLeaveHistorybyleaveType() {
     scanf("%d", &leaveType);
 
     LeaveApplication *current = leave_head->next;
-    int found = 0;
     while (current != NULL) {
         if (current->leave_type == leaveType) {
-            printf("员工ID: %s\n", current->emp_id);
-            printf("员工姓名: %s\n", current->emp_name);
-            printf("所属部门: %s\n", current->department);
-            printf("请假天数: %d\n", current->leave_days);
-            printf("请假类型: %d\n", current->leave_type);
-            printf("申请时间: %s\n", current->apply_time);
-            printf("审批状态: %d\n", current->status);
-            printf("-----------------------------------\n");
-            found = 1;
+            addqueryResultNode(current);
         }
         current = current->next;
     }
-    if (!found) {
-        printf("未找到请假类型为%d的请假申请。\n", leaveType);
-    }
+    printQueryResult();
 }
 
 void queryLeaveHistoryByTime()
@@ -84,24 +105,35 @@ void queryLeaveHistoryByTime()
     scanf("%s", endTime);
 
     LeaveApplication *current = leave_head->next;
-    int found = 0;
     while (current != NULL) {
         if (strcmp(current->apply_time, startTime) >= 0 && strcmp(current->apply_time, endTime) <= 0) {
-            printf("员工ID: %s\n", current->emp_id);
-            printf("员工姓名: %s\n", current->emp_name);
-            printf("所属部门: %s\n", current->department);
-            printf("请假天数: %d\n", current->leave_days);
-            printf("请假类型: %d\n", current->leave_type);
-            printf("申请时间: %s\n", current->apply_time);
-            printf("审批状态: %d\n", current->status);
-            printf("-----------------------------------\n");
-            found = 1;
+            addqueryResultNode(current);
         }
         current = current->next;
     }
-    if (!found) {
-        printf("未找到在%s到%s之间的请假申请。\n", startTime, endTime);
+    printQueryResult();
+}
+
+void queryLeaveHistoryByTimeAndID()
+{
+    char employeeID[20];
+    char startTime[20], endTime[20];
+    printf("请输入员工ID: ");
+    scanf("%s", employeeID);
+    printf("请输入查询的开始时间 (格式: YYYY-MM-DD): ");
+    scanf("%s", startTime);
+    printf("请输入查询的结束时间 (格式: YYYY-MM-DD): ");
+    scanf("%s", endTime);
+
+    LeaveApplication *current = leave_head->next;
+    int found = 0;
+    while (current != NULL) {
+        if (strcmp(current->emp_id, employeeID) == 0 && strcmp(current->apply_time, startTime) >= 0 && strcmp(current->apply_time, endTime) <= 0) {
+            addqueryResultNode(current);
+        }
+        current = current->next;
     }
+    printQueryResult();
 }
 
 void displayLeaveHistory() {
@@ -122,39 +154,6 @@ void displayLeaveHistory() {
         current = current->next;
     }
 }
-
-void queryLeaveHistoryByTimeAndID()
-{
-    char employeeID[20];
-    char startTime[20], endTime[20];
-    printf("请输入员工ID: ");
-    scanf("%s", employeeID);
-    printf("请输入查询的开始时间 (格式: YYYY-MM-DD): ");
-    scanf("%s", startTime);
-    printf("请输入查询的结束时间 (格式: YYYY-MM-DD): ");
-    scanf("%s", endTime);
-
-    LeaveApplication *current = leave_head->next;
-    int found = 0;
-    while (current != NULL) {
-        if (strcmp(current->emp_id, employeeID) == 0 && strcmp(current->apply_time, startTime) >= 0 && strcmp(current->apply_time, endTime) <= 0) {
-            printf("员工ID: %s\n", current->emp_id);
-            printf("员工姓名: %s\n", current->emp_name);
-            printf("所属部门: %s\n", current->department);
-            printf("请假天数: %d\n", current->leave_days);
-            printf("请假类型: %d\n", current->leave_type);
-            printf("申请时间: %s\n", current->apply_time);
-            printf("审批状态: %d\n", current->status);
-            printf("-----------------------------------\n");
-            found = 1;
-        }
-        current = current->next;
-    }
-    if (!found) {
-        printf("未找到在%s到%s之间的请假申请。\n", startTime, endTime);
-    }
-}
-
 
 void query_leave_history() {
     int choice;
