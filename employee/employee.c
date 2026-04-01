@@ -975,7 +975,7 @@ void GetClockInfo(Employee* employee) {
     employee->clockNotingData->clockOutTime.minute = 0;
     employee->clockNotingData->clockOutTime.second = 0;
     employee->clockNotingData->clockOutTime.isClocking = 0;
-    FILE* fp = fopen("../data/chaeck_in_record.csv", "r");
+    FILE* fp = fopen("../data/check_in_record.csv", "r");
     if (fp == NULL) {
         printf("打卡信息不存在!\n");
         return;
@@ -1079,7 +1079,7 @@ void GetVacationInfo(Employee* employee) {
         return;
     }
     char line[256];
-    fgets(line, sizeof(line), stdin);
+    fgets(line, sizeof(line), fp);
     while (fgets(line, sizeof(line), fp) != NULL) {
         line[strcspn(line, "\n")] = 0;
         int ID;

@@ -178,6 +178,15 @@ void loadHolidayData()
     printf("假期数据加载成功！\n");
 }
 
+void loadEmployeeInfo()
+{
+    Employee *point = employeeHead->next;
+    while (point != NULL) {
+        GetEmployeeInfo(point);
+        point = point->next;
+    }
+}
+
 void loadData()
 {
     initlist();
@@ -187,6 +196,7 @@ void loadData()
     loadHolidayData();
     loadAttendanceData();
     loadVacationRecord();
+    loadEmployeeInfo();
     system("cls");
     printf("数据加载成功！\n");
 }
