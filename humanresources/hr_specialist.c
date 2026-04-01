@@ -186,7 +186,7 @@ void attendance_to_salary(Employee *employeeHead)
                 clockpunish += (20 - data[i]);
             }
         }
-        employeenode->salary = 5000 + prize - 100 * holidaypunish - 100 * clockpunish;
+        employeenode->salary = 5000 + prize - 80 * holidaypunish - 20 * clockpunish;
         printf("%10d %10s %10d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
         // 将工资信息存入到表中
         fprintf(fp, "%d %s %d\n", employeenode->employeeID, employeenode->employeeName, employeenode->salary);
