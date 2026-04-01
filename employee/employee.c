@@ -10,6 +10,7 @@
 
 //定义ControlEmployee函数，用于实现员工总控
 void ControlEmployee(Employee* employee) {
+    GetEmployeeInfo(employee);
 	printf("职员姓名: %s\n", employee->employeeName);
 	printf("职员ID:%d\n", employee->employeeID);
 	while (true) {
@@ -1114,6 +1115,11 @@ int JudgeClockingKind(char* state) {
     else {
         return 0;
     }
+}
+
+void GetEmployeeInfo(Employee* employee) {
+    GetClockInfo(employee);
+    GetVacationInfo(employee);
 }
 
 //gcc employee_test.c -o main -fexec-charset=GBK
