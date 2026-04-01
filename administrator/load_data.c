@@ -86,12 +86,6 @@ void loadAttendanceData() {
             &year, &month, &day, &hour, &minute, &second,
             status) == 7)
         {
-            // ==============================================
-            // 在这里你可以直接用这三个变量：
-            // employeeID  员工ID
-            // checkTime   打卡时间（如 2026-03-19 08:26:00）
-            // status      状态（正常/迟到/早退/下班）
-            // ==============================================
 
             printf("ID:%d  时间:%d-%d-%d %d:%d:%d  状态:%s\n", employeeID, year, month, day, hour, minute, second, status);
             Employee *point = employeeHead->next;
@@ -246,7 +240,6 @@ void loadData()
     loadVacationRecord();
     loadEmployeeInfo();
     loadHolidayQuota(); 
-    // displayHolidayQuota();
     system("cls");
     printf("数据加载成功！\n");
 }

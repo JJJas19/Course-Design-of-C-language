@@ -60,6 +60,7 @@ void setHolidayTimeMenu();
 void setEmployeeDepartmentMenu();
 void setEmployeeHolidayQuotaMenu();
 void administrator_menu();
+void setHolidayQuotaMenu();
 
 // 数据加载与保存
 void loadDepartmentData();

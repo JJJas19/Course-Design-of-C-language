@@ -90,7 +90,7 @@ void employeeMenu()
                 system("cls");
                 break;
             case 5:
-                setEmployeeHolidayQuotaMenu();
+                setHolidayQuotaMenu();
                 system("pause");
                 system("cls");
                 break;

@@ -942,7 +942,7 @@ void setHolidayQuotaMenu()
             while (holidayQuotaPoint != NULL) {
                 if (holidayQuotaPoint->holidayTypeID == holidayTypeID) {
                     holidayQuotaPoint->totalQuota = totalQuota;
-                    holidayQuotaPoint->remainingQuota = totalQuota - holidayQuotaPoint->usedQuota;
+                    holidayQuotaPoint->remainingQuota = max(totalQuota - holidayQuotaPoint->usedQuota, 0);
                     printf("假期额度设置成功\n");
                     return;
                 }
