@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "manager.h"
+#include "employee.h"
 
 extern Department *departmentHead;
 extern Employee *employeeHead;
