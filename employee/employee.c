@@ -16,7 +16,7 @@ void ControlEmployee(Employee* employee) {
 	printf("职员ID:%d\n", employee->employeeID);
 	while (true) {
 		printf("请选择要执行的操作:\n");
-		printf("0.保存并退出\n");
+		printf("0.退出\n");
 		printf("1.打卡\n");
 		printf("2.打卡记录查询\n");
         printf("3.信息统计\n");
@@ -37,9 +37,7 @@ void ControlEmployee(Employee* employee) {
 			continue;
 		}
 		if (operation == 0) {
-            printf("正在保存信息...\n");
-            SaveEmployee(employee);
-            
+            printf("正在退出...\n");
             return;
 		}
 		else if (operation == 1) {
@@ -860,13 +858,13 @@ void SaveEmployee(Employee* employee) {
         return;
     }
     q = q->next;
-    FILE* fp = fopen("../data/check_in_record.csv", "w");
+    FILE* fp = fopen("../data/check_in_record.csv", "a");
     if (fp == NULL) {
         printf("文件打开失败!保存失败!\n");
         return;
     }
     while (q != NULL) {
-        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s\n",
             employee->employeeID,
             employee->employeeName,
             JudgeDepartment(employee->departmentID),
@@ -878,7 +876,7 @@ void SaveEmployee(Employee* employee) {
             q->clockInTime.second,
             JudgeClockingState(q, 1)
         );
-        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d.%02d.%02d,%s",
+        fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s\n",
             employee->employeeID,
             employee->employeeName,
             JudgeDepartment(employee->departmentID),
