@@ -289,12 +289,13 @@ void FindAbsenceByDate(Vacation* vacationList) {
     if (vacationList == NULL) {
         printf("暂无请假记录!\n");
     }
-    while (vacationList!= NULL) {
-        printf("%d.%d.%d", vacationList->start.year, vacationList->start.month, vacationList->start.day);
+    Vacation* q = vacationList->next;
+    while (q!= NULL) {
+        printf("%d.%d.%d", q->start.year, q->start.month, q->start.day);
         printf("-");
-        printf("%d.%d.%d", vacationList->end.year, vacationList->end.month, vacationList->end.day);
-        printf("\t请假%d天\n", vacationList->length);
-        vacationList = vacationList->next;
+        printf("%d.%d.%d", q->end.year, q->end.month, q->end.day);
+        printf(":请假%d天\n", q->length);
+        q = q->next;
     }
 }
 
@@ -505,18 +506,17 @@ void PopDownByDate(Vacation** messeges, int length) {
 
 //统计请假信息
 void SortAbsenceMessege(Vacation* vacation) {
-    Vacation* q = vacation->next;
-    if (vacation==NULL || q==NULL) {
+    if (vacation==NULL || vacation->next==NULL) {
         printf("还没有请假记录!\n");
         return;
     }
+    Vacation* q = vacation->next;
     int absenceCount = 0;
     while (q != NULL) {
         absenceCount++;
         q = q->next;
     }
     Vacation** absenceMessege = (Vacation**)malloc(absenceCount * sizeof(Vacation*) * absenceCount);
-    q = vacation;
     int i;
     for (i = 0; i < absenceCount; i++) {
         absenceMessege[i] = q;
@@ -525,10 +525,10 @@ void SortAbsenceMessege(Vacation* vacation) {
     printf("您的请假信息如下:\n");
     printf("您的请假次数为:%d\n", absenceCount);
     for (i = 0; i < absenceCount; i++) {
-        printf("%d年%d月%d日\n", absenceMessege[i]->start.year, absenceMessege[i]->start.month, absenceMessege[i]->start.day);
+        printf("%d年%d月%d日", absenceMessege[i]->start.year, absenceMessege[i]->start.month, absenceMessege[i]->start.day);
         printf("-");
-        printf("%d年%d月%d日\n", absenceMessege[i]->end.year, absenceMessege[i]->end.month, absenceMessege[i]->end.day);
-        printf("\t请假%d天\n", absenceMessege[i]->length);
+        printf("%d年%d月%d日", absenceMessege[i]->end.year, absenceMessege[i]->end.month, absenceMessege[i]->end.day);
+        printf(":请假%d天\n", absenceMessege[i]->length);
     }
     while (true) {
         printf("请选择要执行的操作:\n");
@@ -542,7 +542,9 @@ void SortAbsenceMessege(Vacation* vacation) {
             printf("数据解析失败，请重试!\n");
             continue;
         }
-        while ((c = getchar()) != EOF && c != '\n');
+        while (strchr(input, '\n') == NULL) {
+            while ((c = getchar()) != EOF && c != '\n');
+        }
         int res = sscanf(input, "%d", &operation);
         if (res != 1) {
             printf("输入错误，请重新输入!\n");
