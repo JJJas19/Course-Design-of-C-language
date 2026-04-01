@@ -1122,7 +1122,9 @@ int JudgeClockingKind(char* state) {
     }
 }
 
+//用来读取员工打卡，假期信息
 void GetEmployeeInfo(Employee* employee) {
     GetClockInfo(employee);
     GetVacationInfo(employee);
 }
+
