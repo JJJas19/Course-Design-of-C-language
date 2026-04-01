@@ -47,7 +47,7 @@ void SortInformation(Employee* employee);
 Date CalculateDate(Date date, int length);
 
 //定义AddVacation函数，用来为员工添加请假信息
-void AddVacation(Employee* employee, Date date, int length);
+void AddVacation(Employee* employee, int tpye, int year, int month, int day, int length, int state);
 
 //定义JudgeDate函数，用来判断日期是否合法
 bool JudgeDate(int year, int month, int day);

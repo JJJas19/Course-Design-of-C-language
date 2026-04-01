@@ -675,7 +675,7 @@ Date CalculateDate(Date date, int length) {
 }
 
 //定义AddVacation函数，用来为员工添加请假信息
-void AddVacation(Employee* employee, int year,int month,int day, int length) {
+void AddVacation(Employee* employee, int type, int year,int month,int day, int length, int state) {
     if (employee->vacation == NULL) {
         employee->vacation = (Vacation*)malloc(sizeof(Vacation));
         employee->vacation->start.year = 0;
@@ -687,6 +687,8 @@ void AddVacation(Employee* employee, int year,int month,int day, int length) {
         employee->vacation->end.day = 0;
         employee->vacation->end.dateID = 0;
         employee->vacation->length = 0;
+        employee->vacation->holidayType = 0;
+        employee->vacation->holidyStatus = 0;
         employee->vacation->next = NULL;
     }
     Vacation* p = employee->vacation;
@@ -704,6 +706,8 @@ void AddVacation(Employee* employee, int year,int month,int day, int length) {
     vacation->length = length;
     vacation->end = CalculateDate(date, length);
     vacation->end.dateID = vacation->end.year * 10000 + vacation->end.month * 100 + vacation->end.day;
+    vacation->holidayType = type;
+    vacation->holidyStatus = state;
     vacation->next = NULL;
     p->next = vacation;
 }
@@ -1092,7 +1096,7 @@ void GetVacationInfo(Employee* employee) {
             continue;
         }
         if (employee->employeeID == ID) {
-            AddVacation(employee, year, month, day, length);
+            AddVacation(employee, type, year, month, day, length, state);
         }
     }
     fclose(fp);

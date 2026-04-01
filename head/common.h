@@ -38,7 +38,8 @@ typedef struct Vacation {
     Date start;
     Date end;
     int length;
-    char holidayType[20];
+    int holidayType;
+    int holidyStatus;
     struct Vacation* next;
 }Vacation;
 
