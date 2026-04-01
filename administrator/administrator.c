@@ -925,12 +925,14 @@ void setHolidayQuotaMenu()
     int employeeID;
     int holidayTypeID;
     int totalQuota;
+    displayEmployeeList();
     printf("请输入员工ID: ");
     scanf("%d", &employeeID);
     Employee *point = employeeHead;
     while (point->next != NULL) {
         point = point->next;
         if (point->employeeID == employeeID) {
+            system("cls");
             displayHolidayQuota(point);
             printf("请输入假期类型ID: ");
             scanf("%d", &holidayTypeID);
