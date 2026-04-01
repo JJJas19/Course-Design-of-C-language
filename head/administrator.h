@@ -2,24 +2,37 @@
 #define ADMINISTRATOR_H
 
 #include "common.h"
+#include "manager.h"
 
 extern Department *departmentHead;
 extern Employee *employeeHead;
 extern HolidayType *holidayHead;
 extern User *userHead;
 
+// 链表操作
+void initlist();
+void freeNode();
+
 void initDepartmentList();
 int addDepartmentNode(int departmentID, const char* departmentName);
 int removeDepartmentNode(int index);
 int modifyDepartmentNode(int index);
-void freeDepartmentNode();
-void initEmployeeList();
+
 int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName);
+int removeEmployeeNode(int index);
+int modifyEmployeeNode(int index);
+
 int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType);
+int removeUserNode(int index);
+int modifyUserNode(int index);
+
 int addHolidayNode(int holidayID, int maximumTime, int minimumTime, const char* name);
+int removeHolidayNode(int index);
+int modifyHolidayNode(int index);
+
 int setEmployeeDepartment(int employeeID, int departmentID);
 int setHolidayTime(int holidayID, int minimumTime, int maximumTime);
-void freeNode();
+
 void displayDepartmentList();
 void addDepartment();
 void removeDepartment();
@@ -40,12 +53,14 @@ void removeUser();
 void modifyUser();
 void displayUserList();
 
-void initlist();
-
+// 菜单
 void setpasswordMenu();
 void setHolidayTimeMenu();
 void setEmployeeDepartmentMenu();
 void setEmployeeHolidayQuotaMenu();
+void administrator_menu();
+
+// 数据加载与保存
 
 void loadDepartmentData();
 void loadEmployeeData();
@@ -57,6 +72,8 @@ void saveUserData();
 void saveHolidayData();
 void saveData();
 
-void administrator_menu();
+// 请假信息查询
+void displayLeaveHistory();
+void query_leave_history();
 
 #endif 
