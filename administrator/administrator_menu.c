@@ -30,6 +30,7 @@ void departmentMenu()
                 system("cls");
                 break;
             case 3:
+                displayDepartmentList();
                 modifyDepartment();
                 system("pause");
                 system("cls");
@@ -77,6 +78,7 @@ void employeeMenu()
                 system("cls");
                 break;
             case 3:
+                displayEmployeeList();
                 modifyEmployee();
                 system("pause");
                 system("cls");
@@ -124,6 +126,7 @@ void holidayMenu()
                 system("cls");
                 break;
             case 3:
+                displayHolidayList();
                 modifyHoliday();
                 system("pause");
                 system("cls");
@@ -165,11 +168,13 @@ void userMenu()
                 system("cls");
                 break;
             case 2:
+                displayUserList();
                 removeUser();
                 system("pause");
                 system("cls");
                 break;
             case 3:
+                displayUserList();
                 modifyUser();
                 system("pause");
                 system("cls");
@@ -270,7 +275,8 @@ void administrator_menu()
         printf("3. 管理假期\n");
         printf("4. 管理用户\n");
         printf("5. 信息查询\n");
-        printf("6. 系统维护\n");
+        printf("6. 统计分析\n");
+        printf("7. 系统维护\n");
         scanf("%d", &choice);
         system("cls");
         switch (choice) {
@@ -293,6 +299,9 @@ void administrator_menu()
                 queryMeun();
                 break;
             case 6:
+                statisticsMenu();
+                break;
+            case 7:
                 maintainMenu();
                 break;
             default:
@@ -303,27 +312,3 @@ void administrator_menu()
         }
     }
 }
-
-// void addClockNotingNode(Employee *employee, int year, int month, int day, int hour, int minute, int second, char *status)
-// {
-//     ClockNoting *newNode = (ClockNoting *)malloc(sizeof(ClockNoting));
-//     Date clockDate = {year, month, day, 0}; // dateID暂时设为0
-//     newNode->year = year;
-//     newNode->month = month;
-//     newNode->day = day;
-//     newNode->hour = hour;
-//     newNode->minute = minute;
-//     newNode->second = second;
-//     strncpy(newNode->status, status, MAX_NAME_LENGTH);
-//     newNode->next = NULL;
-
-//     if (employee->clockNotingHead == NULL) {
-//         employee->clockNotingHead = newNode;
-//     } else {
-//         ClockNoting *current = employee->clockNotingHead;
-//         while (current->next != NULL) {
-//             current = current->next;
-//         }
-//         current->next = newNode;
-//     }
-// }

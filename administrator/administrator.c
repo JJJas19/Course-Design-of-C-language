@@ -261,7 +261,7 @@ int addHolidayNode(int holidayID, int maximumTime, int minimumTime, const char* 
     }
     point->next = newNode;
 
-    printf("插入假期成功");
+    printf("插入假期成功\n");
     return 1;
 }
 

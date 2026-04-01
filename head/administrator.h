@@ -62,7 +62,6 @@ void setEmployeeHolidayQuotaMenu();
 void administrator_menu();
 
 // 数据加载与保存
-
 void loadDepartmentData();
 void loadEmployeeData();
 void loadData();
@@ -76,5 +75,8 @@ void saveData();
 // 请假信息查询
 void displayLeaveHistory();
 void query_leave_history();
+
+// 信息统计
+void statisticsMenu();
 
 #endif 
