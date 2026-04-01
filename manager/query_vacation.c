@@ -2,6 +2,53 @@
 
 LeaveApplication *leave_head = NULL;
 
+void loadVacationRecord() // 加载全局请假链表数据 供管理员使用
+{
+    FILE *fp = fopen("../data/leave_applications.csv", "r");
+    if (fp == NULL)
+    {
+        printf("打开打卡记录文件失败！\n");
+        Sleep(1000);
+        return;
+    }
+
+    leave_head = (LeaveApplication *)malloc(sizeof(LeaveApplication));
+    if (leave_head == NULL)
+    {
+        fclose(fp);
+        return;
+    }
+    leave_head->next = NULL;
+
+    char buffer[1024];
+    // 跳过表头
+    fgets(buffer, sizeof(buffer), fp);
+
+    while (fgets(buffer, sizeof(buffer), fp) != NULL)
+    {
+        LeaveApplication *new_node = (LeaveApplication *)malloc(sizeof(LeaveApplication));
+        if (new_node == NULL)
+            break;
+
+        int parse_result = sscanf(buffer, "%19[^,],%9[^,],%9[^,],%d,%d,%19[^,],%d",
+                                  new_node->emp_id,
+                                  new_node->emp_name,
+                                  new_node->department,
+                                  &(new_node->leave_type),
+                                  &(new_node->leave_days),
+                                  new_node->apply_time,
+                                  &(new_node->status));
+
+        if (parse_result != 7) {
+            continue;
+        }
+        new_node->next = leave_head->next;
+        leave_head->next = new_node;
+    }
+
+    fclose(fp);
+}
+
 LeaveApplication *load_vacation_record()
 {
     FILE *fp = fopen("../data/leave_applications.csv", "r");
@@ -419,8 +466,8 @@ void count_department_leave(LeaveApplication *head)
 
 void query_vacation()
 {
-    leave_head = load_vacation_record();
-    if (leave_head == NULL)
+    LeaveApplication *head = load_vacation_record();
+    if (head == NULL)
     {
         return;
     }
@@ -453,31 +500,31 @@ void query_vacation()
         {
         case 1:
             clear_screen();
-            department_vacation(leave_head); // 查看全部打卡信息
+            department_vacation(head); // 查看全部打卡信息
             break;
         case 2:
             clear_screen();
-            vacation_by_emp_id(leave_head); // 按ID查询
+            vacation_by_emp_id(head); // 按ID查询
             break;
         case 3:
             clear_screen();
-            vacation_by_emp_name(leave_head); // 按姓名查询
+            vacation_by_emp_name(head); // 按姓名查询
             break;
         case 4:
             clear_screen();
-            vacation_by_time_asc(leave_head); //  天数升序
+            vacation_by_time_asc(head); //  天数升序
             break;
         case 5:
             clear_screen();
-            vacation_by_day_asc(leave_head); //  次数升序
+            vacation_by_day_asc(head); //  次数升序
             break;
         case 6:
             clear_screen();
-            count_department_leave(leave_head); //  全部数据
+            count_department_leave(head); //  全部数据
             break;
         case 7:
             clear_screen();
-            free_vacation(leave_head);
+            free_vacation(head);
             return;
             break;
         default:
@@ -487,5 +534,5 @@ void query_vacation()
         }
     }
 
-    free_vacation(leave_head);
+    free_vacation(head);
 }

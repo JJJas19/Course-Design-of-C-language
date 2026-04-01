@@ -7,6 +7,12 @@
 #include "hr_specialist.h"
 #include "manager.h"
 
+extern char employeename[100];
+extern int employeeID;
+extern char managername[100];
+extern char managerID[100];
+extern char managedepartment[100];
+
 // 主菜单函数
 void menu(Employee* employeehead);
 

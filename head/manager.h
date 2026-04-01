@@ -52,6 +52,9 @@ void manager_menu(char id[], char name[], char department[]);
 
 int APPexamine(); // 请假审批
 
+// 初始化
+void loadVacationRecord(); // 加载全局请假链表数据 供管理员使用
+
 // 请假
 void vacation();
 void apply_for_vacation();

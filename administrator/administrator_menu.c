@@ -230,7 +230,6 @@ void maintainMenu()
 
 void queryMeun()
 {
-    query_vacation();
     while (1)
     {
         int choice;

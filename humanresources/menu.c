@@ -13,9 +13,6 @@ char managerID[100];
 char managedepartment[100];
 void menu(Employee* employeehead)
 {
-    system("chcp 65001");
-    setlocale(LC_ALL, "");
-
     printf("**********欢迎使用考勤管理系统**********\n");
     printf("**************************************\n");
     printf("**********1.登录             **********\n");
