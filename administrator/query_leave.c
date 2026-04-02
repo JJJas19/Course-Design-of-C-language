@@ -8,10 +8,10 @@ void initQueryResult() {
 }
 
 void freeQueryResult() {
-    LeaveApplication *current = queryResult;
-    while (current != NULL) {
-        LeaveApplication *temp = current;
-        current = current->next;
+    LeaveApplication *point = queryResult;
+    while (point != NULL) {
+        LeaveApplication *temp = point;
+        point = point->next;
         free(temp);
     }
     queryResult = NULL;

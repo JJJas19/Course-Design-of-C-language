@@ -70,13 +70,14 @@ void saveUserData()
         } else if (p->roleType == 4) {
             strcpy(role, "员工");
         }
-        fprintf(file, "%s,%s,%s,%s,%d,%d\n",
+        fprintf(file, "%s,%s,%s,%s,%d,%d,%s\n",
                 role,
                 p->account,
                 p->password,
                 p->name,
                 p->id,
-                p->roleType);
+                p->roleType,
+                p->department);
         p = p->next;
     }
 

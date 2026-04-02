@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <windows.h>
-#define MAX_NAME_LENGTH 1000
+#define MAX_NAME_LENGTH 30
 
 // 时间结构体
 typedef struct
@@ -67,9 +67,11 @@ typedef enum
 typedef struct User
 {
     int id;
+    char role[MAX_NAME_LENGTH];
     char password[MAX_NAME_LENGTH];
     char account[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
+    char department[MAX_NAME_LENGTH];
     RoleType roleType;
     struct User *next;
 } User;

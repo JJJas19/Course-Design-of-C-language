@@ -23,7 +23,7 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
 int removeEmployeeNode(int index);
 int modifyEmployeeNode(int index);
 
-int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType);
+int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType, const char* department, const char* role);
 int removeUserNode(int index);
 int modifyUserNode(int index);
 

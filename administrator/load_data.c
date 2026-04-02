@@ -111,10 +111,11 @@ void loadUserData()
     }
 
     int id;
-    char password[MAX_NAME_LENGTH];
     char name[MAX_NAME_LENGTH];
+    char password[MAX_NAME_LENGTH];
     char role[MAX_NAME_LENGTH];
     char account[MAX_NAME_LENGTH];
+    char department[MAX_NAME_LENGTH];
     int roleType;
 
     char buffer[1024];
@@ -122,15 +123,16 @@ void loadUserData()
 
     while (fgets(buffer, sizeof(buffer), file))
     {
-        if (sscanf(buffer, "%[^,\n],%[^,\n],%[^,\n],%[^,\n],%d,%d",
+        if (sscanf(buffer, "%[^,\n],%[^,\n],%[^,\n],%[^,\n],%d,%d,%[^,\n]",
             role,
             account,
             password,
             name,
             &id,
-            &roleType) == 6)
+            &roleType,
+            department) == 7)
         {
-            addUserNode(id, password, name, account, (RoleType)roleType);
+            addUserNode(id, password, name, account, (RoleType)roleType, department, role);
         }
     }
 
