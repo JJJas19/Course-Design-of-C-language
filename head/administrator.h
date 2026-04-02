@@ -19,7 +19,7 @@ int addDepartmentNode(int departmentID, const char* departmentName);
 int removeDepartmentNode(int index);
 int modifyDepartmentNode(int index);
 
-int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName);
+int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName, const char* role);
 int removeEmployeeNode(int index);
 int modifyEmployeeNode(int index);
 
@@ -72,6 +72,10 @@ void saveEmployeeData();
 void saveUserData();
 void saveHolidayData();
 void saveData();
+
+// 数据备份与恢复
+void backupData();
+void restoreData();
 
 // 请假信息查询
 void displayLeaveHistory();

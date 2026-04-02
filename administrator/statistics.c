@@ -3,6 +3,7 @@
 
 void calculateAverageAnnualLeaveDaysInApartment()
 {
+    displayDepartmentList();
     char departmentName[MAX_NAME_LENGTH];
     printf("请输入部门名称: ");
     scanf("%s", departmentName);

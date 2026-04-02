@@ -81,6 +81,7 @@ typedef struct Employee
 {
     char employeeName[MAX_NAME_LENGTH];
     char departmentName[MAX_NAME_LENGTH];
+    char roleName[MAX_NAME_LENGTH];
     int employeeID;
     int departmentID;
     int salary;

@@ -54,7 +54,7 @@ void loadEmployeeData()
             departmentName,
             rolename) == 4)
         {
-            addEmployeeNode(employeeID, departmentName, employeeName);
+            addEmployeeNode(employeeID, departmentName, employeeName, rolename);
         }
     }
 

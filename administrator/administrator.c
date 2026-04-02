@@ -131,7 +131,7 @@ void initEmployeeList()
     employeeHead->clockNotingData = NULL;
 }
 
-int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName)
+int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName, const char* role)
 {
     if (employeeHead == NULL) {
         initEmployeeList();
@@ -153,12 +153,19 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     }
     size = strlen(departmentName);
     if (size > MAX_NAME_LENGTH) {
-        printf("员工名称过长，请重新创建\n");
+        printf("部门名称过长，请重新创建\n");
+        free(newNode);
+        return 0;
+    }
+    size = strlen(role);
+    if (size > MAX_NAME_LENGTH) {
+        printf("角色名称过长，请重新创建\n");
         free(newNode);
         return 0;
     }
     strcpy(newNode->employeeName, employeeName);
     strcpy(newNode->departmentName, departmentName);
+    strcpy(newNode->roleName, role);
     Employee *point = employeeHead;
     while (point->next != NULL) {
         point = point->next;
@@ -218,10 +225,14 @@ int modifyEmployeeNode(int index)
         
         strcpy(point->employeeName, name);
 
-        printf("请输入部门序号: ");
-        int departmentID;
-        scanf("%d", &departmentID);
-        point->departmentID = departmentID;
+        printf("请输入部门名称: ");
+        char departmentName[MAX_NAME_LENGTH];
+        scanf("%s", departmentName);
+        while (strlen(departmentName) > MAX_NAME_LENGTH) {
+            printf("部门名称过长，请重新输入: ");
+            scanf("%s", departmentName);
+        }
+        strcpy(point->departmentName, departmentName);
 
         return 1;
     }
@@ -703,13 +714,16 @@ void addEmployee()
     int employeeID;
     char employeeName[MAX_NAME_LENGTH];
     char departmentName[MAX_NAME_LENGTH];
+    char role[MAX_NAME_LENGTH];
     printf("请输入员工ID: ");
     scanf("%d", &employeeID);
     printf("请输入部门名称: ");
     scanf("%s", departmentName);
     printf("请输入员工姓名: ");
     scanf("%s", employeeName);
-    addEmployeeNode(employeeID, departmentName, employeeName); 
+    printf("请输入员工职位名称: ");
+    scanf("%s", role);
+    addEmployeeNode(employeeID, departmentName, employeeName, role); 
 }
 
 void removeEmployee()
@@ -776,7 +790,7 @@ void displayUserList()
     User *point = userHead->next;
     printf("用户列表:\n");
     while (point != NULL) {
-        printf("用户ID: %d, 用户名: %s, 角色: %d\n", point->id, point->name, point->roleType);
+        printf("用户身份：%s, 用户账号：%s, 用户密码：%s, 用户ID: %d, 姓名: %s, 角色: %d, 所属部门: %s\n", point->role, point->account, point->password, point->id, point->name, point->roleType, point->department);
         point = point->next;
     }
 }
