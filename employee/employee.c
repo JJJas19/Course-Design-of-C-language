@@ -518,6 +518,7 @@ void SortAbsenceMessege(Vacation* vacation) {
     }
     Vacation** absenceMessege = (Vacation**)malloc(absenceCount * sizeof(Vacation*) * absenceCount);
     int i;
+    q=vacation->next;
     for (i = 0; i < absenceCount; i++) {
         absenceMessege[i] = q;
         q = q->next;
@@ -557,19 +558,19 @@ void SortAbsenceMessege(Vacation* vacation) {
             else if (operation == 1) {
                 PopDownByLength(absenceMessege, absenceCount);
                 for (i = 0; i < absenceCount; i++) {
-                    printf("%d年%d月%d日\n", absenceMessege[i]->start.year, absenceMessege[i]->start.month, absenceMessege[i]->start.day);
+                    printf("%d年%d月%d日", absenceMessege[i]->start.year, absenceMessege[i]->start.month, absenceMessege[i]->start.day);
                     printf("-");
-                    printf("%d年%d月%d日\n", absenceMessege[i]->end.year, absenceMessege[i]->end.month, absenceMessege[i]->end.day);
-                    printf("\t请假%d天\n", absenceMessege[i]->length);
+                    printf("%d年%d月%d日", absenceMessege[i]->end.year, absenceMessege[i]->end.month, absenceMessege[i]->end.day);
+                    printf(":请假%d天\n", absenceMessege[i]->length);
                 }
             }
             else if (operation == 2) {
                 PopDownByDate(absenceMessege, absenceCount);
                 for (i = 0; i < absenceCount; i++) {
-                    printf("%d年%d月%d日\n", absenceMessege[i]->start.year, absenceMessege[i]->start.month, absenceMessege[i]->start.day);
+                    printf("%d年%d月%d日", absenceMessege[i]->start.year, absenceMessege[i]->start.month, absenceMessege[i]->start.day);
                     printf("-");
-                    printf("%d年%d月%d日\n", absenceMessege[i]->end.year, absenceMessege[i]->end.month, absenceMessege[i]->end.day);
-                    printf("\t请假%d天\n", absenceMessege[i]->length);
+                    printf("%d年%d月%d日", absenceMessege[i]->end.year, absenceMessege[i]->end.month, absenceMessege[i]->end.day);
+                    printf(":请假%d天\n", absenceMessege[i]->length);
                 }
             }
         }
@@ -588,20 +589,25 @@ void SortAbsenceDays(Vacation* vacation) {
 
 //统计迟到、早退天数
 void UnpunctuatedDays(ClockNoting* clockNoting) {
+    if (clockNoting == NULL || clockNoting->next == NULL) {
+        printf("还没有打卡信息!\n");
+        return;
+    }
     int lateCount = 0;
     int earlyCount = 0;
-    while (clockNoting != NULL) {
-        if (clockNoting->clockInTime.isClocking == 1) {
-            if (clockNoting->clockInTime.hour > 8) {
+    ClockNoting* p = clockNoting->next;
+    while (p!= NULL) {
+        if (p->clockInTime.isClocking == 1) {
+            if ((p->clockInTime.hour == 8 && p->clockInTime.minute>30) || p->clockInTime.hour>8) {
                 lateCount++;
             }
         }
-        if (clockNoting->clockOutTime.isClocking == 1) {
-            if (clockNoting->clockOutTime.hour < 18) {
+        if (p->clockOutTime.isClocking == 1) {
+            if (p->clockOutTime.hour < 18) {
                 earlyCount++;
             }
         }
-        clockNoting = clockNoting->next;
+        p = p->next;
     }
     printf("您共计迟到%d次\n", lateCount);
     printf("您共计早退%d次\n", earlyCount);
@@ -759,10 +765,10 @@ void ApplyForVacation(Employee* employee)
                 return;
             }
             else if (operation == 1) {
-                FILE* fp = fopen("./data/leave_applications.csv", "a");
+                FILE* fp = fopen("../data/leave_applications.csv", "a");
                 if (fp == NULL)
                 {
-                    printf("打开文件失败！无法进行申请\n");
+                    printf("打开文件失败！无法进行申请!\n");
                     return;
                 }
                 int year = 0, month = 0, day = 0;
@@ -942,7 +948,7 @@ char* JudgeDepartment(int departmentID) {
         line[strcspn(line, "\n")] = 0;
         int ID;
         char departmentName[20];
-        int res = sscanf(line,"%d,%s", &ID, departmentName);
+        int res = sscanf(line,"%d,%[^0]", &ID, departmentName);
         if (res != 2) {
             printf("数据解析失败!请检查文件是否完整！\n");
             fclose(fp);
@@ -958,6 +964,7 @@ char* JudgeDepartment(int departmentID) {
         }
     }
     fclose(fp);
+    printf("未找到部门!\n");
     return "未知";
 }
 
@@ -997,12 +1004,13 @@ void GetClockInfo(Employee* employee) {
         int minute;
         int second;
         char state[20];
-        int res = sscanf(line, "%d,%[^,],%[^,],%d-%d-%d %d:%d:%d,%[^,]", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
+        int res = sscanf(line, "%d,%[^,],%[^,],%d-%d-%d %d:%d:%d,%[^\n]", &ID, name, departmentName, &year, &month, &day, &hour, &minute, &second, state);
         if (res != 10) {
             printf("文件损坏!\n");
             continue;
         }
         if (ID == employee->employeeID) {
+            printf("%s\n", line);
             int kind=JudgeClockingKind(state);
             if (kind == 0) {
                 printf("未知打卡信息!\n");
@@ -1065,6 +1073,7 @@ void GetClockInfo(Employee* employee) {
             }
         }
     }
+    printf("打卡信息加载结束\n");
     fclose(fp);
 }
 
@@ -1108,6 +1117,7 @@ void GetVacationInfo(Employee* employee) {
             AddVacation(employee, type, year, month, day, length, state);
         }
     }
+    printf("假期信息加载结束\n");
     fclose(fp);
 }
 
@@ -1124,9 +1134,8 @@ int JudgeClockingKind(char* state) {
     }
 }
 
-//用来读取员工打卡，假期信息
+//用来读取员工信息
 void GetEmployeeInfo(Employee* employee) {
     GetClockInfo(employee);
     GetVacationInfo(employee);
 }
-
