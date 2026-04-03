@@ -12,7 +12,6 @@ int readint()
     int num;
     int pos;
 
-    clearbuffer();  // 清空输入缓冲区
     while (1) {
         fgets(buffer, sizeof(buffer), stdin);
         
