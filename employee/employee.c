@@ -975,7 +975,9 @@ char* JudgeDepartment(int departmentID) {
         else {
             if (departmentID == ID) {
                 fclose(fp);
-                return departmentName;
+                static char result[20];
+                strcpy(result, departmentName);
+                return result;
             }
         }
     }
