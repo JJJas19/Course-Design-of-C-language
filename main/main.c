@@ -11,7 +11,7 @@ int main()
     SetConsoleCP(CP_UTF8);
 
     loadData();
-    // administrator_menu();
+    
     menu(employeeHead);
     saveData();
     return 0;
