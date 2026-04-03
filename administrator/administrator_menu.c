@@ -207,26 +207,20 @@ void maintainMenu()
         printf("进入系统维护菜单...\n");
         printf("请选择操作：\n");
         printf("0. 返回上一级菜单\n");
-        printf("1. 设置密码\n");
-        printf("2. 设置假期时间\n");
-        printf("3. 设置员工部门\n");
+        printf("1. 数据备份\n");
+        printf("2. 数据恢复\n");
         scanf("%d", &choice);
         system("cls"); // 清屏
         switch (choice) {
             case 0:
                 return;
             case 1:
-                setpasswordMenu();
+                backupData();
                 system("pause");
                 system("cls");
                 break;
             case 2:
-                setHolidayTimeMenu();
-                system("pause");
-                system("cls");
-                break;
-            case 3:
-                setEmployeeDepartmentMenu();
+                restoreData();
                 system("pause");
                 system("cls");
                 break;

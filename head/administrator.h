@@ -19,11 +19,11 @@ int addDepartmentNode(int departmentID, const char* departmentName);
 int removeDepartmentNode(int index);
 int modifyDepartmentNode(int index);
 
-int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName);
+int addEmployeeNode(int employeeID, const char* departmentName, const char* employeeName, const char* role);
 int removeEmployeeNode(int index);
 int modifyEmployeeNode(int index);
 
-int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType);
+int addUserNode(int id, const char* password, const char* name, const char* account, RoleType roleType, const char* department, const char* role);
 int removeUserNode(int index);
 int modifyUserNode(int index);
 
@@ -73,6 +73,10 @@ void saveUserData();
 void saveHolidayData();
 void saveData();
 
+// 数据备份与恢复
+void backupData();
+void restoreData();
+
 // 请假信息查询
 void displayLeaveHistory();
 void query_leave_history();
@@ -83,5 +87,13 @@ void displayHolidayQuota(Employee *employee);
 
 // 信息统计
 void statisticsMenu();
+
+// 读入
+void clearbuffer();
+int readint();
+int readID(int nowID);
+int readHolidayID();
+int readEmployeeID();
+int readDepartmentID();
 
 #endif 

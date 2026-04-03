@@ -6,114 +6,152 @@ void saveDepartmentData()
 {
     FILE *file = fopen("../data/all_apartment.csv", "w");
     if (file == NULL) {
-        printf("无法打开部门数据文件！\n");
+        printf("无法写入部门数据文件！\n");
         return;
     }
 
-    fprintf(file, "departmentID,departmentName\n");
+    fprintf(file, "部门ID,部门名称\n");
 
-    Department *p = departmentHead;
-    while (p != NULL) {
-        fprintf(file, "%d,%s\n", p->departmentID, p->name);
-        p = p->next;
+    Department *point = departmentHead->next;
+    while (point != NULL)
+    {
+        fprintf(file, "%d,%s\n",
+            point->departmentID,
+            point->name);
+        point = point->next;
     }
 
     fclose(file);
-    printf("部门数据保存成功！\n");
 }
 
 void saveEmployeeData()
 {
     FILE *file = fopen("../data/all_staff.csv", "w");
     if (file == NULL) {
-        printf("无法打开员工数据文件！\n");
+        printf("无法写入员工数据文件！\n");
         return;
     }
 
-    fprintf(file, "employeeID,employeeName,departmentName,rolename\n");
+    fprintf(file, "人员ID,人员姓名,所属部门,职位\n");
 
-    Employee *p = employeeHead;
-    char rolename[MAX_NAME_LENGTH];
-    strcpy(rolename, "员工");
-    while (p != NULL) {
+    Employee *point = employeeHead->next;
+    while (point != NULL)
+    {
         fprintf(file, "%d,%s,%s,%s\n",
-                p->employeeID,
-                p->employeeName,
-                p->departmentName,
-                rolename);
-        p = p->next;
+            point->employeeID,
+            point->employeeName,
+            point->departmentName,
+            point->roleName);
+        point = point->next;
     }
 
     fclose(file);
-    printf("员工数据保存成功！\n");
 }
 
 void saveUserData()
 {
     FILE *file = fopen("../data/userdata.csv", "w");
     if (file == NULL) {
-        printf("无法打开用户数据文件！\n");
+        printf("无法写入用户数据文件！\n");
         return;
     }
 
-    fprintf(file, "role,account,password,name,id,roleType\n");
+    fprintf(file, "身份,账号,密码,姓名,ID,角色类型,部门\n");
 
-    User *p = userHead;
-    while (p != NULL) {
-        char role[MAX_NAME_LENGTH];
-        if (p->roleType == 1) {
-            strcpy(role, "管理员");
-        } else if (p->roleType == 2) {
-            strcpy(role, "部门经理");
-        } else if (p->roleType == 3) {
-            strcpy(role, "人事专员");
-        } else if (p->roleType == 4) {
-            strcpy(role, "员工");
-        }
-        fprintf(file, "%s,%s,%s,%s,%d,%d\n",
-                role,
-                p->account,
-                p->password,
-                p->name,
-                p->id,
-                p->roleType);
-        p = p->next;
+    User *point = userHead->next;
+    while (point != NULL)
+    {
+        fprintf(file, "%s,%s,%s,%s,%d,%d,%s\n",
+            point->role,
+            point->account,
+            point->password,
+            point->name,
+            point->id,
+            point->roleType,
+            point->department);
+        point = point->next;
     }
 
     fclose(file);
-    printf("用户数据保存成功！\n");
 }
 
 void saveHolidayData()
 {
     FILE *file = fopen("../data/holidaydata.csv", "w");
     if (file == NULL) {
-        printf("无法打开假期数据文件！\n");
+        printf("无法写入假期数据文件！\n");
         return;
     }
 
-    fprintf(file, "holidayID,holidayName,minimumTime,maximumTime\n");
+    fprintf(file, "holidayID,holidayName,minTime,maxTime\n");
 
-    HolidayType *p = holidayHead;
-    while (p != NULL) {
+    HolidayType *point = holidayHead->next;
+    while (point != NULL)
+    {
         fprintf(file, "%d,%s,%d,%d\n",
-                p->holidayID,
-                p->name,
-                p->minimumTime,
-                p->maximumTime);
-        p = p->next;
+            point->holidayID,
+            point->name,
+            point->minimumTime,
+            point->maximumTime);
+        point = point->next;
     }
 
     fclose(file);
-    printf("假期数据保存成功！\n");
 }
 
-void saveData()
+void saveHolidayQuota()
 {
-    saveDepartmentData();
-    saveEmployeeData();
+    FILE *file = fopen("../data/holidayquotadata.csv", "w");
+    if (file == NULL) {
+        printf("无法写入假期配额文件！\n");
+        return;
+    }
+
+    fprintf(file, "员工ID,员工姓名,假期类型ID,总共额度,已使用额度,剩余额度\n");
+
+    Employee *emp = employeeHead->next;
+    while (emp != NULL)
+    {
+        if (emp->holidayQuotaData == NULL) {
+            emp = emp->next;
+            continue;
+        }
+        EmployeeHolidayQuota *quota = emp->holidayQuotaData->next;
+
+        while (quota != NULL)
+        {
+            fprintf(file, "%d,%s,%d,%d,%d,%d\n",
+                quota->employeeID,
+                emp->employeeName,
+                quota->holidayTypeID,
+                quota->totalQuota,
+                quota->usedQuota,
+                quota->remainingQuota);
+
+            quota = quota->next;
+        }
+
+        emp = emp->next;
+    }
+
+    fclose(file);
+}
+
+void saveData() {
+    printf("1: 开始保存用户数据\n");
     saveUserData();
+
+    printf("2: 开始保存部门数据\n");
+    saveDepartmentData();
+
+    printf("3: 开始保存员工数据\n");
+    saveEmployeeData();
+
+    printf("4: 开始保存假期数据\n");
     saveHolidayData();
-    system("cls");
-    printf("所有数据保存成功！\n");
+
+    printf("5: 开始保存额度数据\n");
+    saveHolidayQuota();
+
+    printf("saveData 完成\n");
 }

@@ -2,27 +2,116 @@
 
 LeaveApplication *queryResult = NULL;
 
+void sort_by_id_asc(LeaveApplication *head)
+{
+    if (head == NULL || head->next == NULL)
+        return;
+
+    int flag;
+    LeaveApplication *p;
+
+    do {
+        flag = 0;
+        p = head->next;
+
+        while (p->next != NULL)
+        {
+            if (strcmp(p->emp_id, p->next->emp_id) > 0)
+            {
+                LeaveApplication *prev = head;
+                while (prev->next != p)
+                    prev = prev->next;
+
+                LeaveApplication *node1 = p;
+                LeaveApplication *node2 = p->next;
+
+                node1->next = node2->next;
+                node2->next = node1;
+                prev->next = node2;
+
+                flag = 1;
+                p = node2;
+            }
+            p = p->next;
+        }
+    } while (flag);
+}
+
+void sort_by_time_asc(LeaveApplication *head)
+{
+    if (head == NULL || head->next == NULL)
+        return;
+
+    int flag;
+    LeaveApplication *p;
+
+    do {
+        flag = 0;
+        p = head->next;
+
+        while (p->next != NULL)
+        {
+            if (strcmp(p->apply_time, p->next->apply_time) > 0)
+            {
+                LeaveApplication *prev = head;
+                while (prev->next != p)
+                    prev = prev->next;
+
+                LeaveApplication *node1 = p;
+                LeaveApplication *node2 = p->next;
+
+                node1->next = node2->next;
+                node2->next = node1;
+                prev->next = node2;
+
+                flag = 1;
+                p = node2;
+            }
+            p = p->next;
+        }
+    } while (flag);
+}
+
 void initQueryResult() {
     queryResult = (LeaveApplication*)malloc(sizeof(LeaveApplication));
+    if (!queryResult) {
+        printf("内存分配失败\n");
+        exit(1);
+    }
+    memset(queryResult, 0, sizeof(LeaveApplication));
     queryResult->next = NULL;
 }
 
 void freeQueryResult() {
-    LeaveApplication *current = queryResult;
-    while (current != NULL) {
-        LeaveApplication *temp = current;
-        current = current->next;
+    LeaveApplication *point = queryResult;
+    while (point != NULL) {
+        LeaveApplication *temp = point;
+        point = point->next;
         free(temp);
     }
     queryResult = NULL;
 }
 
 void printQueryResult() {
+    int choice;
+    printf("是否排序?\n");
+    printf("1. 按员工ID升序\n");
+    printf("2. 按时间升序\n");
+    printf("0. 不排序\n");
+    scanf("%d", &choice);
+
+    if (choice == 1)
+        sort_by_id_asc(queryResult);
+    else if (choice == 2)
+        sort_by_time_asc(queryResult);
+
     LeaveApplication *point = queryResult->next;
+
     if (point == NULL) {
         printf("没有符合条件的请假记录。\n");
         return;
     }
+
     while (point != NULL)
     {
         printf("员工ID: %s\n", point->emp_id);
@@ -35,10 +124,18 @@ void printQueryResult() {
         printf("-----------------------------------\n");
         point = point->next;
     }
+
+    freeQueryResult();
 }
 
 void addqueryResultNode(LeaveApplication *application) {
     LeaveApplication *newNode = (LeaveApplication*)malloc(sizeof(LeaveApplication));
+    if (newNode == NULL) {
+        printf("内存分配失败\n");
+        return;
+    }
+
+    memset(newNode, 0, sizeof(LeaveApplication));
     strcpy(newNode->emp_id, application->emp_id);
     strcpy(newNode->emp_name, application->emp_name);
     strcpy(newNode->department, application->department);
@@ -67,6 +164,7 @@ void queryLeaveHistorybyID() {
 }
 
 void queryLeaveHistorybystatus() {
+    initQueryResult();
     int status;
     printf("请输入审批状态 (0:待审批, 1:已批准, 2:已拒绝): ");
     scanf("%d", &status);
@@ -82,6 +180,7 @@ void queryLeaveHistorybystatus() {
 }
 
 void queryLeaveHistorybyleaveType() {
+    initQueryResult();
     int leaveType;
     printf("请输入请假类型 (0:年假, 1:病假, 2:事假): ");
     scanf("%d", &leaveType);
@@ -98,6 +197,7 @@ void queryLeaveHistorybyleaveType() {
 
 void queryLeaveHistoryByTime()
 {
+    initQueryResult();
     char startTime[20], endTime[20];
     printf("请输入查询的开始时间 (格式: YYYY-MM-DD): ");
     scanf("%s", startTime);
@@ -116,6 +216,7 @@ void queryLeaveHistoryByTime()
 
 void queryLeaveHistoryByTimeAndID()
 {
+    initQueryResult();
     char employeeID[20];
     char startTime[20], endTime[20];
     printf("请输入员工ID: ");
@@ -155,6 +256,20 @@ void displayLeaveHistory() {
     }
 }
 
+void printallLeaveHistory() {
+    initQueryResult();
+    LeaveApplication *point = leave_head->next;
+     if (point == NULL) {
+        printf("没有请假申请记录。\n");
+        return;
+    }
+    while (point != NULL) {
+        addqueryResultNode(point);
+        point = point->next;
+    }
+    printQueryResult();
+}
+
 void query_leave_history() {
     int choice;
     do {
@@ -165,7 +280,7 @@ void query_leave_history() {
         printf("3. 按请假类型查询\n");
         printf("4. 按申请时间查询\n");
         printf("5. 显示所有请假记录\n");
-        printf("6. 查询某员工某天是否请假\n");
+        printf("6. 查询某员工某段时间是否请假\n");
         printf("0. 返回上级菜单\n");
         printf("请输入选择: ");
         scanf("%d", &choice);
@@ -188,7 +303,7 @@ void query_leave_history() {
                 system("pause");
                 break;
             case 5:
-                displayLeaveHistory();
+                printallLeaveHistory();
                 system("pause");
                 break;
             case 6:
