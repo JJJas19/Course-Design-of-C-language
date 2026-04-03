@@ -362,14 +362,14 @@ void FindClockNotingByDate(Employee* employee) {
                             printf("未打卡!\n");
                         }
                         else if (temp->clockInTime.isClocking == 1) {
-                            printf("%d:%d\n", temp->clockInTime.hour, temp->clockInTime.minute);
+                            printf("%02d:%02d\n", temp->clockInTime.hour, temp->clockInTime.minute);
                         }
                         printf("下班记录:");
                         if (temp->clockOutTime.isClocking == 0) {
                             printf("未打卡!\n");
                         }
                         else if (temp->clockOutTime.isClocking == 1) {
-                            printf("%d:%d\n", temp->clockOutTime.hour, temp->clockOutTime.minute);
+                            printf("%02d:%02d\n", temp->clockOutTime.hour, temp->clockOutTime.minute);
                         }
                     }
                     break;
