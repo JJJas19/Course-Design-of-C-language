@@ -28,7 +28,9 @@ void apply_for_vacation()
 
         if (scanf("%d", &type) != 1)
         {
-            fflush(stdin);
+            // fflush(stdin);
+            while (getchar() != '\n')
+                ;
             printf("输入无效!请输入数字1-4:\n");
             Sleep(1000);
             continue;

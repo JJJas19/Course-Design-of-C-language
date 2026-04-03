@@ -143,6 +143,8 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     }
     memset(newNode, 0, sizeof(Employee));
     newNode->next = NULL;
+    newNode->holidayQuotaData = NULL;
+    newNode->clockNotingData = NULL;
 
     newNode->employeeID = employeeID;
     int size = strlen(employeeName);
@@ -166,6 +168,21 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     strcpy(newNode->employeeName, employeeName);
     strcpy(newNode->departmentName, departmentName);
     strcpy(newNode->roleName, role);
+
+    newNode->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+    newNode->holidayQuotaData->next = NULL;
+    EmployeeHolidayQuota *quota = newNode->holidayQuotaData;
+    for (int i = 1; i <= 3; i ++ )
+    {
+        quota->next = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+        quota->next->holidayTypeID = i;
+        quota->next->employeeID = employeeID;
+        quota->next->totalQuota = 0;
+        quota->next->usedQuota = 0;
+        quota->next->remainingQuota = 0;
+        quota = quota->next;
+    }
+
     Employee *point = employeeHead;
     while (point->next != NULL) {
         point = point->next;
@@ -352,17 +369,18 @@ int modifyHolidayNode(int index)
 
         printf("请输入假期最短时间: ");
         int minimumTime;
-        scanf("%d", &minimumTime);
+        clearbuffer();
+        minimumTime = readint();
         while (minimumTime < 0) {
             printf("输入时间非法，请重新输入: ");
-            scanf("%d", &minimumTime);
+            minimumTime = readint();
         }
         printf("请输入假期最长时间: ");
         int maximumTime;
-        scanf("%d", &maximumTime);
+        maximumTime = readint();
         while (maximumTime < minimumTime) {
             printf("输入时间非法，请重新输入: ");
-            scanf("%d", &maximumTime);
+            maximumTime = readint();
         }
         point->minimumTime = minimumTime;
         point->maximumTime = maximumTime;
@@ -555,9 +573,10 @@ int modifyUserNode(int index)
             scanf("%s", name);
         }
 
+        clearbuffer();
         printf("请输入角色编号(1-4): ");
         int roleType;
-        scanf("%d", &roleType);
+        roleType = readint();
         if (roleType < 1 || roleType > 4) {
             printf("输入编号非法\n");
             return 0;
@@ -709,10 +728,12 @@ void initlist()
 
 void displayDepartmentList()
 {
+    int cnt = 0;
     Department *point = departmentHead->next;
     printf("部门列表:\n");
     while (point != NULL) {
-        printf("部门ID: %d, 部门名称: %s\n", point->departmentID, point->name);
+        cnt ++;
+        printf("序号: %d, 部门ID: %d, 部门名称: %s\n", cnt, point->departmentID, point->name);
         point = point->next;
     }
 }
@@ -732,7 +753,8 @@ void removeDepartment()
 {
     int index;
     printf("请输入要删除的部门序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     removeDepartmentNode(index);
 }
 
@@ -740,16 +762,19 @@ void modifyDepartment()
 {
     int index;
     printf("请输入要修改的部门序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     modifyDepartmentNode(index);
 }
 
 void displayEmployeeList()
 {
+    int cnt = 0;
     Employee *point = employeeHead->next;
     printf("员工列表:\n");
     while (point != NULL) {
-        printf("员工ID: %d, 员工姓名: %s, 部门名称: %s\n", point->employeeID, point->employeeName, point->departmentName);
+        cnt++;
+        printf("序号: %d, 员工ID: %d, 员工姓名: %s, 部门名称: %s\n", cnt, point->employeeID, point->employeeName, point->departmentName);
         point = point->next;
     }
 }
@@ -798,7 +823,8 @@ void removeEmployee()
 {
     int index;
     printf("请输入要删除的员工序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     removeEmployeeNode(index);
 }
 
@@ -806,16 +832,19 @@ void modifyEmployee()
 {
     int index;
     printf("请输入要修改的员工序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     modifyEmployeeNode(index);
 }
 
 void displayHolidayList()
 {
+    int cnt = 0;
     HolidayType *point = holidayHead->next;
     printf("假期列表:\n");
     while (point != NULL) {
-        printf("假期ID: %d, 假期名称: %s, 最短时间: %d, 最长时间: %d\n", point->holidayID, point->name, point->minimumTime, point->maximumTime);
+        cnt++;
+        printf("序号: %d, 假期ID: %d, 假期名称: %s, 最短时间: %d, 最长时间: %d\n", cnt, point->holidayID, point->name, point->minimumTime, point->maximumTime);
         point = point->next;
     }
 }
@@ -830,10 +859,19 @@ void addHoliday()
     holidayID = readHolidayID();
     printf("请输入假期名称: ");
     scanf("%s", name);
+    clearbuffer();
     printf("请输入假期最短时间: ");
-    scanf("%d", &minimumTime);
+    minimumTime = readint();
+    while (minimumTime < 0) {
+        printf("输入时间非法，请重新输入: ");
+        minimumTime = readint();
+    }
     printf("请输入假期最长时间: ");
-    scanf("%d", &maximumTime);
+    maximumTime = readint();
+    while (maximumTime < minimumTime) {
+        printf("最长时间不能小于最短时间，请重新输入: ");
+        maximumTime = readint();
+    }
     addHolidayNode(holidayID, maximumTime, minimumTime, name); 
 }
 
@@ -841,7 +879,8 @@ void removeHoliday()
 {
     int index;
     printf("请输入要删除的假期序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     removeHolidayNode(index);
 }
 
@@ -849,16 +888,19 @@ void modifyHoliday()
 {
     int index;
     printf("请输入要修改的假期序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     modifyHolidayNode(index);
 }
 
 void displayUserList()
 {
+    int cnt = 0;
     User *point = userHead->next;
     printf("用户列表:\n");
     while (point != NULL) {
-        printf("用户身份：%s, 用户账号：%s, 用户密码：%s, 用户ID: %d, 姓名: %s, 角色: %d, 所属部门: %s\n", point->role, point->account, point->password, point->id, point->name, point->roleType, point->department);
+        cnt ++;
+        printf("序号: %d, 用户身份：%s, 用户账号：%s, 用户密码：%s, 用户ID: %d, 姓名: %s, 角色: %d, 所属部门: %s\n", cnt, point->role, point->account, point->password, point->id, point->name, point->roleType, point->department);
         point = point->next;
     }
 }
@@ -958,10 +1000,11 @@ void addUser()
 
     // 6. 输入角色编号
     printf("请输入角色编号(1-4): ");
-    scanf("%d", &roleType);
+    clearbuffer();
+    roleType = readint();
     while (roleType < 1 || roleType > 4) {
         printf("角色编号必须在1-4之间，请重新输入: ");
-        scanf("%d", &roleType);
+        roleType = readint();
     }
 
     // 7. 输入部门名称
@@ -985,7 +1028,8 @@ void removeUser()
 {
     int index;
     printf("请输入要删除的用户序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     removeUserNode(index);
 }
 
@@ -993,7 +1037,8 @@ void modifyUser()
 {
     int index;
     printf("请输入要修改的用户序号: ");
-    scanf("%d", &index);
+    clearbuffer();
+    index = readint();
     modifyUserNode(index);
 }
 
@@ -1001,7 +1046,8 @@ int queryEmployeeClockNotingByID()
 {
     int employeeID;
     printf("请输入员工ID: ");
-    scanf("%d", &employeeID);
+    clearbuffer();
+    employeeID = readint();
 
     Employee *point = employeeHead->next;
     while (point != NULL) {
@@ -1032,8 +1078,11 @@ int queryEmployeeClockNotingByNameandDate()
     printf("请输入员工姓名: ");
     scanf("%s", employeeName);
     printf("请输入打卡日期 (年 月 日): ");
-    scanf("%d %d %d", &clockDate.year, &clockDate.month, &clockDate.day);
-    
+    clearbuffer();
+    clockDate.year = readint();
+    clockDate.month = readint();
+    clockDate.day = readint();
+
     Employee *point = employeeHead->next;
     while (point != NULL) {
         if (strcmp(point->employeeName, employeeName) == 0) {
@@ -1065,7 +1114,8 @@ void setpasswordMenu()
     int userID;
     char newPassword[MAX_NAME_LENGTH];
     printf("请输入用户ID: ");
-    scanf("%d", &userID);
+    clearbuffer();
+    userID = readint();
     printf("请输入新密码: ");
     scanf("%s", newPassword);
     while (strlen(newPassword) > MAX_NAME_LENGTH) {
@@ -1091,11 +1141,15 @@ void setHolidayTimeMenu()
     int minimumTime;
     int maximumTime;
     printf("请输入假期ID: ");
-    scanf("%d", &holidayID);
+    holidayID = readHolidayID();
     printf("请输入假期最短时间: ");
-    scanf("%d", &minimumTime);
+    minimumTime = readint();
     printf("请输入假期最长时间: ");
-    scanf("%d", &maximumTime);
+    maximumTime = readint();
+    while (maximumTime < minimumTime) {
+        printf("最长时间不能小于最短时间，请重新输入: ");
+        maximumTime = readint();
+    }
     setHolidayTime(holidayID, minimumTime, maximumTime);
 }
 
@@ -1104,12 +1158,13 @@ void setEmployeeHolidayQuotaMenu()
     int employeeID;
     int holidayTypeID;
     int totalQuota;
+    clearbuffer();
     printf("请输入员工ID: ");
-    scanf("%d", &employeeID);
+    employeeID = readint();
     printf("请输入假期类型ID: ");
-    scanf("%d", &holidayTypeID);
+    holidayTypeID = readint();
     printf("请输入假期总额度: ");
-    scanf("%d", &totalQuota);
+    totalQuota = readint();
     setEmployeeHolidayQuota(employeeID, holidayTypeID, totalQuota);
 }
 
@@ -1117,10 +1172,11 @@ void setEmployeeDepartmentMenu()
 {
     int employeeID;
     int departmentID;
+    clearbuffer();
     printf("请输入员工ID: ");
-    scanf("%d", &employeeID);
+    employeeID = readint();
     printf("请输入部门ID: ");
-    scanf("%d", &departmentID);
+    departmentID = readDepartmentID();
     setEmployeeDepartment(employeeID, departmentID);
 }
 
@@ -1172,7 +1228,8 @@ void setHolidayQuotaMenu()
     int totalQuota;
     displayEmployeeList();
     printf("请输入员工ID: ");
-    scanf("%d", &employeeID);
+    clearbuffer();
+    employeeID = readint();
     Employee *point = employeeHead;
     int found = 0;
     while (point->next != NULL) {
