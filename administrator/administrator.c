@@ -182,6 +182,7 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     //     quota->next->remainingQuota = 0;
     //     quota = quota->next;
     // }
+<<<<<<< HEAD
 
     Employee *point = employeeHead;
     while (point->next != NULL) {
@@ -244,6 +245,8 @@ int addEmployeeNode2(int employeeID, const char* departmentName, const char* emp
         quota->next->remainingQuota = 0;
         quota = quota->next;
     }
+=======
+>>>>>>> a2d5488ec5929c429ef5d18825fc2d2fefcf8615
 
     Employee *point = employeeHead;
     while (point->next != NULL) {
