@@ -223,7 +223,7 @@ bool Clock(Employee* employee) {
                     }
                     fprintf(fp, "%03d,%s,%s,%d-%d-%d %d:%d:%d,%s\n",
                         employee->employeeID, employee->employeeName,
-                        JudgeDepartment(employee->departmentID),
+                        employee->departmentName,
                         year, month, day, hour, minute, second,
                         JudgeClockingState(clockNotingData, clockingType));
                     fclose(fp);
@@ -632,7 +632,7 @@ void UnpunctuatedDays(ClockNoting* clockNoting) {
 //定义InformationIntegrety函数，用于统计员工的打卡信息
 void SortInformation(Employee* employee) {
     while (true) {
-        printf("========================================");
+        printf("========================================\n");
         printf("请输入您要执行的操作:\n");
         printf("0.退出\n");
         printf("1.请假记录统计\n");
@@ -893,7 +893,7 @@ void SaveEmployee(Employee* employee) {
         fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s\n",
             employee->employeeID,
             employee->employeeName,
-            JudgeDepartment(employee->departmentID),
+            employee->departmentName,
             q->clockDate.year,
             q->clockDate.month,
             q->clockDate.day,
@@ -905,7 +905,7 @@ void SaveEmployee(Employee* employee) {
         fprintf(fp, "%03d,%s,%s,%d-%d-%d %02d:%02d:%02d,%s\n",
             employee->employeeID,
             employee->employeeName,
-            JudgeDepartment(employee->departmentID),
+            employee->departmentName,
             q->clockDate.year,
             q->clockDate.month,
             q->clockDate.day,
@@ -951,39 +951,6 @@ const char* JudgeClockingState(ClockNoting* clockNoting,int kind) {
     else {
         return "未知";
     }
-}
-
-//用来判断所属部门
-char* JudgeDepartment(int departmentID) {
-    FILE* fp = fopen("../data/all_apartment.csv", "r");
-    if (fp == NULL) {
-        printf("文件不存在！\n");
-        return "文件错误";
-    }
-    char line[256];
-    fgets(line, sizeof(line), fp);
-    while (fgets(line, sizeof(line), fp) != NULL) {
-        line[strcspn(line, "\n")] = 0;
-        int ID;
-        char departmentName[20];
-        int res = sscanf(line,"%d,%[^\n]", &ID, departmentName);
-        if (res != 2) {
-            printf("数据解析失败!请检查文件是否完整！\n");
-            fclose(fp);
-            return "错误";
-        }
-        else {
-            if (departmentID == ID) {
-                fclose(fp);
-                static char result[20];
-                strcpy(result, departmentName);
-                return result;
-            }
-        }
-    }
-    fclose(fp);
-    printf("未找到部门!\n");
-    return "未知";
 }
 
 //用来读取员工打卡信息
