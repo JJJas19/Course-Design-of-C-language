@@ -129,6 +129,7 @@ void statisticsMenu()
         printf("3. 统计部门在某时间范围内某部门打卡的员工数量\n");
         scanf("%d", &choice);
         system("cls"); // 清屏
+        int year, month, day, hour, minute;
         switch (choice) {
             case 0:
                 return;
@@ -138,7 +139,6 @@ void statisticsMenu()
                 system("cls");
                 break;
             case 2:
-                int year, month, day, hour, minute;
                 printf("请输入时间 (年 月 日 时 分): ");
                 scanf("%d %d %d %d %d", &year, &month, &day, &hour, &minute);
                 int count = countAfterTime(year, month, day, hour, minute);
@@ -152,7 +152,6 @@ void statisticsMenu()
                 int startHour, startMin, endHour, endMin;
                 printf("请输入部门名称: ");
                 scanf("%s", department);
-                int year, month, day;
                 printf("请输入日期 (年 月 日): ");
                 scanf("%d %d %d", &year, &month, &day);
                 printf("请输入时间范围 (开始时 分 结束时 分): ");
