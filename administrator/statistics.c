@@ -152,6 +152,7 @@ void statisticsMenu()
                 int startHour, startMin, endHour, endMin;
                 printf("请输入部门名称: ");
                 scanf("%s", department);
+                int year, month, day;
                 printf("请输入日期 (年 月 日): ");
                 scanf("%d %d %d", &year, &month, &day);
                 printf("请输入时间范围 (开始时 分 结束时 分): ");
