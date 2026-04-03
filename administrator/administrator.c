@@ -169,6 +169,68 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     strcpy(newNode->departmentName, departmentName);
     strcpy(newNode->roleName, role);
 
+    // newNode->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+    // newNode->holidayQuotaData->next = NULL;
+    // EmployeeHolidayQuota *quota = newNode->holidayQuotaData;
+    // for (int i = 1; i <= 3; i ++ )
+    // {
+    //     quota->next = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+    //     quota->next->holidayTypeID = i;
+    //     quota->next->employeeID = employeeID;
+    //     quota->next->totalQuota = 0;
+    //     quota->next->usedQuota = 0;
+    //     quota->next->remainingQuota = 0;
+    //     quota = quota->next;
+    // }
+
+    Employee *point = employeeHead;
+    while (point->next != NULL) {
+        point = point->next;
+    }
+    point->next = newNode;
+
+    printf("插入员工成功\n");
+    return 1;
+}
+
+int addEmployeeNode2(int employeeID, const char* departmentName, const char* employeeName, const char* role)
+{
+    if (employeeHead == NULL) {
+        initEmployeeList();
+    }
+    Employee *newNode = (Employee*)malloc(sizeof(Employee));
+    if (newNode == NULL) {
+        printf("创建节点失败\n");
+        return 0;
+    }
+    memset(newNode, 0, sizeof(Employee));
+    newNode->next = NULL;
+    newNode->holidayQuotaData = NULL;
+    newNode->clockNotingData = NULL;
+
+    newNode->employeeID = employeeID;
+    int size = strlen(employeeName);
+    if (size > MAX_NAME_LENGTH) {
+        printf("员工名称过长，请重新创建\n");
+        free(newNode);
+        return 0;
+    }
+    size = strlen(departmentName);
+    if (size > MAX_NAME_LENGTH) {
+        printf("部门名称过长，请重新创建\n");
+        free(newNode);
+        return 0;
+    }
+    size = strlen(role);
+    if (size > MAX_NAME_LENGTH) {
+        printf("角色名称过长，请重新创建\n");
+        free(newNode);
+        return 0;
+    }
+    strcpy(newNode->employeeName, employeeName);
+    strcpy(newNode->departmentName, departmentName);
+    strcpy(newNode->roleName, role);
+
     newNode->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
     newNode->holidayQuotaData->next = NULL;
     EmployeeHolidayQuota *quota = newNode->holidayQuotaData;
@@ -816,7 +878,7 @@ void addEmployee()
         printf("员工角色错误，请重新输入: ");
         scanf("%s", role);
     }
-    addEmployeeNode(employeeID, departmentName, employeeName, role); 
+    addEmployeeNode2(employeeID, departmentName, employeeName, role); 
 }
 
 void removeEmployee()
