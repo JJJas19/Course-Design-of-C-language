@@ -263,7 +263,7 @@ void ClockNotingByDate(ClockNoting* clockNotingData) {
             printf("未打卡!\n");
         }
         else if (clockNotingData->clockInTime.isClocking == 1) {
-            printf("%d:%d\n", clockNotingData->clockInTime.hour, clockNotingData->clockInTime.minute);
+            printf("%02d:%02d\n", clockNotingData->clockInTime.hour, clockNotingData->clockInTime.minute);
         }
         else {
             printf("状态未知!\n");
@@ -271,11 +271,11 @@ void ClockNotingByDate(ClockNoting* clockNotingData) {
         }
         //对下班的打卡时间查询
         printf("下班:");
-        if (clockNotingData->clockInTime.isClocking == 0) {
+        if (clockNotingData->clockOutTime.isClocking == 0) {
             printf("未打卡!\n");
         }
-        else if (clockNotingData->clockInTime.isClocking == 1) {
-            printf("%d:%d\n", clockNotingData->clockInTime.hour, clockNotingData->clockInTime.minute);
+        else if (clockNotingData->clockOutTime.isClocking == 1) {
+            printf("%02d:%02d\n", clockNotingData->clockOutTime.hour, clockNotingData->clockOutTime.minute);
             }
         else {
             printf("状态未知!\n");
