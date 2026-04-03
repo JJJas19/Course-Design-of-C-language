@@ -88,4 +88,12 @@ void displayHolidayQuota(Employee *employee);
 // 信息统计
 void statisticsMenu();
 
+// 读入
+void clearbuffer();
+int readint();
+int readID(int nowID);
+int readHolidayID();
+int readEmployeeID();
+int readDepartmentID();
+
 #endif 

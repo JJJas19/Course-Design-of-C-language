@@ -353,10 +353,18 @@ int modifyHolidayNode(int index)
         printf("请输入假期最短时间: ");
         int minimumTime;
         scanf("%d", &minimumTime);
-        point->minimumTime = minimumTime;
+        while (minimumTime < 0) {
+            printf("输入时间非法，请重新输入: ");
+            scanf("%d", &minimumTime);
+        }
         printf("请输入假期最长时间: ");
         int maximumTime;
         scanf("%d", &maximumTime);
+        while (maximumTime < minimumTime) {
+            printf("输入时间非法，请重新输入: ");
+            scanf("%d", &maximumTime);
+        }
+        point->minimumTime = minimumTime;
         point->maximumTime = maximumTime;
 
         return 1;
@@ -474,28 +482,62 @@ int modifyUserNode(int index)
     }
     if (number == index)
     {
-        printf("请输入用户身份: ");
+        printf("请输入用户身份（管理员，经理，员工，人力资源）: ");
         char role[MAX_NAME_LENGTH];
         scanf("%s", role);
-        while (strlen(role) > MAX_NAME_LENGTH) {
-            printf("用户身份过长，请重新输入: ");
+        while (strcmp(role, "管理员") != 0 && strcmp(role, "经理") != 0 && strcmp(role, "员工") != 0 && strcmp(role, "人力资源") != 0) {
+            printf("用户身份错误，请重新输入: ");
             scanf("%s", role);
         }
-        strcpy(point->role, role);
 
-        printf("请输入用户ID: ");
-        int id;
-        scanf("%d", &id);
-        point->id = id;
+        int id = readID(point->id);
 
         char account[MAX_NAME_LENGTH];
-        printf("请输入账号: ");
-        scanf("%s", account);
-        while (strlen(account) > MAX_NAME_LENGTH) {
-            printf("账号过长，请重新输入: ");
-            scanf("%s", account);
+
+        while (1) {
+            printf("请输入账号: ");
+
+            if (fgets(account, sizeof(account), stdin) == NULL) {
+                printf("读取失败\n");
+                continue;
+            }
+
+            size_t len = strlen(account);
+
+            // 处理超长输入
+            if (len == 0 || account[len - 1] != '\n') {
+                printf("账号过长，请重新输入\n");
+                clearbuffer();
+                continue;
+            }
+
+            // 去掉换行
+            account[len - 1] = '\0';
+
+            // 空输入
+            if (strlen(account) == 0) {
+                printf("账号不能为空\n");
+                continue;
+            }
+
+            int found = 0;
+            User *temp = userHead->next;
+
+            while (temp != NULL) {
+                if (strcmp(temp->account, account) == 0 && temp != point) {
+                    found = 1;
+                    break;
+                }
+                temp = temp->next;
+            }
+
+            if (found) {
+                printf("账号已存在，请重新输入\n");
+                continue;
+            }
+
+            break;
         }
-        strcpy(point->account, account);
 
         char password[MAX_NAME_LENGTH];
         printf("请输入密码: ");
@@ -504,7 +546,6 @@ int modifyUserNode(int index)
             printf("密码过长，请重新输入: ");
             scanf("%s", password);
         }
-        strcpy(point->password, password);       
 
         char name[MAX_NAME_LENGTH];
         printf("请输入姓名: ");
@@ -513,7 +554,6 @@ int modifyUserNode(int index)
             printf("姓名过长，请重新输入: ");
             scanf("%s", name);
         }
-        strcpy(point->name, name);
 
         printf("请输入角色编号(1-4): ");
         int roleType;
@@ -530,8 +570,13 @@ int modifyUserNode(int index)
             printf("部门名称过长，请重新输入: ");
             scanf("%s", department);
         }
-        strcpy(point->department, department);
 
+        strcpy(point->department, department);
+        strcpy(point->account, account);
+        strcpy(point->password, password); 
+        strcpy(point->name, name);
+        strcpy(point->role, role);
+        point->id = id;
         point->roleType = (RoleType)roleType;
 
         return 1;
@@ -676,8 +721,8 @@ void addDepartment()
 {
     int departmentID;
     char departmentName[MAX_NAME_LENGTH];
-    printf("请输入部门ID: ");
-    scanf("%d", &departmentID);
+    // printf("请输入部门ID: ");
+    departmentID = readDepartmentID();
     printf("请输入部门名称: ");
     scanf("%s", departmentName);
     addDepartmentNode(departmentID, departmentName); 
@@ -715,14 +760,37 @@ void addEmployee()
     char employeeName[MAX_NAME_LENGTH];
     char departmentName[MAX_NAME_LENGTH];
     char role[MAX_NAME_LENGTH];
-    printf("请输入员工ID: ");
-    scanf("%d", &employeeID);
+    employeeID = readEmployeeID();
+    displayDepartmentList();
     printf("请输入部门名称: ");
     scanf("%s", departmentName);
+    while (1)
+    {
+        int found = 0;
+        Department *point = departmentHead->next;
+        while (point != NULL) {
+            if (strcmp(point->name, departmentName) == 0) {
+                found = 1;
+                break;
+            }
+            point = point->next;
+        }
+        if (found) {
+            break;
+        } else {
+            printf("部门名称不存在，请重新输入: ");
+            scanf("%s", departmentName);
+        }
+    }
     printf("请输入员工姓名: ");
     scanf("%s", employeeName);
-    printf("请输入员工职位名称: ");
+    printf("请输入员工角色（管理员，经理，员工，人力资源）: ");
     scanf("%s", role);
+    while (strcmp(role, "管理员") != 0 && strcmp(role, "经理") != 0 && 
+           strcmp(role, "员工") != 0 && strcmp(role, "人力资源") != 0) {
+        printf("员工角色错误，请重新输入: ");
+        scanf("%s", role);
+    }
     addEmployeeNode(employeeID, departmentName, employeeName, role); 
 }
 
@@ -758,8 +826,8 @@ void addHoliday()
     int minimumTime;
     int maximumTime;
     char name[MAX_NAME_LENGTH];
-    printf("请输入假期ID: ");
-    scanf("%d", &holidayID);
+    // printf("请输入假期ID: ");
+    holidayID = readHolidayID();
     printf("请输入假期名称: ");
     scanf("%s", name);
     printf("请输入假期最短时间: ");
@@ -805,28 +873,112 @@ void addUser()
     char department[MAX_NAME_LENGTH];
     int roleType;
 
-    printf("请输入用户身份: ");
+    // 1. 输入用户身份
+    printf("请输入用户身份（管理员，经理，员工，人力资源）: ");
     scanf("%s", role);
-    printf("请输入账号: ");
-    scanf("%s", account);
+    while (strcmp(role, "管理员") != 0 && strcmp(role, "经理") != 0 && 
+           strcmp(role, "员工") != 0 && strcmp(role, "人力资源") != 0) {
+        printf("用户身份错误，请重新输入: ");
+        scanf("%s", role);
+    }
+
+    // 2. 输入账号（带唯一性检查）
+    clearbuffer();
+    while (1) {
+        printf("请输入账号: ");
+        
+        if (fgets(account, sizeof(account), stdin) == NULL) {
+            printf("读取失败\n");
+            continue;
+        }
+        
+        int len = strlen(account);
+        
+        // 处理超长输入
+        if (len == 0 || account[len - 1] != '\n') {
+            printf("账号过长，请重新输入\n");
+            clearbuffer();
+            continue;
+        }
+        
+        // 去掉换行
+        account[len - 1] = '\0';
+        
+        // 空输入检查
+        if (strlen(account) == 0) {
+            printf("账号不能为空，请重新输入\n");
+            continue;
+        }
+        
+        // 检查账号是否已存在
+        int found = 0;
+        User *temp = userHead->next;
+        while (temp != NULL) {
+            if (strcmp(temp->account, account) == 0) {
+                found = 1;
+                break;
+            }
+            temp = temp->next;
+        }
+        
+        if (found) {
+            printf("账号已存在，请重新输入\n");
+            continue;
+        }
+        
+        break;
+    }
+
+    // 3. 输入密码
     printf("请输入密码: ");
     scanf("%s", password);
+    while (strlen(password) == 0 || strlen(password) > MAX_NAME_LENGTH) {
+        if (strlen(password) == 0) {
+            printf("密码不能为空，请重新输入: ");
+        } else {
+            printf("密码过长，请重新输入: ");
+        }
+        scanf("%s", password);
+    }
+
+    // 4. 输入姓名
     printf("请输入姓名: ");
     scanf("%s", name);
+    while (strlen(name) == 0 || strlen(name) > MAX_NAME_LENGTH) {
+        if (strlen(name) == 0) {
+            printf("姓名不能为空，请重新输入: ");
+        } else {
+            printf("姓名过长，请重新输入: ");
+        }
+        scanf("%s", name);
+    }
 
-    printf("请输入用户ID: ");
-    scanf("%d", &id);
+    // 5. 输入用户ID（使用 readID 函数，传入 -1 表示添加时不排除任何ID）
+    id = readID(-1);  // 添加时传入 -1，因为不存在要排除的ID
 
+    // 6. 输入角色编号
     printf("请输入角色编号(1-4): ");
     scanf("%d", &roleType);
-    if (roleType < 1 || roleType > 4) {
-        printf("输入编号非法\n");
-        return;
+    while (roleType < 1 || roleType > 4) {
+        printf("角色编号必须在1-4之间，请重新输入: ");
+        scanf("%d", &roleType);
     }
-    printf("请输入用户所属部门名称: ");
-    scanf("%s", department);
 
-    addUserNode(id, password, name, account, (RoleType)roleType, department, role); 
+    // 7. 输入部门名称
+    printf("请输入部门名称: ");
+    scanf("%s", department);
+    while (strlen(department) == 0 || strlen(department) > MAX_NAME_LENGTH) {
+        if (strlen(department) == 0) {
+            printf("部门名称不能为空，请重新输入: ");
+        } else {
+            printf("部门名称过长，请重新输入: ");
+        }
+        scanf("%s", department);
+    }
+
+    // 8. 添加用户
+    addUserNode(id, password, name, account, (RoleType)roleType, department, role);
+    printf("用户添加成功！\n");
 }
 
 void removeUser()
@@ -1033,6 +1185,10 @@ void setHolidayQuotaMenu()
             scanf("%d", &holidayTypeID);
             printf("请输入假期总额度: ");
             scanf("%d", &totalQuota);
+            while (totalQuota < 0) {
+                printf("输入额度非法，请重新输入: ");
+                scanf("%d", &totalQuota);
+            }
             EmployeeHolidayQuota *holidayQuotaPoint = point->holidayQuotaData->next;
             while (holidayQuotaPoint != NULL) {
                 if (holidayQuotaPoint->holidayTypeID == holidayTypeID) {
