@@ -390,7 +390,7 @@ void query_leave_quota_search(Employee *employeeHead)
                    "假期类型", "总共额度", "已使用额度", "剩余额度");
             if (point->holidayQuotaData == NULL)
             {
-                printf("该员工暂无假期额度信息！\n");
+                printf("该员工未请假！\n");
                 break;
             }
             EmployeeHolidayQuota *HolidayQuota = point->holidayQuotaData->next;

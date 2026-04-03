@@ -169,19 +169,19 @@ int addEmployeeNode(int employeeID, const char* departmentName, const char* empl
     strcpy(newNode->departmentName, departmentName);
     strcpy(newNode->roleName, role);
 
-    newNode->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
-    newNode->holidayQuotaData->next = NULL;
-    EmployeeHolidayQuota *quota = newNode->holidayQuotaData;
-    for (int i = 1; i <= 3; i ++ )
-    {
-        quota->next = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
-        quota->next->holidayTypeID = i;
-        quota->next->employeeID = employeeID;
-        quota->next->totalQuota = 0;
-        quota->next->usedQuota = 0;
-        quota->next->remainingQuota = 0;
-        quota = quota->next;
-    }
+    // newNode->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+    // newNode->holidayQuotaData->next = NULL;
+    // EmployeeHolidayQuota *quota = newNode->holidayQuotaData;
+    // for (int i = 1; i <= 3; i ++ )
+    // {
+    //     quota->next = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
+    //     quota->next->holidayTypeID = i;
+    //     quota->next->employeeID = employeeID;
+    //     quota->next->totalQuota = 0;
+    //     quota->next->usedQuota = 0;
+    //     quota->next->remainingQuota = 0;
+    //     quota = quota->next;
+    // }
 
     Employee *point = employeeHead;
     while (point->next != NULL) {

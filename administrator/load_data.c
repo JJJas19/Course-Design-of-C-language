@@ -209,11 +209,11 @@ void loadHolidayQuota()
             //     employeeID, name, totalQuota, usedQuota, remainingQuota);
             Employee *point = employeeHead->next;
             while (point != NULL) {
-                if (point->holidayQuotaData == NULL) {
+                if (point->employeeID == employeeID) {
+                    if (point->holidayQuotaData == NULL) {
                         point->holidayQuotaData = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
                         point->holidayQuotaData->next = NULL;
                     }
-                if (point->employeeID == employeeID) {
                     EmployeeHolidayQuota *newNode = (EmployeeHolidayQuota*)malloc(sizeof(EmployeeHolidayQuota));
                     newNode->employeeID = employeeID;
                     newNode->holidayTypeID = holidayID;
