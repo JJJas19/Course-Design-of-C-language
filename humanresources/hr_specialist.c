@@ -132,7 +132,7 @@ void query_leave_quota(Employee *employeeHead)
         EmployeeHolidayQuota *HolidayQuota;
         if (point->holidayQuotaData == NULL)
         {
-            HolidayQuota == NULL;
+            HolidayQuota = NULL;
         }
         else
         {
