@@ -955,7 +955,7 @@ const char* JudgeClockingState(ClockNoting* clockNoting,int kind) {
 
 //用来判断所属部门
 char* JudgeDepartment(int departmentID) {
-    FILE* fp = fopen("../data/all_apartment.csv", "a");
+    FILE* fp = fopen("../data/all_apartment.csv", "r");
     if (fp == NULL) {
         printf("文件不存在！\n");
         return "文件错误";
